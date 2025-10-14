@@ -1,0 +1,5 @@
+Encargados del Frontend
+Juan Ruiz
+Cristian Guevara
+
+Tecnologias a utilizar: React + TypeScript con Tailwindcss
