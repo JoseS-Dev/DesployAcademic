@@ -1,0 +1,8 @@
+Encargados del Backend:
+José Santana
+Emilio Uzcategui
+
+Tecnologias a utilizar:
+- Express.js
+- PostgreSQL
+- Api´s REST
