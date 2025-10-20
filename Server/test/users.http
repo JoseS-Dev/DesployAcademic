@@ -1,0 +1,26 @@
+### Verificar si el usuario esta autenticado
+GET http://localhost:4300/api/v1/auth/verify-token
+
+
+### Registrar usuario
+POST http://localhost:4300/api/v1/auth/register
+Content-Type: application/json
+
+{
+    "name_user": "Juan Perez",
+    "email_user": "juan.perez@example.com",
+    "password_hash": "securePassword123",
+    "username": "juanperez"
+}
+
+### Login usuario
+POST http://localhost:4300/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email_user": "juan.perez@example.com",
+    "password_hash": "securePassword123"
+}
+
+### Cerrar sesión
+POST http://localhost:4300/api/v1/auth/logout

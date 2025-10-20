@@ -5,13 +5,14 @@ export function authMiddleware(user){
     if(!user) return {error: 'Usuario no autenticado'};
     try{
         const token = jwt.sign(
-            {id: user.id_user, email: user.email_user, username: user.username},
+            {id: user.id, email: user.email_user, username: user.username},
             CONFIG_JWT.secret,
-            {expiresIn: CONFIG_JWT.expiration}
+            {expiresIn: CONFIG_JWT.expiresIn}
         )
         return token;
     }
     catch(error){
+        console.error(error);
         return {error: 'Error al generar el token'};
     }
 }
@@ -29,6 +30,7 @@ export function verifyAuthMiddleware(req, res, next){
         next();
     }
     catch(error){
+        console.error(error);
         return res.status(401).json({error: 'Token de autenticación inválido o expirado'});
     }
 }

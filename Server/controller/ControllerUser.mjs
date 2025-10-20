@@ -1,5 +1,6 @@
-import { is } from "zod/v4/locales";
+
 import { validateLogin, validateUser } from "../validations/SchemaUser.mjs";
+import { authMiddleware } from "../middlewares/Auth.mjs";
 
 export class ControllerUser {
     constructor({ModelUser}){
@@ -20,6 +21,7 @@ export class ControllerUser {
             if(result.error) return res.status(400).json({error: result.error});
             return res.status(201).json({user: result.user, message: result.message});
         }catch(error){
+            
             return res.status(500).json({error: 'Error interno del servidor'});
         }
     }
@@ -36,9 +38,16 @@ export class ControllerUser {
             }
             const result = await this.ModelUser.loginUser({LoginData: validation.data});
             if(result.error) return res.status(400).json({error: result.error});
+            // si no hay error, se genera el token
+            const token = authMiddleware(result.user);
+            const session = await this.ModelUser.createOrUpdateSession({
+                userId: result.user.id, sessionToken: token
+            });
+            if(session.error) return res.status(400).json({error: session.error});
             return res.status(200).json({
-                token: result.token,
-                message: 'Usuario logueado exitosamente'
+                token: token,
+                user: result.user,
+                message: result.message
             });
         }
         catch(error){
@@ -49,12 +58,15 @@ export class ControllerUser {
     // Controlador para cerrar sesión de un usuario
     LogoutUser = async (req, res) => {
         const userId = req.user.id;
+        console.log(req.user);
         try{
             const result = await this.ModelUser.logoutUser({userId});
             if(result.error) return res.status(400).json({error: result.error});
+            this.cleanUserData(req);
             return res.status(200).json({message: result.message});
         }
         catch(error){
+            console.error(error);
             return res.status(500).json({error: 'Error interno del servidor'});
         }
     }
@@ -71,5 +83,11 @@ export class ControllerUser {
             message: 'Usuario autenticado',
             isAuthenticated: true,
         });
+    }
+
+    // Limpiar datos del req.user
+    cleanUserData = (req) => {
+        if(!req.user) return null;
+        delete req.user;
     }
 }
