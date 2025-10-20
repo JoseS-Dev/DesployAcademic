@@ -9,7 +9,7 @@ export function authMiddleware(user){
             CONFIG_JWT.secret,
             {expiresIn: CONFIG_JWT.expiration}
         )
-        return {token};
+        return token;
     }
     catch(error){
         return {error: 'Error al generar el token'};
