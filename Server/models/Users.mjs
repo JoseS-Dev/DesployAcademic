@@ -4,14 +4,22 @@ import { db, verifyDBConnection } from '../database/db.mjs';
 
 const { omit } = pkg;
 
+// Un Wrapper para los modelos de usuarios
+const WithDBConnection = (fn) => {
+    return async (...args) => {
+        const isConnected = await verifyDBConnection();
+        if(!isConnected) return {error: 'No se pudo conectar a la base de datos'};
+        return fn(...args);
+    }
+}
+
 export class ModelUsers {
     
     // método que registra a un nuevo usuario en el sistema
-    static async registerUser({userData}){
-        if(!await verifyDBConnection()) return {error: 'No se pudo conectar a la base de datos'};
+    static registerUser = WithDBConnection(async ({userData}) => {
         if(!userData) return {error: 'No se proporcionaron datos del usuario'};
         // si todo esta bien, procedo a registrar el usuario
-        const {name_user, email_user, password_hash, username} = userData;
+        const {name_user, email_user, password_hash, username, rol_user} = userData;
         // Se verifica , si ya existe un usuario con ese email o username
         const existingUser = await db.query(
             'SELECT id FROM users WHERE email_user = $1 OR username = $2',
@@ -23,16 +31,20 @@ export class ModelUsers {
         // Inserto el nuevo usuario en la base de datos
         const newUser = await db.query(
             `INSERT INTO users (name_user, email_user, password_hash, username)
-            VALUES ($1, $2, $3, $4) RETURNING name_user, email_user, username`,
+            VALUES ($1, $2, $3, $4) RETURNING id,name_user, email_user, username`,
             [name_user, email_user, hashedPassword, username]
         );
+        // y relaciono el rol del usuario
+        await db.query(
+            `INSERT INTO user_roles (user_id, role, assigned_at) VALUES ($1, $2, NOW())`,
+            [newUser.rows[0].id, rol_user]
+        )
         if(newUser.rowCount === 0) return {error: 'No se pudo registrar el usuario'};
         return {user: newUser.rows[0], message: 'Usuario registrado exitosamente'};
-    }
+    });
 
     // método que loguea a un usuario en el sistema
-    static async loginUser({LoginData}){
-        if(!await verifyDBConnection()) return {error: 'No se pudo conectar a la base de datos'};
+    static loginUser = WithDBConnection(async ({LoginData}) => {
         if(!LoginData) return {error: 'No se proporcionaron datos de login'};
         // Si todo esta bien, procedo a loguear al usuario
         const {email_user, password_hash} = LoginData;
@@ -51,11 +63,10 @@ export class ModelUsers {
                 message: 'credenciales correctas',
             }
         }
-    }
+    });
 
     // método para crear o actualizar la sesión de un usuario
-    static async createOrUpdateSession({userId, sessionToken}){
-        if(!await verifyDBConnection()) return {error: 'No se pudo conectar a la base de datos'};
+    static createOrUpdateSession = WithDBConnection(async ({userId, sessionToken}) => {
         if(!userId || !sessionToken) return {error: 'No se proporcionaron datos de sesión'};
         // Se verifica si ya existe una sesión para ese usuario
         const existingUser = await db.query(
@@ -80,11 +91,10 @@ export class ModelUsers {
         );
         if(newSession.rowCount === 0) return {error: 'No se pudo crear la sesión'};
         return {token: newSession.rows[0].session_token};
-    }
+    });
 
     // método que cierra la sesión de un usuario
-    static async logoutUser({userId}){
-        if(!await verifyDBConnection()) return {error: 'No se pudo conectar a la base de datos'};
+    static logoutUser = WithDBConnection(async ({userId}) => {
         if(!userId) return {error: 'No se proporcionó el ID del usuario'};
         // Si todo esta bien, procedo a cerrar la sesión del usuario, quitando el token
         const deletedSession = await db.query(
@@ -94,5 +104,22 @@ export class ModelUsers {
         if(deletedSession.rowCount === 0) return {error: 'No se pudo cerrar la sesión del usuario'};
         return {message: 'Sesión cerrada exitosamente'};
 
-    }
+    });
+
+    // Método para obtener la información de un usuario por su ID
+    static getUserById = WithDBConnection(async ({userId}) => {
+        if(!userId) return {error: 'No se proporcionó el ID del usuario'};
+        // Si todo esta bien, procedo a obtener la información del usuario
+        const userResult = await db.query(
+            `SELECT DU.*, R.role AS rol_user FROM users DU
+            LEFT JOIN user_roles R ON DU.id = R.user_id
+            WHERE DU.id = $1`,
+            [userId]
+        );
+        if(userResult.rowCount === 0) return {error: 'No se encontró el usuario'};
+        return {user: omit(userResult.rows[0], ['password_hash', 'id']), 
+        message: 'Usuario encontrado exitosamente'};
+    });
+
+    
 }

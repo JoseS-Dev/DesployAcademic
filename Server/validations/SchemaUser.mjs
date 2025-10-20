@@ -8,7 +8,8 @@ export const SchemaUser = zod.object({
     phone_user: zod.string().min(7).max(11).optional(),
     avatar_url: zod.string().url().optional(),
     bio: zod.string().max(500).optional(),
-    username: zod.string().min(3).max(30)
+    username: zod.string().min(3).max(30),
+    rol_user: zod.enum(['student', 'instructor', 'admin'])
 });
 
 // Defino el schema para la validación del Login

@@ -58,11 +58,9 @@ export class ControllerUser {
     // Controlador para cerrar sesión de un usuario
     LogoutUser = async (req, res) => {
         const userId = req.user.id;
-        console.log(req.user);
         try{
             const result = await this.ModelUser.logoutUser({userId});
             if(result.error) return res.status(400).json({error: result.error});
-            this.cleanUserData(req);
             return res.status(200).json({message: result.message});
         }
         catch(error){
@@ -85,9 +83,16 @@ export class ControllerUser {
         });
     }
 
-    // Limpiar datos del req.user
-    cleanUserData = (req) => {
-        if(!req.user) return null;
-        delete req.user;
+    // Controlador para obtener la información de un usuario por su ID
+    getUserById = async (req, res) => {
+        const userId = req.user.id;
+        try{
+            const result = await this.ModelUser.getUserById({userId});
+            if(result.error) return res.status(400).json({error: result.error});
+            return res.status(200).json({user: result.user, message: result.message});
+        }
+        catch(error){
+            return res.status(500).json({error: 'Error interno del servidor'});
+        }
     }
 }
