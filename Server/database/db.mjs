@@ -16,8 +16,9 @@ export const db = new Pool({
 export async function verifyDBConnection(){
     try{
         await db.connect();
-        console.log('Conexión a la base de datos exitosa');
+        return true
     } catch (error) {
         console.error('Error al conectar a la base de datos:', error);
+        return false
     }
 }
