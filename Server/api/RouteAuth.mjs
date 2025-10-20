@@ -17,3 +17,5 @@ RouteAuth.post('/logout', verifyAuthMiddleware, controllerUser.LogoutUser);
 RouteAuth.get('/verify-token', verifyAuthMiddleware, controllerUser.verifyAuth);
 // Ruta para obtener información del usuario autenticado
 RouteAuth.get('/me', verifyAuthMiddleware, controllerUser.getUserById);
+// Ruta para actualizar la información del usuario autenticado
+RouteAuth.patch('/update', verifyAuthMiddleware, controllerUser.updateUserById);

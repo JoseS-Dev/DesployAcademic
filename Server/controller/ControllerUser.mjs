@@ -1,5 +1,5 @@
 
-import { validateLogin, validateUser } from "../validations/SchemaUser.mjs";
+import { validateLogin, validateUser, validateUserUpdate } from "../validations/SchemaUser.mjs";
 import { authMiddleware } from "../middlewares/Auth.mjs";
 
 export class ControllerUser {
@@ -90,6 +90,31 @@ export class ControllerUser {
             const result = await this.ModelUser.getUserById({userId});
             if(result.error) return res.status(400).json({error: result.error});
             return res.status(200).json({user: result.user, message: result.message});
+        }
+        catch(error){
+            return res.status(500).json({error: 'Error interno del servidor'});
+        }
+    }
+
+    // Controlador para actualizar la información de un usuario por su ID
+    updateUserById = async (req, res) => {
+        if(!req.file) return res.status(400).json({error: 'No se proporcionó un archivo'});
+        const userId = req.user.id;
+        const updateData = {
+            ...req.body,
+            avatar_url: req.file.path
+        }
+        const validation = validateUserUpdate(updateData);
+        try{
+            if(!validation.success){
+                return res.status(400).json({
+                    error: 'Error de validación',
+                    details: validation.error.errors
+                });
+            }
+            const result = await this.ModelUser.updateUserById({userId, updateData: validation.data});
+            if(result.error) return res.status(400).json({error: result.error});
+            return res.status(200).json({ message: result.message });
         }
         catch(error){
             return res.status(500).json({error: 'Error interno del servidor'});

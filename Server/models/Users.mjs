@@ -121,5 +121,39 @@ export class ModelUsers {
         message: 'Usuario encontrado exitosamente'};
     });
 
-    
+    // Método para actualizar la información de un usuario
+    static updateUserById = WithDBConnection(async ({userId, updateData}) => {
+        if(!userId || !updateData) return {error: 'No se proporcionaron datos para actualizar el usuario'};
+        // Coloco las columnas que se pueden actualizar
+        const allowField = ['name_user', 'email_user', 'phone_user',
+        'avatar_url', 'bio', 'username'];
+        const UpdateToFields = {};
+        for(const field of allowField){
+            if(updateData[field] !== undefined){
+                UpdateToFields[field] = updateData[field];
+            }
+        }
+        // Se verifica que existe el usuario
+        const existingUser = await db.query(
+            'SELECT id FROM users WHERE id = $1',
+            [userId]
+        );
+        if(existingUser.rowCount === 0) return {error: 'No existe un usuario con ese ID'};
+        // Si existe, procedo a actualizar el usuario
+        const fields = [];
+        const values = [];
+
+        Object.entries(UpdateToFields).forEach(([key, value], index) => {
+            fields.push(`${key} = $${index + 1}`);
+            values.push(value);
+        })
+        values.push(userId); // Agrego el userId al final de los valores
+        // Construyo la consulta dinámica
+        const updatedUser = await db.query(
+            `UPDATE users SET ${fields.join(', ')} WHERE id = $${values.length}`,
+            values
+        );
+        if(updatedUser.rowCount === 0) return {error: 'No se pudo actualizar el usuario'};
+        return {message: 'Usuario actualizado exitosamente'};
+    })
 }
