@@ -63,8 +63,7 @@ export class ModelUsers {
                     WHERE user_id = $2`,
                     [auth, user.id_user]
                 );
-                return {user: omit(user, ['password_hash']), token: auth, 
-                message: 'Inicio de sesión exitoso'};
+                return { token: auth, message: 'Inicio de sesión exitoso'};
             }else{
                 // Si no existe una sesión activa, se procede a crear una nueva sesión
                 await db.query(
@@ -72,8 +71,7 @@ export class ModelUsers {
                     VALUES ($1, $2)`,
                     [user.id_user, auth]
                 );
-                return {user: omit(user, ['password_hash']), token: auth, 
-                message: 'Inicio de sesión exitoso'};
+                return { token: auth, message: 'Inicio de sesión exitoso'};
             }
         }
     }
