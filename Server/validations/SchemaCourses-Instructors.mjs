@@ -1,5 +1,4 @@
 import zod from 'zod';
-import { is } from 'zod/v4/locales';
 
 // Defino el schema para la validacion de cursos con instructores
 export const SchemaCourseInstructor = zod.object({

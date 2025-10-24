@@ -1,15 +1,8 @@
 import slugify from 'slugify';
-import { db, verifyDBConnection } from '../database/db.mjs';
+import { db } from '../database/db.mjs';
+import { WithDBConnection } from '../utils.mjs';
 
 
-// Un Wrapper para los modelos de cursos
-const WithDBConnection = (fn) => {
-    return async (...args) => {
-        const isConnected = await verifyDBConnection();
-        if (!isConnected) return { error: 'No se pudo conectar a la base de datos' };
-        return fn(...args);
-    }
-}
 
 export class ModelCourses {
     // método que obtiene todos los cursos disponibles

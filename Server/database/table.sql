@@ -78,3 +78,19 @@ CREATE TABLE course_instructors(
     FOREIGN KEY(instructor_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE(course_id, instructor_id)
 );
+
+-- Tabla categories 
+CREATE TABLE categories(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(180) NOT NULL UNIQUE,
+    description TEXT
+);
+
+-- Tabla course_categories
+CREATE TABLE course_categories(
+    category_id UUID NOT NULL,
+    course_id UUID NOT NULL,
+    PRIMARY KEY(category_id, course_id),
+    FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE,
+    FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE
+);

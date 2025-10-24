@@ -1,17 +1,10 @@
 import bcrypt from 'bcryptjs';
 import pkg from 'lodash';
-import { db, verifyDBConnection } from '../database/db.mjs';
+import { db } from '../database/db.mjs';
+import { WithDBConnection } from '../utils.mjs';
 
 const { omit } = pkg;
 
-// Un Wrapper para los modelos de usuarios
-const WithDBConnection = (fn) => {
-    return async (...args) => {
-        const isConnected = await verifyDBConnection();
-        if(!isConnected) return {error: 'No se pudo conectar a la base de datos'};
-        return fn(...args);
-    }
-}
 
 export class ModelUsers {
     

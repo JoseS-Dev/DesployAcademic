@@ -1,13 +1,5 @@
-import { db, verifyDBConnection } from "../database/db.mjs";
-
-// Un Wrapper para los modelos de cursos-instructores
-const WithDBConnection = (fn) => {
-    return async (...args) => {
-        const isConnected = await verifyDBConnection();
-        if (!isConnected) return { error: 'No se pudo conectar a la base de datos' };
-        return fn(...args);
-    }
-}
+import { db } from "../database/db.mjs";
+import { WithDBConnection } from '../utils.mjs';
 
 export class ModelCoursesInstructors {
     // método que asigna un instructor a un curso
