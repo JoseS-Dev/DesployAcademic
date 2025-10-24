@@ -45,6 +45,17 @@ CREATE TABLE instructor_profiles(
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE instructor_followers(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL,
+    instructor_id UUID NOT NULL,
+    is_following BOOLEAN DEFAULT TRUE,
+    followed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(instructor_id) REFERENCES instructor_profiles(id) ON DELETE CASCADE,
+    UNIQUE(user_id, instructor_id)
+)
+
 -- Tabla courses 
 CREATE TABLE courses(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

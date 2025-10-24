@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ControllerUser } from "../controller/ControllerUser.mjs";
 import { ModelUsers } from "../models/Users.mjs";
 import { verifyAuthMiddleware } from "../middlewares/Auth.mjs";
+import { UploadImageUser } from "../middlewares/SubImage.mjs"
 
 const router = Router();
 const controllerUser = new ControllerUser({ModelUser: ModelUsers});
@@ -18,4 +19,4 @@ RouteAuth.get('/verify-token', verifyAuthMiddleware, controllerUser.verifyAuth);
 // Ruta para obtener información del usuario autenticado
 RouteAuth.get('/me', verifyAuthMiddleware, controllerUser.getUserById);
 // Ruta para actualizar la información del usuario autenticado
-RouteAuth.patch('/update', verifyAuthMiddleware, controllerUser.updateUserById);
+RouteAuth.patch('/update', verifyAuthMiddleware, UploadImageUser , controllerUser.updateUserById);

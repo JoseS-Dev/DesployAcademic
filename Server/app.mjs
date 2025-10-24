@@ -5,6 +5,7 @@ import { CONFIG_SERVER } from './config/config.mjs';
 import { RouteAuth } from './api/RouteAuth.mjs';
 import { RouteCourses } from './api/RouteCourses.mjs';
 import { RouteCategory } from './api/RouteCategory.mjs';
+import { RouteInstructors } from './api/RouteInstructors.mjs';
 
 
 // Inicio servidor
@@ -14,10 +15,15 @@ app.use(json());
 app.use(cors());
 app.use(morgan('dev'));
 
+// Rutas estaticas para imagenes y videos
+app.use('/uploads/images', express.static('uploads/images'));
+app.use('/uploads/videos', express.static('uploads/videos'));
+
 // Rutas
 app.use(`${CONFIG_SERVER.basePath}/auth`, RouteAuth);
 app.use(`${CONFIG_SERVER.basePath}/courses`, RouteCourses);
 app.use(`${CONFIG_SERVER.basePath}/categories`, RouteCategory);
+app.use(`${CONFIG_SERVER.basePath}/instructors`, RouteInstructors);
 
 // Escucho Servidor
 if (CONFIG_SERVER.node !== 'test' || CONFIG_SERVER.node !== 'production') {

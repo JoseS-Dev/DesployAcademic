@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { ControllerCourses } from "../controller/ControllerCourses.mjs";
-import { ModelCourses } from "../models/Courses.mjs";
+import { ModelCourses } from "../models/courses.mjs";
 import { verifyAuthMiddleware } from "../middlewares/Auth.mjs";
+
 
 const router = Router();
 

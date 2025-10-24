@@ -33,6 +33,9 @@ export function configureMulter(directory){
 
 // Creamos la carpeta
 const uploadDir = path.resolve('uploads/users');
+const uploadDirProfile = path.resolve('uploads/instructors');
 const uploadUser = configureMulter(uploadDir);
+const uploadProfilePicture = configureMulter(uploadDirProfile);
 // Middleware para la subida
 export const UploadImageUser = uploadUser.single('avatar_url');
+export const UploadProfilePicture = uploadProfilePicture.single('profile_picture');

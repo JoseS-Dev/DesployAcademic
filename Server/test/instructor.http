@@ -1,0 +1,33 @@
+### Obtener a todos los instructores
+GET http://localhost:4300/api/v1/instructors
+
+### Obtener un instructor por ID
+GET http://localhost:4300/api/v1/instructors/736a14f2-f9b9-4740-9294-7030dfe290e8
+
+
+### Registrar un nuevo instructor
+POST http://localhost:4300/api/v1/instructors/register
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+
+----CustomBoundary
+Content-Disposition: form-data; name="profile_picture"; filename="instructor.jpg"
+Content-Type: image/jpeg
+
+./uploads/instructor.jpg
+----CustomBoundary
+Content-Disposition: form-data; name="description"
+
+Experienced instructor specializing in web development and programming.
+----CustomBoundary
+Content-Disposition: form-data; name="website"
+
+https://instructor-website.com
+----CustomBoundary
+Content-Disposition: form-data; name="social_links"
+
+{"linkedin":"https://linkedin.com/in/instructor","twitter":"https://twitter.com/instructor"}
+----CustomBoundary----
+
+### Ruta para seguir a un instructor
+POST http://localhost:4300/api/v1/instructors/948743af-f457-485b-91ad-5cc8f5ecb579/follow
