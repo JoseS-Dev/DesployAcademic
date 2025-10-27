@@ -32,6 +32,20 @@ CREATE TABLE login_sessions(
     FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 )
 
+-- Tabla course_sections (módulos/secciones del curso)
+CREATE TABLE course_sections(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    course_id UUID NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    section_order INTEGER NOT NULL, -- Orden dentro del curso
+    is_published BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,
+    UNIQUE(course_id, section_order)
+);
+
 -- Tabla instructor_profiles (separada de users)
 CREATE TABLE instructor_profiles(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

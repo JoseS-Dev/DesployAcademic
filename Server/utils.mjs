@@ -5,6 +5,10 @@ export const acceptedImage = [
     '.avid'
 ]
 
+export const acceptedVideo = [
+    '.mp4', '.mov', '.avi', '.mkv', '.webm'
+];
+
 // Functión para la validación si se conecto a la base de datos
 export const WithDBConnection = (fn) => {
     return async (...args) => {
