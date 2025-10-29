@@ -1,6 +1,9 @@
 import slugify from 'slugify';
 import { db } from '../database/db.mjs';
 import { WithDBConnection } from '../utils.mjs';
+import pkg from 'lodash';
+
+const { omit } = pkg;
 
 export class ModelCourseSections {
     // método que obtiene todas las secciones de un curso
@@ -10,7 +13,8 @@ export class ModelCourseSections {
             `SELECT * FROM course_sections WHERE course_id = $1 ORDER BY position ASC`,
             [courseId]
         );
-        return { sections: sections.rows };
+        if (sections.rowCount === 0) return { error: 'No se encontraron secciones para este curso' };
+        return { sections: omit(sections.rows, [['id', 'course_id']]), message: 'Secciones obtenidas correctamente' };
     });
 
     //metodo que obtiene una sección por su ID
@@ -21,7 +25,7 @@ export class ModelCourseSections {
             [sectionId]
         );
         if (section.rowCount === 0) return { error: 'No se encontró la sección' };
-        return { section: section.rows[0] };
+        return { section: omit(section.rows[0], ['id', 'course_id']), message: 'Sección obtenida correctamente' };
     });
 
     // método que crea una nueva sección en un curso
@@ -39,7 +43,7 @@ export class ModelCourseSections {
         if (newSection.rowCount === 0) {
             return { error: 'No se pudo crear la sección' };
         }
-        return { section: newSection.rows[0], message: 'Sección creada correctamente' };
+        return { section: omit(newSection.rows[0], ['id', 'course_id']), message: 'Sección creada correctamente' };
     });
 
     // método que actualiza una sección existente
@@ -84,7 +88,7 @@ export class ModelCourseSections {
         if (updatedSection.rowCount === 0) {
             return { error: 'No se pudo actualizar la sección' };
         }
-        return { section: updatedSection.rows[0], message: 'Sección actualizada correctamente' };
+        return { section: omit(updatedSection.rows[0], ['id', 'course_id']), message: 'Sección actualizada correctamente' };
     });
 
     // método que elimina una sección por su ID

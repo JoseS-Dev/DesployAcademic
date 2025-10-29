@@ -46,6 +46,25 @@ CREATE TABLE course_sections(
     UNIQUE(course_id, section_order)
 );
 
+-- Tabla lessons (lecciones/videos individuales)
+CREATE TABLE lessons(
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    section_id UUID NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    video_url VARCHAR(500) NOT NULL, -- URL del video
+    video_duration INTEGER, -- Duración en segundos
+    thumbnail_url VARCHAR(255), -- Miniatura del video
+    lesson_order INTEGER NOT NULL, -- Orden dentro de la sección
+    lesson_type lesson_type NOT NULL DEFAULT 'video', -- Tipo de lección
+    is_preview BOOLEAN DEFAULT FALSE, -- Si es gratuita para preview
+    is_published BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(section_id) REFERENCES course_sections(id) ON DELETE CASCADE,
+    UNIQUE(section_id, lesson_order)
+);
+
 -- Tabla instructor_profiles (separada de users)
 CREATE TABLE instructor_profiles(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

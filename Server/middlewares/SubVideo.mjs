@@ -30,7 +30,7 @@ function configureVideoMulter(directory) {
         },
         fileFilter: (req, file, cb) => {
             const ext = path.extname(file.originalname).toLowerCase();
-            const isVideo = acceptedVideo.includes(ext) || file.mimetype.startsWith('video/');
+            const isVideo = acceptedVideo.includes(ext);
 
             if (!isVideo) {
                 return cb(new Error('Solo se permiten archivos de video'));
@@ -41,11 +41,18 @@ function configureVideoMulter(directory) {
     });
 }
 
+
 // 📁 Carpeta destino para los videos
 const uploadDirVideos = path.resolve('uploads/lessons');
+//carpeta para las previsualizaciones de los videos
+const uploadDirVideoPreviews = path.resolve('uploads/lesson_previews');
 
 // 🎥 Configuración del uploader
 const uploadVideo = configureVideoMulter(uploadDirVideos);
+const uploadVideoPreview = configureVideoMulter(uploadDirVideoPreviews);
+
+// Middleware para subir previsualizaciones de video (maneja un solo campo llamado "video_preview")
+export const UploadVideoPreview = uploadVideoPreview.single('video_preview');
 
 // Middleware final (maneja un solo campo llamado "lesson_video")
 export const UploadVideo = uploadVideo.single('lesson_video');
