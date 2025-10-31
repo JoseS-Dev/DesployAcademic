@@ -1,12 +1,18 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdiNGYwN2E0LTA0MmYtNDI5MS1iNTk4LTcwMjgxZDExMzM1MyIsImVtYWlsIjoiam9zZS5zYW50YW5hQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb3Nlc2FudGFuYSIsImlhdCI6MTc2MTkzMjAyMSwiZXhwIjoxNzYxOTM1NjIxfQ.cMfsSTvNC4ud6C_Y96rt1QOEhL0MKPyOSUgTZf0qp0s
+
 ###listar cursos publicados
 GET http://localhost:4300/api/v1/courses/published/all
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
 
 ###obtener curso por slug
 GET http://localhost:4300/api/v1/courses/slug/introduction-to-kubernetes
-
-### Crear curso
+Authorization: Bearer {{token}}
+Content-Type: application/json
+###Crear curso
 POST http://localhost:4300/api/v1/courses/
-
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -19,7 +25,7 @@ Content-Type: application/json
     "preview_video_url": "http://example.com/kubernetes-preview.mp4",
     "course_type": "premium",
     "duration_hours": 40,
-    "level": "Beginner",
-    "published": true,
+    "level": "beginner",
+    "is_published": true
 
 }

@@ -55,6 +55,7 @@ export class ControllerCourses {
         // Validar los datos del curso
         const validation = validateCourse(courseData);
         if (!validation.success) {
+            console.log(validation.error);
             return res.status(400).json({ error: 'Datos de curso inválidos', details: validation.error.errors });
         }
         try {
@@ -62,6 +63,7 @@ export class ControllerCourses {
             if (result.error) return res.status(400).json({ error: result.error });
             return res.status(201).json({ course: result.course, message: result.message });
         } catch (error) {
+            console.error(error);
             return res.status(500).json({ error: 'Error interno del servidor' });
         }
     }

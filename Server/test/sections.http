@@ -1,0 +1,24 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdiNGYwN2E0LTA0MmYtNDI5MS1iNTk4LTcwMjgxZDExMzM1MyIsImVtYWlsIjoiam9zZS5zYW50YW5hQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb3Nlc2FudGFuYSIsImlhdCI6MTc2MTkzMjAyMSwiZXhwIjoxNzYxOTM1NjIxfQ.cMfsSTvNC4ud6C_Y96rt1QOEhL0MKPyOSUgTZf0qp0s
+### Obtener todas las secciones por curso
+GET http://localhost:4300/api/v1/sections/course/4dc4ff61-e9f4-4b91-965a-4cda33ae8b60
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Obtener una sección por ID
+GET http://localhost:4300/api/v1/sections/8a1f4ed2-5c3b-4f3e-9f4a-2b6e5d7c9e1a
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Crear nueva sección de curso
+POST http://localhost:4300/api/v1/sections
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "course_id": "0cda508c-81f1-45f2-9c79-a6f51543ad8d",
+  "title": "Introducción al despliegue Web",
+  "description": "Aprende los conceptos básicos sobre despliegue web y cómo publicar tus proyectos en línea.",
+  "section_order": 1,
+  "is_published": true
+}
+

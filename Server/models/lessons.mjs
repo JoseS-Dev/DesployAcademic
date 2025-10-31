@@ -6,7 +6,7 @@ const { omit } = pkg;
 
 export class ModelLessons {
     static createLesson = WithDBConnection(async ({ sectionId, lessonData }) => {
-        if (!courseId || !lessonData) {
+        if (!sectionId || !lessonData) {
             return { error: 'Datos incompletos para crear lección' };
         }
         const { title, description, video_url, video_duration, thumbnail_url, lesson_order, lesson_type, is_preview, is_published } = lessonData;
@@ -30,7 +30,7 @@ export class ModelLessons {
             `SELECT * FROM lessons WHERE section_id = $1 ORDER BY lesson_order ASC`, [sectionId]
         );
         if (lessons.rowCount === 0) return { error: 'No se encontraron lecciones para este curso' };
-        return { lessons: omit(lessons.rows, [['id', 'section_id']]), message: 'Lecciones obtenidas correctamente' };
+        return { lessons: lessons.rows, message: 'Lecciones obtenidas correctamente' };
     });
 
     // metodo para obtener una lección por su ID

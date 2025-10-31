@@ -26,6 +26,7 @@ export class ControllerLessons {
             if (result.error) return res.status(400).json({ error: result.error });
             return res.status(201).json({ lesson: result.lesson, message: result.message });
         } catch (error) {
+            console.error(error);
             return res.status(500).json({ error: 'Error interno del servidor' });
         }
     }
@@ -38,6 +39,7 @@ export class ControllerLessons {
             if (result.error) return res.status(404).json({ error: result.error });
             return res.status(200).json({ lessons: result.lessons, message: result.message });
         } catch (error) {
+            console.error(error);
             return res.status(500).json({ error: 'Error interno del servidor' });
         }
     }
@@ -51,6 +53,7 @@ export class ControllerLessons {
             return res.status(200).json({ lesson: result.lesson, message: result.message });
         }
         catch (error) {
+
             return res.status(500).json({ error: 'Error interno del servidor' });
         }
     }

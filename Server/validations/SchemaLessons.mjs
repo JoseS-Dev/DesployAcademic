@@ -1,7 +1,7 @@
 import zod from 'zod';
 
 export const SchemaLesson = zod.object({
-    section_id: zod.number().int().positive(),
+    section_id: zod.uuid(),
     title: zod.string().min(3).max(255),
     description: zod.string().min(10).max(2000).optional(),
     video_url: zod.string().url(),
@@ -11,7 +11,7 @@ export const SchemaLesson = zod.object({
     lesson_type: zod.enum(['video', 'article', 'quiz', 'assignment', 'live_session']),
     is_preview: zod.boolean().optional(),
     is_published: zod.boolean().optional(),
-    updated_at: zod.date()
+    updated_at: zod.date().optional()
 
 });
 

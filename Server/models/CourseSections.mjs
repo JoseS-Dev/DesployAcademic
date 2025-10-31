@@ -10,7 +10,7 @@ export class ModelCourseSections {
     static getSectionsByCourseId = WithDBConnection(async ({ courseId }) => {
         if (!courseId) return { error: 'No se proporcionó un ID de curso' };
         const sections = await db.query(
-            `SELECT * FROM course_sections WHERE course_id = $1 ORDER BY position ASC`,
+            `SELECT * FROM course_sections WHERE course_id = $1`,
             [courseId]
         );
         if (sections.rowCount === 0) return { error: 'No se encontraron secciones para este curso' };
@@ -35,7 +35,7 @@ export class ModelCourseSections {
         }
         const { course_id, title, description, section_order, is_published } = sectionData;
         const newSection = await db.query(
-            `INSERT INTO course_sections (course_id, title, description, position, is_published)
+            `INSERT INTO course_sections (course_id, title, description, section_order, is_published)
             VALUES ($1, $2, $3, $4, $5) RETURNING *`,
             [courseId, title, description, section_order, is_published]
         );

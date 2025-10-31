@@ -9,11 +9,11 @@ export const RouteCourseSections = router;
 // Ruta para crear una nueva sección en un curso
 RouteCourseSections.post('/', verifyAuthMiddleware, controllerCourseSections.createCourseSection);
 // Ruta para obtener todas las secciones de un curso
-RouteCourseSections.get('/course/:courseId', controllerCourseSections.getSectionsByCourse);
+RouteCourseSections.get('/course/:courseId', verifyAuthMiddleware, controllerCourseSections.getSectionsByCourse);
 // Ruta para actualizar una sección de un curso
 RouteCourseSections.put('/:sectionId', verifyAuthMiddleware, controllerCourseSections.updateCourseSection);
 // Ruta para obtener una sección por su ID
-RouteCourseSections.get('/:id', controllerCourseSections.getSectionById);
+RouteCourseSections.get('/:id', verifyAuthMiddleware, controllerCourseSections.getSectionById);
 // Ruta para eliminar una sección de un curso
 RouteCourseSections.delete('/:sectionId', verifyAuthMiddleware, controllerCourseSections.deleteCourseSection);
 //ruta para eliminar todas las secciones de un curso

@@ -1,0 +1,31 @@
+### obtener todas las lecciones
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdiNGYwN2E0LTA0MmYtNDI5MS1iNTk4LTcwMjgxZDExMzM1MyIsImVtYWlsIjoiam9zZS5zYW50YW5hQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb3Nlc2FudGFuYSIsImlhdCI6MTc2MTk0MDA5OCwiZXhwIjoxNzYxOTQzNjk4fQ.jH9--AKdxU46j03Z6-gjKKwRGxV4Dd9w3LEU29Xau-A
+
+### Obtener todas las lecciones por sección
+GET http://localhost:4300/api/v1/lessons/section/4dc4ff61-e9f4-4b91-965a-4cda33ae8b60
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Obtener una lección por ID
+GET http://localhost:4300/api/v1/lessons/4dc4ff61-e9f4-4b91-965a-4cda33ae8b60
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+### Crear una nueva lección
+
+POST http://localhost:4300/api/v1/lessons/create
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "section_id": "0a21a508-0fc9-4ec9-95f8-cb7469649180",
+  "title": "Introducción a los despliegues web",
+  "description": "En esta lección conocerás los conceptos básicos sobre cómo desplegar un proyecto web.",
+  "video_url": "https://cdn.desployacademic.com/videos/intro-despliegues.mp4",
+  "video_duration": 420,
+  "thumbnail_url": "https://cdn.desployacademic.com/thumbnails/intro-despliegues.jpg",
+  "lesson_order": 1,
+  "lesson_type": "video",
+  "is_preview": true,
+  "is_published": true
+}

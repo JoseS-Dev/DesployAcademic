@@ -6,16 +6,16 @@ import { UploadLessonMedia } from "../middlewares/UploadLessonMedia.mjs";
 
 const router = Router();
 
-const controllerLesson = new ControllerLessons({ ModelLesson: ModelLessons });
+const controllerLesson = new ControllerLessons({ ModelLessons: ModelLessons });
 
 export const RouteLessons = router;
 
 // Ruta para crear una nueva lección
-RouteLessons.post('/create/:sectionId', verifyAuthMiddleware, UploadLessonMedia, controllerLesson.createLesson);
+RouteLessons.post('/create', verifyAuthMiddleware, UploadLessonMedia, controllerLesson.createLesson);
 // Ruta para actualizar una lección existente
 RouteLessons.put('/update/:lessonId', verifyAuthMiddleware, UploadLessonMedia, controllerLesson.updateLesson);
 // Ruta para obtener lecciones por curso
-RouteLessons.get('/course/:courseId', verifyAuthMiddleware, controllerLesson.getLessonsBySection);
+RouteLessons.get('/section/:sectionId', verifyAuthMiddleware, controllerLesson.getLessonsBySection);
 // Ruta para obtener una lección por su ID
 RouteLessons.get('/:lessonId', verifyAuthMiddleware, controllerLesson.getLessonById);
 // Ruta para eliminar una lección

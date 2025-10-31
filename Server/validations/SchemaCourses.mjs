@@ -9,7 +9,7 @@ export const SchemaCourse = zod.object({
     slug: zod.string().min(3).max(100).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     price: zod.number().min(0),
     level: zod.enum(['beginner', 'intermediate', 'advanced']),
-    course_type: zod.enum(['free', 'paid']),
+    course_type: zod.enum(['free', 'premium']),
     duration_hours: zod.number().min(1),
     thumbnail_url: zod.string().url().optional(),
     preview_video_url: zod.string().url().optional(),

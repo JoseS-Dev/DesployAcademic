@@ -53,15 +53,15 @@ export class ModelCourses {
     static createCourse = WithDBConnection(async ({ courseData }) => {
         if (!courseData) return { error: 'No se proporcionaron datos del curso' };
         //verificar
-        const { title, slug, descrption, short_description, price, level, course_type, duration_hours, thumbnail_url,
+        const { title, slug, description, short_description, price, level, course_type, duration_hours, thumbnail_url,
             preview_video_url } = courseData;
         // Generar slug si no se proporciona
         const courseSlug = slug || slugify(title, { lower: true, strict: true });
         // Verificar si ya existe un curso con ese slug
         const newCourse = await db.query(
-            `INSERT INTO courses (title, slug, descrption, short_description, price, level, course_type, duration_hours, thumbnail_url, preview_video_url)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING title, slug, descrption, short_description, price, level, course_type, duration_hours, thumbnail_url, preview_video_url`,
-            [title, courseSlug, descrption, short_description, price, level, course_type, duration_hours, thumbnail_url,
+            `INSERT INTO courses (title, slug, description, short_description, price, level, course_type, duration_hours, thumbnail_url, preview_video_url)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING title, slug, description, short_description, price, level, course_type, duration_hours, thumbnail_url, preview_video_url`,
+            [title, courseSlug, description, short_description, price, level, course_type, duration_hours, thumbnail_url,
                 preview_video_url]
         );
         //ahora se relaciona 
