@@ -1,5 +1,5 @@
 ### obtener todas las lecciones
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdiNGYwN2E0LTA0MmYtNDI5MS1iNTk4LTcwMjgxZDExMzM1MyIsImVtYWlsIjoiam9zZS5zYW50YW5hQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb3Nlc2FudGFuYSIsImlhdCI6MTc2MTk0MDA5OCwiZXhwIjoxNzYxOTQzNjk4fQ.jH9--AKdxU46j03Z6-gjKKwRGxV4Dd9w3LEU29Xau-A
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdiNGYwN2E0LTA0MmYtNDI5MS1iNTk4LTcwMjgxZDExMzM1MyIsImVtYWlsIjoiam9zZS5zYW50YW5hQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb3Nlc2FudGFuYSIsImlhdCI6MTc2MTk0NDMxMywiZXhwIjoxNzYxOTQ3OTEzfQ.abIiiturQP_jOtbG40h4K3TGNUVaEHBJgt88OCXVGnA
 
 ### Obtener todas las lecciones por sección
 GET http://localhost:4300/api/v1/lessons/section/4dc4ff61-e9f4-4b91-965a-4cda33ae8b60
@@ -11,21 +11,51 @@ GET http://localhost:4300/api/v1/lessons/4dc4ff61-e9f4-4b91-965a-4cda33ae8b60
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
-### Crear una nueva lección
-
+### Crear lección con archivos
 POST http://localhost:4300/api/v1/lessons/create
 Authorization: Bearer {{token}}
-Content-Type: application/json
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
 
-{
-  "section_id": "0a21a508-0fc9-4ec9-95f8-cb7469649180",
-  "title": "Introducción a los despliegues web",
-  "description": "En esta lección conocerás los conceptos básicos sobre cómo desplegar un proyecto web.",
-  "video_url": "https://cdn.desployacademic.com/videos/intro-despliegues.mp4",
-  "video_duration": 420,
-  "thumbnail_url": "https://cdn.desployacademic.com/thumbnails/intro-despliegues.jpg",
-  "lesson_order": 1,
-  "lesson_type": "video",
-  "is_preview": true,
-  "is_published": true
-}
+--WebKitFormBoundary
+Content-Disposition: form-data; name="section_id"
+
+0a21a508-0fc9-4ec9-95f8-cb7469649180
+--WebKitFormBoundary
+Content-Disposition: form-data; name="title"
+
+Introducción a los despliegues web
+--WebKitFormBoundary
+Content-Disposition: form-data; name="description"
+
+En esta lección conocerás los conceptos básicos sobre cómo desplegar un proyecto web.
+--WebKitFormBoundary
+Content-Disposition: form-data; name="video_duration"
+
+420
+--WebKitFormBoundary
+Content-Disposition: form-data; name="lesson_order"
+
+5
+--WebKitFormBoundary
+Content-Disposition: form-data; name="lesson_type"
+
+video
+--WebKitFormBoundary
+Content-Disposition: form-data; name="is_preview"
+
+true
+--WebKitFormBoundary
+Content-Disposition: form-data; name="is_published"
+
+true
+--WebKitFormBoundary
+Content-Disposition: form-data; name="thumbnail"; filename="thumbnail.jpg"
+Content-Type: image/jpeg
+
+< ../uploads/lessons/GxqFj8XO6vd1auheyelGExmOEsk1DHPUEZHutKHG.jpg
+--WebKitFormBoundary
+Content-Disposition: form-data; name="video"; filename="intro-despliegues.mp4"
+Content-Type: video/mp4
+
+< ../uploads\lessons\Estrategias-de-Sincronizacion-de-EntradaSalida-ES.pdf - Google Chrome 2025-03-27 15-00-22.mp4
+--WebKitFormBoundary--

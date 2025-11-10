@@ -6,6 +6,7 @@ const { omit } = pkg;
 
 export class ModelLessons {
     static createLesson = WithDBConnection(async ({ sectionId, lessonData }) => {
+        console.log("Creating lesson in section ID:", sectionId);
         if (!sectionId || !lessonData) {
             return { error: 'Datos incompletos para crear lección' };
         }

@@ -20,6 +20,7 @@ app.use(morgan('dev'));
 // Rutas estaticas para imagenes y videos
 app.use('/uploads/images', express.static('uploads/images'));
 app.use('/uploads/videos', express.static('uploads/videos'));
+app.use('/uploads/lessons', express.static('uploads/lessons'));
 
 // Rutas
 app.use(`${CONFIG_SERVER.basePath}/auth`, RouteAuth);

@@ -1,19 +1,32 @@
 import { validateLesson, validateLessonUpdate } from "../validations/SchemaLessons.mjs";
 
+function parseLessonData(body) {
+    return {
+        ...body,
+        video_duration: body.video_duration ? Number(body.video_duration) : undefined,
+        lesson_order: body.lesson_order ? Number(body.lesson_order) : undefined,
+        is_preview: body.is_preview === 'true',
+        is_published: body.is_published === 'true',
+    };
+}
+
 export class ControllerLessons {
     constructor({ ModelLessons }) {
         this.ModelLessons = ModelLessons;
     }
     // Controlador para crear una nueva lección
     createLesson = async (req, res) => {
-        const lessonData = { ...req.body };
-        const { sectionId } = req.params;
+        const lessonData = parseLessonData(req.body);
+        const sectionId = req.body.section_id;
 
         if (req.files?.thumbnail) {
-            lessonData.thumbnail_url = req.files.thumbnail[0].path;
+            const filePath = req.files.thumbnail[0].path;
+            console.log("Thumbnail file path:", filePath);
+            lessonData.thumbnail_url = `http://localhost:4300/uploads${filePath.split('uploads')[1].replace(/\\/g, '/')}`;
         }
         if (req.files?.video) {
-            lessonData.video_url = req.files.video[0].path;
+            const filePath = req.files.video[0].path;
+            lessonData.video_url = `http://localhost:4300/uploads${filePath.split('uploads')[1].replace(/\\/g, '/')}`;
         }
 
         // Validar los datos de la lección
