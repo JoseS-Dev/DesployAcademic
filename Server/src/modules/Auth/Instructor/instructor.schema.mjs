@@ -1,15 +1,19 @@
 import zod from "zod";
 
+// Defino el esquema de validación de loscampos que contiene social_links
+const SchemaSocialLink = zod.object({
+    platform: zod.string().min(2).max(50),
+    url: zod.string().url()
+})
+
 // Defino el esquema de datos de validación para los instructores del sistema
 const SchemaInstructor = zod.object({
     user_id: zod.number().int().positive(),
     description_instructor: zod.string().max(500).optional(),
     profile_picture: zod.string().url().optional(),
     website: zod.string().url().optional(),
-    social_links: z.array(z.object({
-        plataform: zod.string().min(2).max(50),
-        url: zod.string().url()
-    }))
+    social_links: zod.array(SchemaSocialLink).optional(),
+    category_instructor: zod.string().min(2).max(100)
 });
 
 // Functión para validar los datos de un instructor

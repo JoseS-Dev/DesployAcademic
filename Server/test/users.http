@@ -7,10 +7,10 @@ Content-Type: application/json
 
 {
     "name_user": "Jose S. Santana",
-    "email_user": "profesor@example.com",
-    "password_user": "securePassword123",
-    "username": "ProfesorJSantana",
-    "role_user": "instructor"
+    "email_user": "joseasantana05@gmail.com",
+    "password_user": "JSa06...",
+    "username": "JoseS-Dev",
+    "role_user": "student"
 }
 
 ### Login usuario
@@ -18,8 +18,8 @@ POST http://localhost:4300/api/v1/users/login
 Content-Type: application/json
 
 {
-    "email_user": "profesor@example.com",
-    "password_user": "securePassword123"
+    "email_user": "joseasantana05@gmail.com",
+    "password_user": "JSa06..."
 }
 
 ### Cerrar sesión

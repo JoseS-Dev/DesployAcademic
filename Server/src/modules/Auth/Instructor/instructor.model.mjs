@@ -10,7 +10,7 @@ export class InstructorModel {
     // Método para obtener a todos los instructores del sistema 
     static getAllInstructors = WithDBConnection(async () => {
         const instructors = await db.query(
-            `SELECT U.name_user, IP.* FROM instructors_profiles IP
+            `SELECT U.name_user, IP.* FROM instructor_profiles IP
             JOIN users U ON IP.user_id = U.id`
         );
         if(instructors.rowCount === 0) return {error: "No se encontraron instructores"};
@@ -23,8 +23,8 @@ export class InstructorModel {
         if(!instructorId) return {error: "El ID del instructor no fue proporcionado"};
         // Se verifica si el instructor existe
         const instructor = await db.query(
-            `SELECT U.*, IP.* FROM instructors_profiles IP
-            JOIN users U ON IP.user_id = U.id WHERE IP.user_id = $1`,
+            `SELECT U.*, IP.* FROM instructor_profiles IP
+            JOIN users U ON IP.user_id = U.id WHERE IP.id = $1`,
             [instructorId]
         );
         if(instructor.rowCount === 0) return {error: "No se encontró un instructor con ese ID"};
@@ -36,7 +36,7 @@ export class InstructorModel {
         if(!categoryInstructor) return {error: "La categoría del instructor no fue proporcionada"};
         // Se obtiene a los instructores que pertenecen a esa categoría
         const instructors = await db.query(
-            `SELECT U.name_user, IP.* FROM instructors_profiles IP
+            `SELECT U.name_user, IP.* FROM instructor_profiles IP
             JOIN users U ON IP.user_id = U.id WHERE IP.category = $1`,
             [categoryInstructor]
         );
@@ -54,17 +54,17 @@ export class InstructorModel {
         } = instructorData;
         // Se verifica que el instructor no tenga ya un perfil
         const existingProfile = await db.query(
-            `SELECT * FROM instructors_profiles WHERE user_id = $1`,
+            `SELECT * FROM instructor_profiles WHERE user_id = $1`,
             [user_id]
         );
         if(existingProfile.rowCount > 0) return {error: "El instructor ya tiene un perfil creado"};
         // Si no tiene perfil, se procede a crearlo
         const newProfile = await db.query(
-            `INSERT INTO instructors_Profiles(user_id, description_instructor, profile_picture,
+            `INSERT INTO instructor_profiles(user_id, description_instructor, profile_picture,
             category_instructor, website, social_links) VALUES($1, $2, $3, $4, $5, $6) RETURNING *`,
             [
                 user_id, description_instructor, profile_picture,
-                category_instructor, website, social_links
+                category_instructor, website, JSON.stringify(social_links)
             ]
         )
         if(newProfile.rowCount === 0) return {error: "No se pudo crear el perfil de instructor"};
@@ -78,7 +78,7 @@ export class InstructorModel {
         // Se verifica si el usuario y el instructor existen
         const existingUser = await db.query(`SELECT id FROM users WHERE id = $1`, [userId]);
         const existingInstructor = await db.query(
-            `SELECT id FROM instructors_profiles WHERE user_id = $1`,
+            `SELECT id FROM instructor_profiles WHERE id = $1`,
             [instructorId]
         );
         if(existingUser.rowCount === 0 || existingInstructor.rowCount === 0){
@@ -86,35 +86,35 @@ export class InstructorModel {
         }
         // Ahora, verificamos que el usuario no siga ya al instructor
         const existingFollow = await db.query(
-            `SELECT * FROM instructors_followers WHERE user_id = $1 AND instructor_id = $2 
+            `SELECT * FROM instructor_followers WHERE user_id = $1 AND instructor_id = $2 
             AND is_follow = true`,
             [userId, instructorId]
         );
         if(existingFollow.rowCount > 0){
             // Si lo sigue, lo dejamos de seguir
             await db.query(
-                `UPDATE instructors_followers SET is_follow = false , desfollowing_at = NOW()
+                `UPDATE instructor_followers SET is_follow = false , desfollowing_at = NOW()
                 WHERE user_id = $1 AND instructor_id = $2`,
                 [userId, instructorId]
             );
             // Además, reducimos el contador de seguidores del instructor
             await db.query(
-                `UPDATE instructors_profiles SET total_students = total_students - 1
-                WHERE user_id = $1`,
+                `UPDATE instructor_profiles SET total_students = total_students - 1
+                WHERE id = $1`,
                 [instructorId]
             );
             return {message: "Has dejado de seguir al instructor"};
         }
         // Si no lo sigue, procedemos a seguirlo
         await db.query(
-            `INSERT INTO instructors_followers(user_id, instructor_id, is_follow)
+            `INSERT INTO instructor_followers(user_id, instructor_id, is_follow)
             VALUES($1, $2, true)`,
             [userId, instructorId]
         );
         // Además, aumentamos el contador de seguidores del instructor
         await db.query(
-            `UPDATE instructors_profiles SET total_students = total_students + 1
-            WHERE user_id = $1`,
+            `UPDATE instructor_profiles SET total_students = total_students + 1
+            WHERE id = $1`,
             [instructorId]
         );
         return {message: "Ahora sigues al instructor"};
@@ -139,7 +139,7 @@ export class InstructorModel {
 
         // Se verifica que el instructor exista
         const existingInstructor = await db.query(
-            `SELECT * FROM instructors_profiles WHERE user_id = $1`,
+            `SELECT * FROM instructor_profiles WHERE id = $1`,
             [instructorId]
         );
         if(existingInstructor.rowCount === 0) return {error: "No se encontró un instructor con ese ID"};
@@ -154,7 +154,7 @@ export class InstructorModel {
         values.push(instructorId); // Agrego el ID del instructor al final de los valores
         
         const updatedInstructor = await db.query(
-            `UPDATE instructors_profiles SET ${fields.join(", ")} WHERE user_id = $${values.length}`,
+            `UPDATE instructor_profiles SET ${fields.join(", ")} WHERE id = $${values.length}`,
             values
         );
         if(updatedInstructor.rowCount === 0) return {error: "No se pudo actualizar el perfil del instructor"};
@@ -166,18 +166,13 @@ export class InstructorModel {
         if(!instructorId) return {error: "Falta el ID del instructor para eliminar su perfil"};
         // Se verifica que el instructor exista
         const existingInstructor = await db.query(
-            `SELECT * FROM instructors_profiles WHERE user_id = $1`,
+            `SELECT * FROM instructor_profiles WHERE id = $1`,
             [instructorId]
         );
         if(existingInstructor.rowCount === 0) return {error: "No se encontró un instructor con ese ID"};
         // Si existe, se procede a eliminar
         await db.query(
-            `DELETE FROM instructors_profiles WHERE user_id = $1`,
-            [instructorId]
-        );
-        // Además de cambiar su rol a estudiante
-        await db.query(
-            `UPDATE users SET role_user = 'student' WHERE user_id = $1`,
+            `DELETE FROM instructor_profiles WHERE id = $1`,
             [instructorId]
         );
         return {message: "Perfil de instructor eliminado exitosamente"};

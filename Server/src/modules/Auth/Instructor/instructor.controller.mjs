@@ -23,8 +23,9 @@ export class InstructorController {
     
     // Controlador para obtener el perfil de un instructor por su ID
     getInstructorById = async (req, res) => {
+        const {instructorId} = req.params;
         try{
-            const result = await this.InstructorModel.getInstructorById();
+            const result = await this.InstructorModel.getInstructorById(instructorId);
             if(result.error) return res.status(404).json({error: result.error});
             return res.status(200).json({instructor: result.instructor});
         }
@@ -54,7 +55,9 @@ export class InstructorController {
         if(!req.file) return {error: 'No se subió ninguna imagen de perfil'};
         const InstructorData = {
             ...req.body,
-            profile_picture: req.file.path
+            user_id: parseInt(req.body.user_id),
+            profile_picture: req.file.path,
+            social_links: JSON.parse(req.body.social_links.trim())
         }
         const validation = validateInstructor(InstructorData);
         try{
@@ -72,6 +75,7 @@ export class InstructorController {
             });
         }
         catch(error){
+            console.error(error);
             return res.status(500).json({error: 'Error del servidor al crear el perfil de instructor'});
         }
     }
@@ -95,7 +99,9 @@ export class InstructorController {
         const {instructorId} = req.params;
         const InstructorData = {
             ...req.body,
-            profile_picture: req.file.path
+            profile_picture: req.body.profile_picture ? req.file.path : undefined,
+            social_links: req.body.social_links ? 
+            JSON.parse(req.body.social_links.trim()) : undefined
         }
         const validation = validateDataUpdateInstructor(InstructorData);
         try{
