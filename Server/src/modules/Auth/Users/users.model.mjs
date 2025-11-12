@@ -10,34 +10,34 @@ export class ModelUsers {
         if(!userData) return {error: "Los datos del usuario no fueron proporcionados"};
         const { 
             name_user, email_user, 
-            password_user, username_user
+            password_user, username, role_user
         } = userData;
         // Se verifica si ya existe un usuario con ese email o username
         const existingUser = await db.query(
-            `SELECT id FROM users WHERE email_user = $1 OR username_user = $2`,
-            [email_user, username_user]
+            `SELECT id FROM users WHERE email_user = $1 OR username = $2`,
+            [email_user, username]
         );
         if(existingUser.rowCount > 0) return {error: "Ya existe un usuario con ese email o username"};
         // Si no existe, se procede a hashear la contraseña
         const hashedPassword = await hashPassword(password_user);
         // Se inserta el nuevo usuario en la base de datos
         const newUser = await db.query(
-            `INSERT INTO users (name_user, email_user, password_user, username_user)
+            `INSERT INTO users (name_user, email_user, password_user, username)
             VALUES($1, $2, $3, $4) RETURNING *`,
-            [name_user, email_user, hashedPassword, username_user]
+            [name_user, email_user, hashedPassword, username]
         );
         if(newUser.rowCount === 0) return {error: "No se pudo registrar el usuario"};
         // A su vez asignamos el rol al usuario que por defecto es estudiante
         const rolUser = await db.query(
-            `INSERT INTO user_roles (user_id) VALUES($1) RETURNING *`,
-            [newUser.rows[0].id]
+            `INSERT INTO roles (user_id, role_user) VALUES($1, $2) RETURNING *`,
+            [newUser.rows[0].id, role_user || 'student']
         );
         if(rolUser.rowCount === 0) return {error: "No se pudo asignar el rol al usuario"};
         return {message: "Usuario registrado exitosamente", user: {
             ...omit(newUser.rows[0], ['password_user']),
             role: rolUser.rows[0].role_user
         }}
-    })
+    });
 
     // Método que loguea a un usuario en el sistema
     static LoginUser = WithDBConnection(async (LoginData) => {
@@ -45,7 +45,8 @@ export class ModelUsers {
         const {email_user, password_user} = LoginData;
         // Se verifica si el usuario existe
         const existingUser = await db.query(
-            `SELECT * FROM users WHERE email_user = $1`,
+            `SELECT U.*, UR.role_user FROM users U
+            JOIN roles UR ON U.id = UR.user_id WHERE email_user = $1`,
             [email_user]
         );
         if(existingUser.rowCount === 0) return {error: "No existe un usuario con ese email"};
@@ -56,7 +57,7 @@ export class ModelUsers {
         if(!isPasswordValid) return {error: "La contraseña es incorrecta"};
         // Si la contraseña es correcta, se loguea al usuario, pero antes se verifica si ya habia loguado antes
         const LoginUser = await db.query(
-            `SELECT * FROM user_sessions WHERE user_id = $1`,
+            `SELECT * FROM login_sessions WHERE user_id = $1`,
             [user.id]
         );
         if(LoginUser.rowCount > 0){
@@ -99,7 +100,7 @@ export class ModelUsers {
         if(!userId) return {error: "El ID del usuario no fue proporcionado"};
         const user = await db.query(
             `SELECT U.*, UR.role_user FROM users U
-            JOIN user_roles UR ON U.id = UR.user_id WHERE U.id = $1`,
+            JOIN roles UR ON U.id = UR.user_id WHERE U.id = $1`,
             [userId]
         );
         if(user.rowCount === 0) return {error: "No se encontró un usuario con ese ID"};
@@ -113,7 +114,7 @@ export class ModelUsers {
         const allowedFields = [
             'name_user', 'email_user',
             'phone_user',
-            'username_user', 'avatar_image'
+            'username_user', 'avatar_imagen'
         ];
         const fieldsToUpdate = {};
         for (const field of allowedFields) {
@@ -142,6 +143,13 @@ export class ModelUsers {
         );
         if(updatedUser.rowCount === 0) return {error: "No se pudo actualizar el usuario"};
         return {message: "Usuario actualizado exitosamente"}
+    });
+
+    // Método para obtener a todos los usuarios del sistema (admin)
+    static getAllUsers = WithDBConnection(async () => {
+        const users = await db.query('SELECT * FROM users');
+        if(users.rowCount === 0) return {error: "No se encontraron usuarios"};
+        return {message: `Se encontraron ${users.rowCount} usuarios`, users: users.rows};
     })
 
     // Método para que el usuario elimine su cuenta del sistema

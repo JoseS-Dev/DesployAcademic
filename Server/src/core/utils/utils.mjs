@@ -1,4 +1,3 @@
-import { verifyDBConnection } from "../../../database/db.mjs"
 
 export const acceptedImage = [
     '.png', '.jpg', '.jpeg', '.gif', '.webp',

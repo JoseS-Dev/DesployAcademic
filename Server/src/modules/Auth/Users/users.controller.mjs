@@ -1,4 +1,4 @@
-import { validateDataUser, validateDataUpdateUser } from "./users.schema.mjs";
+import { validateDataUser, validateDataLoginUser ,validateDataUpdateUser } from "./users.schema.mjs";
 import { authMiddleware } from "../../../api/middlewares/Auth.mjs";
 import { is } from "zod/v4/locales";
 
@@ -6,6 +6,21 @@ import { is } from "zod/v4/locales";
 export class ControllerUsers {
     constructor({ModelUsers}){
         this.ModelUsers = ModelUsers;
+    }
+
+    // Controlador para obtener a todos los usuarios (admin)
+    getAllUsers = async (req, res) => {
+        try{
+            const result = await this.ModelUsers.getAllUsers();
+            if(result.error) return res.status(404).json({error: result.error});
+            return res.status(200).json({
+                message: result.message,
+                users: result.users
+            });
+        }
+        catch(error){
+            return res.status(500).json({error: "Error interno del servidor"});
+        }
     }
 
     // Controlador para registrar a un usuario
@@ -32,7 +47,7 @@ export class ControllerUsers {
 
     // Controlador para loguear a un usuario
     LoginUser = async (req, res) => {
-        const validation = validateDataUser(req.body);
+        const validation = validateDataLoginUser(req.body);
         try{
             if(!validation.success){
                 return res.status(400).json({

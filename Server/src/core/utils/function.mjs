@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import { verifyDBConnection } from "../../../database/db.mjs"
 // Functión para la validación si se conecto a la base de datos
 export const WithDBConnection = (fn) => {
     return async (...args) => {

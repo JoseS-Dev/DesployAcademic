@@ -5,7 +5,7 @@ export function authMiddleware(user){
     if(!user) return {error: 'Usuario no autenticado'};
     try{
         const token = jwt.sign(
-            {id: user.id, email: user.email_user, username: user.username},
+            {id: user.id, email: user.email_user, username: user.username, role: user.role_user},
             CONFIG_JWT.secret,
             {expiresIn: CONFIG_JWT.expiresIn}
         )

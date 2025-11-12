@@ -1,7 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { acceptedImage } from '../utils.mjs';
+import { acceptedImage } from '../../core/utils/utils.mjs';
 
 // Función para las configuraciones de Multer
 export function configureMulter(directory){
@@ -37,5 +37,5 @@ const uploadDirProfile = path.resolve('uploads/instructors');
 const uploadUser = configureMulter(uploadDir);
 const uploadProfilePicture = configureMulter(uploadDirProfile);
 // Middleware para la subida
-export const UploadImageUser = uploadUser.single('avatar_url');
+export const UploadImageUser = uploadUser.single('avatar_imagen');
 export const UploadProfilePicture = uploadProfilePicture.single('profile_picture');
