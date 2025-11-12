@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { CONFIG_JWT } from '../config/config.mjs';
+import { CONFIG_JWT } from '../../../config/config.mjs';
 // Middleware para asignar el token al usuario
 export function authMiddleware(user){
     if(!user) return {error: 'Usuario no autenticado'};
