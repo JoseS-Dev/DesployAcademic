@@ -114,7 +114,7 @@ export class ModelUsers {
         const allowedFields = [
             'name_user', 'email_user',
             'phone_user',
-            'username_user', 'avatar_imagen'
+            'username', 'avatar_imagen'
         ];
         const fieldsToUpdate = {};
         for (const field of allowedFields) {

@@ -46,13 +46,13 @@ Content-Type: image/jpeg
 
 ./uploads/profile.jpg
 ----CustomBoundary
-Content-Disposition: form-data; name="bio"
-
-Aspiring developer with a passion for learning and creating innovative solutions.
-----CustomBoundary
 Content-Disposition: form-data; name="username"
 
 josesantana_dev
+----CustomBoundary
+Content-Disposition: form-data; name="phone_user"
+
+123-456-7890
 ----CustomBoundary----
 
 

@@ -99,7 +99,7 @@ export class ControllerUsers {
         const {userId} = req.params;
         const DataBody = {
             ...req.body,
-            avatar_image: req.file.path
+            avatar_imagen: req.file.path
         };
         const validation = validateDataUpdateUser(DataBody);
         try{
