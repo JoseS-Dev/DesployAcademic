@@ -1,11 +1,14 @@
 import {Router} from 'express';
-import { userRoute } from '../../modules/Auth/Users/users.route.mjs';
 import { CONFIG_SERVER } from '../../../config/config.mjs';
+import { userRoute } from '../../modules/Auth/Users/users.route.mjs';
+import { instructorRoute } from '../../modules/Auth/Instructor/instructor.route.mjs';
+
 
 const router = Router();
 
 export const RoutesModules = {
     users: {
-        user: router.use(`${CONFIG_SERVER.basePath}/users`, userRoute)
+        user: router.use(`${CONFIG_SERVER.basePath}/users`, userRoute),
+        instructor: router.use(`${CONFIG_SERVER.basePath}/instructors`, instructorRoute)
     }
 }

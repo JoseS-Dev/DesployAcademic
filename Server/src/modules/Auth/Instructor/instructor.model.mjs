@@ -7,7 +7,7 @@ const { omit } = pkg;
 // Modelo que interactúa con la tabla instructors_profiles de la base de datos
 export class InstructorModel {
     
-    // Método para obtener a todos los instructores del sistema (admin)
+    // Método para obtener a todos los instructores del sistema 
     static getAllInstructors = WithDBConnection(async () => {
         const instructors = await db.query(
             `SELECT U.name_user, IP.* FROM instructors_profiles IP
@@ -64,7 +64,7 @@ export class InstructorModel {
             category_instructor, website, social_links) VALUES($1, $2, $3, $4, $5, $6) RETURNING *`,
             [
                 user_id, description_instructor, profile_picture,
-                category_instructor, website, JSON.stringify(social_links)
+                category_instructor, website, social_links
             ]
         )
         if(newProfile.rowCount === 0) return {error: "No se pudo crear el perfil de instructor"};
