@@ -7,3 +7,4 @@ export const acceptedImage = [
 export const acceptedVideo = [
     '.mp4', '.mov', '.avi', '.mkv', '.webm'
 ];
+

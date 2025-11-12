@@ -30,3 +30,28 @@ CREATE TABLE login_sessions(
 	logout_at TIMESTAMP,
 	FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- Tabla de instructor
+CREATE TABLE instructor_profiles(
+	id SERIAL PRIMARY KEY,
+	user_id INT,
+	category_instructor VARCHAR(100),
+	description_instructor TEXT,
+	profile_picture VARCHAR(255),
+	website VARCHAR(255),
+	social_links JSONB,
+	total_students INTEGER DEFAULT 0,
+	FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Tabla de relación intermedia entre usuarios y instructores
+CREATE TABLE instructor_followers(
+	id SERIAL PRIMARY KEY,
+	user_id INT,
+	instructor_id INT,
+	is_follow BOOLEAN DEFAULT(TRUE),
+	following_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	desfollowing_at TIMESTAMP,
+	FOREIGN KEY(user_id) REFERENCES users(id),
+	FOREIGN KEY(instructor_id) REFERENCES instructor_profiles(id)
+);
