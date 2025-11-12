@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DesployAcademic - Aprende Programación Online</title>
+    <!-- Agregado Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Configuración personalizada de colores para Tailwind */
+        :root {
+            --primary: #0066ff;
+            --primary-dark: #0052cc;
+            --accent: #00d4ff;
+        }
+        
+        body {
+            @apply bg-white text-gray-900 font-sans;
+        }
+        
+        .gradient-primary {
+            @apply bg-gradient-to-r from-blue-600 to-cyan-400;
+        }
+        
+        .gradient-dark {
+            @apply bg-gradient-to-br from-blue-50 via-white to-blue-50;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Barra de Promoción rediseñada con Tailwind -->
+    <div id="promoBar" class="bg-gradient-to-r from-green-500 to-cyan-500 py-3 px-5 sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-5 flex-wrap">
+            <div class="flex-1">
+                <span class="text-white font-bold text-sm">🎉 Aprovecha el precio especial</span>
+            </div>
+            <div class="flex items-center gap-4 text-white text-sm flex-wrap justify-center">
+                <span class="line-through opacity-80">Antes $349</span>
+                <span class="bg-orange-600 text-white px-2 py-1 rounded font-bold">Ahorra $40</span>
+                <span class="font-bold text-lg">$309</span>
+                <span class="text-xs opacity-90">Paga a 4 cuotas sin intereses</span>
+            </div>
+            <button class="bg-blue-700 text-white px-5 py-2 rounded-lg font-bold hover:bg-blue-800 transition shadow-lg" onclick="mostrarModal('signup')">
+                Suscribirse
+            </button>
+        </div>
+        <div class="text-center text-white text-xs mt-2 opacity-90">
+            El precio especial termina en: <span id="timer" class="font-bold">1 días 15 hrs 12 min 15 seg</span>
+        </div>
+    </div>
+
+    <!-- Header rediseñado con Tailwind -->
+    <header class="sticky top-12 z-40 bg-white shadow-sm border-b border-gray-200 py-3 px-5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-5 flex-wrap">
+            <!-- Logo -->
+            <div class="flex items-center gap-3 flex-shrink-0">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-11-11%20at%2011.50.58%20AM-HrO5G5Ny0iKvTtLFdEtq1Gk4DK5Avt.jpeg" alt="DesployAcademic Logo" class="w-12 h-12 rounded-lg object-cover shadow-md hover:shadow-lg transition">
+                <span class="font-bold text-lg text-gray-900 hidden md:inline">DesployAcademic</span>
+            </div>
+
+            <!-- Buscador -->
+            <div class="hidden md:flex items-center gap-3 bg-gray-100 border border-gray-300 rounded-full px-4 py-2 flex-1 max-w-xs hover:border-blue-400 transition">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-gray-500">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" placeholder="¿Qué quieres aprender?" class="bg-transparent outline-none text-sm text-gray-700 w-full placeholder-gray-500">
+            </div>
+
+            <!-- Navegación -->
+            <nav class="hidden lg:flex gap-8 text-gray-600 text-sm">
+                <a href="#courses" class="hover:text-blue-600 transition font-medium">Cursos</a>
+                <a href="#teachers" class="hover:text-blue-600 transition font-medium">Profesores</a>
+                <a href="#blog" class="hover:text-blue-600 transition font-medium">Blog</a>
+                <a href="#pricing" class="hover:text-blue-600 transition font-medium">Precios</a>
+            </nav>
+
+            <!-- Botones de autenticación -->
+            <div class="flex gap-3 items-center flex-shrink-0">
+                <div id="authButtons" class="flex gap-2">
+                    <button class="border-2 border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-blue-600 hover:text-blue-600 transition" onclick="mostrarModal('login')">
+                        Iniciar sesión
+                    </button>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-md hover:shadow-lg" onclick="mostrarModal('signup')">
+                        Suscribirse
+                    </button>
+                </div>
+                <div id="userProfile" class="flex items-center gap-3" style="display: none;">
+                    <div class="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-200 rounded-lg">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-blue-600">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span id="userName" class="text-sm text-blue-600 font-semibold">Usuario</span>
+                    </div>
+                    <button class="bg-red-50 border border-red-200 text-red-600 px-3 py-1 rounded-lg text-xs font-semibold hover:bg-red-100 transition" onclick="cerrarSesion()">
+                        Cerrar sesión
+                    </button>
+                </div>
+            </div>
+
+            <!-- Menú móvil -->
+            <button class="lg:hidden bg-none border-none text-gray-900 text-2xl cursor-pointer" id="menuMobile" onclick="toggleMenuMobile()">☰</button>
+        </div>
+    </header>
+
+    <!-- Hero Section rediseñada con Tailwind -->
+    <section class="bg-gradient-to-br from-blue-50 to-white py-32 px-5 flex items-center justify-center">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight text-gray-900">
+                La escuela de tecnología<br>
+                <span class="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+                    de Latinoamérica
+                </span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                Más de 50,000 estudiantes aprenden programación, bases de datos y frameworks modernos en DesployAcademic
+            </p>
+            <div class="flex gap-5 justify-center flex-wrap mb-16">
+                <button class="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg hover:shadow-xl" onclick="mostrarModal('signup')">
+                    Comenzar Gratis
+                </button>
+                <button class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-bold hover:border-blue-600 hover:text-blue-600 transition">
+                    Explorar Cursos
+                </button>
+            </div>
+            <div class="flex justify-center gap-12 flex-wrap">
+                <div class="text-center">
+                    <strong class="text-3xl text-blue-600 block">50K+</strong>
+                    <span class="text-gray-600 text-sm">Estudiantes activos</span>
+                </div>
+                <div class="text-center">
+                    <strong class="text-3xl text-blue-600 block">100+</strong>
+                    <span class="text-gray-600 text-sm">Cursos disponibles</span>
+                </div>
+                <div class="text-center">
+                    <strong class="text-3xl text-blue-600 block">4.9★</strong>
+                    <span class="text-gray-600 text-sm">Calificación promedio</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrusel de Videos rediseñado con Tailwind -->
+    <section class="bg-white py-20 px-5 shadow-sm">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider">Contenido Exclusivo</span>
+                <h2 class="text-5xl font-black mt-4 mb-4 text-gray-900">Aprende con Videos Profesionales</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Descubre tutoriales de calidad sobre programación, bases de datos y frameworks modernos
+                </p>
+            </div>
+
+            <!-- Reproductor Principal -->
+            <div class="mb-10">
+                <div id="videoFrame" class="w-full aspect-video bg-gradient-to-br from-blue-100 to-blue-50 rounded-2xl border-2 border-gray-200 overflow-hidden relative mb-5 shadow-md">
+                    <div class="video-placeholder cursor-pointer w-full h-full flex flex-col items-center justify-center gap-5">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="#0066ff">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <span id="videoDuration" class="absolute bottom-5 right-5 bg-gray-900/80 text-white px-3 py-1 rounded text-xs font-semibold">8 min</span>
+                    </div>
+                </div>
+                <h3 id="videoTitle" class="text-3xl font-bold mb-2 text-gray-900">Fundamentos de JavaScript</h3>
+                <p id="videoDescription" class="text-gray-600 text-lg mb-4">Aprende los conceptos básicos de JavaScript moderno</p>
+                <div class="flex gap-4">
+                    <span class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-xs font-semibold">
+                        Video <span id="videoCounter">1</span> de <span id="videoTotal">3</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Controles de Navegación -->
+            <div class="flex items-center justify-between mb-10">
+                <button class="w-12 h-12 border-2 border-gray-300 rounded-full hover:border-blue-600 hover:bg-blue-50 transition flex items-center justify-center text-xl text-gray-700 font-bold" onclick="videoAnterior()">←</button>
+                <div class="carousel-dots flex gap-3 justify-center" id="carouselDots"></div>
+                <button class="w-12 h-12 border-2 border-gray-300 rounded-full hover:border-blue-600 hover:bg-blue-50 transition flex items-center justify-center text-xl text-gray-700 font-bold" onclick="videoSiguiente()">→</button>
+            </div>
+
+            <!-- Listado de Videos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button class="video-item text-left p-4 border-2 border-gray-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition active:border-blue-600 active:bg-blue-100" onclick="cambiarVideo(0)">
+                    <span class="text-xs text-gray-500 font-semibold">Video 1</span>
+                    <h4 class="font-bold text-base mt-2 text-gray-900">Fundamentos de JavaScript</h4>
+                    <p class="text-gray-600 text-sm mt-1">Aprende los conceptos básicos de JavaScript moderno</p>
+                    <span class="text-xs text-gray-500 block mt-2">8 min</span>
+                </button>
+                <button class="video-item text-left p-4 border-2 border-gray-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition" onclick="cambiarVideo(1)">
+                    <span class="text-xs text-gray-500 font-semibold">Video 2</span>
+                    <h4 class="font-bold text-base mt-2 text-gray-900">SQL para Profesionales</h4>
+                    <p class="text-gray-600 text-sm mt-1">Optimización y consultas avanzadas en bases de datos</p>
+                    <span class="text-xs text-gray-500 block mt-2">15 min</span>
+                </button>
+                <button class="video-item text-left p-4 border-2 border-gray-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 transition" onclick="cambiarVideo(2)">
+                    <span class="text-xs text-gray-500 font-semibold">Video 3</span>
+                    <h4 class="font-bold text-base mt-2 text-gray-900">Vue.js Framework Completo</h4>
+                    <p class="text-gray-600 text-sm mt-1">Desarrollo frontend progresivo con Vue.js 3</p>
+                    <span class="text-xs text-gray-500 block mt-2">10 min</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Misión y Visión rediseñada con Tailwind -->
+    <section class="bg-gradient-to-br from-blue-50 to-white py-20 px-5">
+        <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-10">
+            <div class="p-10 bg-white border-2 border-blue-200 rounded-2xl hover:bg-blue-50 hover:border-blue-400 transition hover:-translate-y-1 shadow-md">
+                <h3 class="text-2xl font-bold text-blue-700 mb-4">Nuestra Misión</h3>
+                <p class="text-gray-600 text-base leading-relaxed">
+                    Democratizar la educación tecnológica de calidad, brindando acceso a recursos de aprendizaje de primer nivel para desarrolladores de todas las edades y orígenes.
+                </p>
+            </div>
+            <div class="p-10 bg-white border-2 border-blue-200 rounded-2xl hover:bg-blue-50 hover:border-blue-400 transition hover:-translate-y-1 shadow-md">
+                <h3 class="text-2xl font-bold text-blue-700 mb-4">Nuestra Visión</h3>
+                <p class="text-gray-600 text-base leading-relaxed">
+                    Ser la plataforma educativa líder en Latinoamérica, transformando vidas a través de la tecnología y creando una comunidad global de desarrolladores innovadores.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cursos rediseñado con Tailwind -->
+    <section id="courses" class="bg-white py-20 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider">Cursos Destacados</span>
+                <h2 class="text-5xl font-black mt-4 mb-4 text-gray-900">Aprende con los Mejores Cursos</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Programación básica, intermedia y avanzada diseñada por expertos de la industria
+                </p>
+            </div>
+            <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- Profesores rediseñado con Tailwind -->
+    <section id="teachers" class="gradient-dark py-20 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-wider">Nuestro Equipo</span>
+                <h2 class="text-5xl font-black mt-4 mb-4 text-gray-900">Aprende de Expertos de la Industria</h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Instructores con años de experiencia en empresas líderes de tecnología
+                </p>
+            </div>
+            <div id="teachersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- Blog rediseñado con Tailwind -->
+    <section id="blog" class="bg-white py-20 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-blue-600 text-xs font-bold uppercase tracking-wider">Blog</span>
+                <h2 class="text-5xl font-black mt-4 mb-4 text-gray-900">Artículos y Tutoriales</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Aprende de expertos con consejos, guías y tendencias de la industria
+                </p>
+            </div>
+            <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- Precios rediseñado con Tailwind -->
+    <section id="pricing" class="gradient-dark py-20 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-wider">Planes</span>
+                <h2 class="text-5xl font-black mt-4 mb-4 text-gray-900">Elige tu Plan Perfecto</h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Acceso ilimitado a todos los cursos con suscripción mensual
+                </p>
+            </div>
+            <div id="pricingGrid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- Footer rediseñado con Tailwind -->
+    <footer class="bg-gray-900 border-t border-gray-700 py-16 px-5">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-10">
+                <div>
+                    <h4 class="text-base font-bold mb-4 text-gray-400">Sobre DesployAcademic</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Acerca de</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Carreras</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-base font-bold mb-4 text-gray-400">Producto</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Cursos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Precios</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Certificados</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-base font-bold mb-4 text-gray-400">Comunidad</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Foro</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Discord</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-blue-400 transition text-sm">Twitter</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-base font-bold mb-4 text-gray-400">Contacto</h4>
+                    <p class="text-gray-400 text-sm mb-2">Email: info@deployacademic.com</p>
+                    <p class="text-gray-400 text-sm">Teléfono: +1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2025 DesployAcademic. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal de Login rediseñado con Tailwind -->
+    <div id="loginModal" class="fixed inset-0 bg-black/70 backdrop-blur hidden items-center justify-center p-5 z-50">
+        <div class="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-md">
+            <button class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center" onclick="cerrarModal('login')">✕</button>
+            <h2 class="text-2xl font-bold px-6 py-6 border-b border-gray-700">Iniciar sesión</h2>
+            <form id="loginForm" class="p-6 flex flex-col gap-4" onsubmit="handleLogin(event)">
+                <div class="flex flex-col gap-2">
+                    <label class="font-semibold text-sm text-white">Correo electrónico</label>
+                    <input type="email" id="loginEmail" placeholder="tu@email.com" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" required>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-semibold text-sm text-white">Contraseña</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" required>
+                </div>
+                <button type="submit" class="bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition mt-4">Iniciar sesión</button>
+            </form>
+            <p class="text-center text-sm text-gray-400 pb-6 px-6">¿No tienes cuenta? <button class="text-blue-400 font-semibold hover:text-blue-300" onclick="mostrarModal('signup')">Regístrate aquí</button></p>
+        </div>
+    </div>
+
+    <!-- Modal de Registro rediseñado con Tailwind -->
+    <div id="signupModal" class="fixed inset-0 bg-black/70 backdrop-blur hidden items-center justify-center p-5 z-50">
+        <div class="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-md">
+            <button class="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center" onclick="cerrarModal('signup')">✕</button>
+            <h2 class="text-2xl font-bold px-6 py-6 border-b border-gray-700">Regístrate Aquí</h2>
+            <form id="signupForm" class="p-6 flex flex-col gap-4" onsubmit="handleSignup(event)">
+                <div class="flex flex-col gap-2">
+                    <label class="font-semibold text-sm text-white">Nombre completo</label>
+                    <input type="text" id="signupName" placeholder="Tu nombre" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" required>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-semibold text-sm text-white">Correo electrónico</label>
+                    <input type="email" id="signupEmail" placeholder="tu@email.com" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" required>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-semibold text-sm text-white">Contraseña</label>
+                    <input type="password" id="signupPassword" placeholder="••••••••" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" required>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-semibold text-sm text-white">Plan</label>
+                    <select id="signupPlan" class="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 cursor-pointer" required>
+                        <option value="gratuito">Gratuito - Gratis</option>
+                        <option value="profesional" selected>Profesional - $9.99/mes</option>
+                        <option value="empresarial">Empresarial - $29.99/mes</option>
+                    </select>
+                </div>
+                <button type="submit" class="bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition mt-4">Crear Cuenta</button>
+            </form>
+            <p class="text-center text-sm text-gray-400 pb-6 px-6">¿Ya tienes cuenta? <button class="text-blue-400 font-semibold hover:text-blue-300" onclick="mostrarModal('login')">Inicia sesión</button></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
