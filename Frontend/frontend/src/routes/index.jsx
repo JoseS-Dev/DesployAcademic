@@ -100,55 +100,33 @@ export const router = createBrowserRouter([
     children: [
       // Ruta de inicio (pública)
       { 
-        index: true, 
-        element: <HomePage />
+        index: true, element: <HomePage />
       },
       
       // Rutas de autenticación
       {
-        path: 'login',
-        element: <LoginPage />
+        path: 'login', element: <LoginPage />
       },
       {
-        path: 'registro',
-        element: <SignupPage />
+        path: 'registro', element: <SignupPage />
       },
-      
-      // Rutas protegidas
       {
-        element: (
-          <ProtectedRoute>
-            <ProtectedLayout />
-          </ProtectedRoute>
-        ),
-        children: [
-          {
-            path: 'dashboard',
-            element: <Dashboard />
-          },
-          {
-            path: 'cursos',
-            element: <Cursos />
-          },
-          {
-            path: 'perfil',
-            element: <Perfil />
-          },
-          {
-            path: 'suscripcion',
-            element: <Suscripcion />
-          },
-          {
-            path: 'curso/:id',
-            element: <CursoDetalle />
-          }
-        ]
+        path: 'dashboard', element: <Dashboard />
       },
+      {
+        path: 'cursos', element: <Cursos />
+      },
+      {
+        path: 'perfil', element: <Perfil />
+      },
+      { path: 'suscripcion', element: <Suscripcion /> 
+
+      },
+      { path: 'curso/:id', element: <CursoDetalle /> },
       
       // Ruta comodín para manejar rutas no encontradas
       {
-        path: '*',
-        element: <Navigate to="/" replace />
+        path: '*', element: <Navigate to="/" replace />
         
       }
     ]
