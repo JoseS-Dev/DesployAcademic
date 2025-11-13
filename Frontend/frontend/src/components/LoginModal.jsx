@@ -18,12 +18,12 @@ const LoginModal = ({ isOpen, onClose, redirectTo = '/' }) => {
               (location.state?.from?.pathname || 
                (typeof location.state?.from === 'string' ? location.state.from : '/'));
   
-  // Redirigir si el usuario ya está autenticado
+  // Eliminar temporalmente la lógica de redirección para depuración
   useEffect(() => {
-    if (usuarioActual) {
-      navigate(from, { replace: true });
-    }
-  }, [usuarioActual, from, navigate]);
+    console.log('Estado de usuario:', usuarioActual);
+    console.log('Modal abierto:', isOpen);
+    console.log('Redirigir a:', from);
+  }, [usuarioActual, from, isOpen]);
 
   useEffect(() => {
     // Reset form when modal is opened/closed
@@ -134,25 +134,25 @@ const LoginModal = ({ isOpen, onClose, redirectTo = '/' }) => {
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
     >
       <div 
-        className="bg-white rounded-xl p-8 w-full max-w-md shadow-2xl"
+        className="bg-white rounded-xl p-8 w-full max-w-md shadow-2xl border border-gray-300"
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center"
+          className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 text-2xl w-8 h-8 flex items-center justify-center"
           onClick={onClose}
         >
           ✕
         </button>
-        <h2 className="text-2xl font-bold px-6 py-6 border-b border-gray-700 text-white">Iniciar sesión</h2>
+        <h2 className="text-2xl font-bold px-6 py-6 border-b border-gray-300 text-gray-800">Iniciar sesión</h2>
         <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
           {errors.form && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-300 text-sm p-3 rounded-lg">
+            <div className="bg-red-100 border border-red-500 text-red-700 text-sm p-3 rounded-lg">
               {errors.form}
             </div>
           )}
           
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="font-semibold text-sm text-white">
+            <label htmlFor="email" className="font-semibold text-sm text-gray-700">
               Correo electrónico
             </label>
             <input
@@ -162,37 +162,20 @@ const LoginModal = ({ isOpen, onClose, redirectTo = '/' }) => {
               value={formData.email}
               onChange={handleChange}
               placeholder="tu@email.com"
-              className={`px-3 py-2 bg-gray-800 border ${
-                errors.email ? 'border-red-500' : 'border-gray-700'
-              } rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-colors`}
+              className={`px-3 py-2 bg-white border ${
+                errors.email ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-colors`}
               disabled={isSubmitting}
             />
             {errors.email && (
-              <p className="text-red-400 text-sm mt-1">{errors.email}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
             )}
           </div>
           
           <div className="flex flex-col gap-2">
-            <div className="flex justify-between items-center">
-              <label htmlFor="password" className="font-semibold text-sm text-white">
-                Contraseña
-              </label>
-              <button 
-                onClick={() => navigate(-1)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                className="text-blue-400 text-xs hover:text-blue-300 transition-colors"
-                onClick={() => {}}
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
-            </div>
+            <label htmlFor="password" className="font-semibold text-sm text-gray-700">
+              Contraseña
+            </label>
             <input
               id="password"
               name="password"
@@ -200,13 +183,13 @@ const LoginModal = ({ isOpen, onClose, redirectTo = '/' }) => {
               value={formData.password}
               onChange={handleChange}
               placeholder="••••••••"
-              className={`px-3 py-2 bg-gray-800 border ${
-                errors.password ? 'border-red-500' : 'border-gray-700'
-              } rounded-lg text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-colors`}
+              className={`px-3 py-2 bg-white border ${
+                errors.password ? 'border-red-500' : 'border-gray-300'
+              } rounded-lg text-gray-800 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-colors`}
               disabled={isSubmitting}
             />
             {errors.password && (
-              <p className="text-red-400 text-sm mt-1">{errors.password}</p>
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
             )}
           </div>
           
@@ -227,9 +210,9 @@ const LoginModal = ({ isOpen, onClose, redirectTo = '/' }) => {
             )}
           </button>
         </form>
-        <p className="text-center text-sm text-gray-400 pb-6 px-6">
+        <p className="text-center text-sm text-gray-500 pb-6 px-6">
           ¿No tienes cuenta?{' '}
-          <button className="text-blue-400 font-semibold hover:text-blue-300" onClick={onSwitchToSignup}>
+          <button className="text-blue-500 font-semibold hover:text-blue-400">
             Regístrate aquí
           </button>
         </p>
