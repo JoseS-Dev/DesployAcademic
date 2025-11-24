@@ -4,6 +4,7 @@ import { userRoute } from '../../modules/Auth/Users/users.route.mjs';
 import { instructorRoute } from '../../modules/Auth/Instructor/instructor.route.mjs';
 import { courseRoute } from '../../modules/Courses/course/course.route.mjs';
 import { sectionRoute } from '../../modules/Courses/sections_course/section.route.mjs';
+import { lessonRoute } from '../../modules/Courses/lessons/lesson/lesson.route.mjs';
 
 
 const router = Router();
@@ -15,6 +16,7 @@ export const RoutesModules = {
     },
     courses: {
         course: router.use(`${CONFIG_SERVER.basePath}/courses`, courseRoute),
-        section: router.use(`${CONFIG_SERVER.basePath}/courses/sections`, sectionRoute)
+        section: router.use(`${CONFIG_SERVER.basePath}/courses/sections`, sectionRoute),
+        lesson: router.use(`${CONFIG_SERVER.basePath}/courses/lessons`, lessonRoute)
     }
 }

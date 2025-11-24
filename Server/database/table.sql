@@ -97,7 +97,6 @@ CREATE TABLE lessons_course(
 	title_lesson VARCHAR(255) NOT NULL,
 	description_lesson TEXT,
 	video_url VARCHAR(255),
-	video_duration INT, -- duración en minutos
 	thumbail_url VARCHAR(255),
 	lesson_order INTEGER NOT NULL,
 	lesson_type lessons_type NOT NULL DEFAULT('video'),

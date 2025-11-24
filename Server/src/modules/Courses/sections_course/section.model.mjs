@@ -144,6 +144,13 @@ export class ModelSectionCourse {
             [sectionId]
         );
         if(deletedSection.rowCount === 0) return {error: "No se pudo eliminar la sección"};
+        // A su vez modifico el orden de las demás secciones del curso
+        await db.query(
+            `UPDATE sections_course 
+             SET section_order = section_order - 1
+             WHERE course_id = $1 AND section_order > $2`,
+            [existingSection.rows[0].course_id, existingSection.rows[0].section_order]
+        );
         return {
             message: "Sección eliminada correctamente"
         }
