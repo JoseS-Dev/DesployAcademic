@@ -1,4 +1,6 @@
 CREATE TYPE user_role AS ENUM('student', 'admin', 'instructor');
+CREATE TYPE course_type AS ENUM('free', 'premium');
+CREATE TYPE course_level AS ENUM('beginner', 'intermediate', 'advanced');
 
 -- Tabla de usuarios
 CREATE TABLE users(
@@ -54,4 +56,33 @@ CREATE TABLE instructor_followers(
 	desfollowing_at TIMESTAMP,
 	FOREIGN KEY(user_id) REFERENCES users(id),
 	FOREIGN KEY(instructor_id) REFERENCES instructor_profiles(id)
+);
+
+-- Tabla de cursos
+CREATE TABLE courses(
+	id SERIAL PRIMARY KEY,
+	title_course VARCHAR(200) NOT NULL,
+	slug_course VARCHAR(200) UNIQUE NOT NULL,
+	description_course TEXT NOT NULL,
+	short_description VARCHAR(500),
+	price_course DECIMAL(10,2) NOT NULL,
+	level_course course_level NOT NULL DEFAULT('beginner'),
+	type_course course_type NOT NULL DEFAULT('free'),
+	duration_course INT NOT NULL, -- duración en minutos
+	thumbnail_course VARCHAR(255),
+	preview_video VARCHAR(255),
+	is_published BOOLEAN DEFAULT(FALSE),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla de relación entre instructores y cursos
+CREATE TABLE instructor_courses(
+	id SERIAL PRIMARY KEY,
+	instructor_id INT,
+	course_id INT,
+	assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(instructor_id) REFERENCES instructor_profiles(id) ON DELETE CASCADE,
+	FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,
+	UNIQUE(instructor_id, course_id)
 );

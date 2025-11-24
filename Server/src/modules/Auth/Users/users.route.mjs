@@ -1,8 +1,8 @@
 import {Router} from 'express';
 import { ControllerUsers } from './users.controller.mjs';
 import { ModelUsers } from './users.model.mjs';
-import { verifyAuthMiddleware } from '../../../api/middlewares/Auth.mjs';
-import { UploadImageUser } from '../../../api/middlewares/SubImage.mjs';
+import { verifyAuthMiddleware } from '../../../api/middlewares/auth.middleware.mjs';
+import { uploadMiddlewareUsers } from '../../../api/middlewares/multer.middleware.mjs';
 
 const router = Router();
 const controllerUsers = new ControllerUsers({ModelUsers: ModelUsers});
@@ -19,7 +19,7 @@ router.post('/logout/:userId', controllerUsers.LogoutUser);
 // Ruta que verifica si el usuario esta autenticado
 router.post('/verify-auth',verifyAuthMiddleware, controllerUsers.verifyUser);
 // Ruta para actualizar la información de un usuario (Ruta protegida)
-router.patch('/update/:userId', UploadImageUser, controllerUsers.updateUser);
+router.patch('/update/:userId', uploadMiddlewareUsers, controllerUsers.updateUser);
 // Ruta para obtener la información de un usuario por su ID 
 router.get('/:userId', controllerUsers.getUserById);
 // Ruta para que el usuario pueda eliminar su cuenta ( Ruta protegida )

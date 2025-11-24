@@ -14,9 +14,9 @@ app.use(cors());
 app.use(morgan('dev'));
 
 // Rutas estaticas para imagenes y videos
-app.use('/uploads/images', express.static('uploads/images'));
-app.use('/uploads/videos', express.static('uploads/videos'));
-app.use('/uploads/lessons', express.static('uploads/lessons'));
+app.use('/uploads/courses', express.static('uploads/courses'));
+app.use('/uploads/instructors', express.static('uploads/instructors'));
+app.use('/uploads/users', express.static('uploads/users'));
 
 // Rutas
 registerRoutes(app, RoutesModules);

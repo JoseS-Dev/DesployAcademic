@@ -1,6 +1,5 @@
 import { validateDataUser, validateDataLoginUser ,validateDataUpdateUser } from "./users.schema.mjs";
-import { authMiddleware } from "../../../api/middlewares/Auth.mjs";
-import { is } from "zod/v4/locales";
+import { authMiddleware } from "../../../api/middlewares/auth.middleware.mjs";
 
 // Controlador que maneja las operaciones relacionadas con los usuarios
 export class ControllerUsers {
