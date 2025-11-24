@@ -1,5 +1,5 @@
-import {db} from '../../../database/db.mjs';
-import {WithDBConnection} from '../../core/utils/function.mjs';
+import {db} from '../../../../database/db.mjs';
+import {WithDBConnection} from '../../../core/utils/function.mjs';
 import pkg from 'lodash';
 
 const {omit} = pkg;

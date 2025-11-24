@@ -1,7 +1,7 @@
 CREATE TYPE user_role AS ENUM('student', 'admin', 'instructor');
 CREATE TYPE course_type AS ENUM('free', 'premium');
 CREATE TYPE course_level AS ENUM('beginner', 'intermediate', 'advanced');
-
+CREATE TYPE lessons_type AS ENUM('video', 'article', 'quiz');
 -- Tabla de usuarios
 CREATE TABLE users(
 	id SERIAL PRIMARY KEY,
@@ -74,6 +74,53 @@ CREATE TABLE courses(
 	is_published BOOLEAN DEFAULT(FALSE),
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+--Tabla de secciones del curso
+CREATE TABLE sections_course(
+	id SERIAL PRIMARY KEY,
+	course_id INT,
+	title_section VARCHAR(255) NOT NULL,
+	description_section TEXT,
+	section_order INTEGER NOT NULL,
+	is_published BOOLEAN DEFAULT(FALSE),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE
+	UNIQUE(course_id, section_order)
+);
+
+-- Tabla de lecciones del curso
+CREATE TABLE lessons_course(
+	id SERIAL PRIMARY KEY,
+	section_id INT,
+	title_lesson VARCHAR(255) NOT NULL,
+	description_lesson TEXT,
+	video_url VARCHAR(255),
+	video_duration INT, -- duración en minutos
+	thumbail_url VARCHAR(255),
+	lesson_order INTEGER NOT NULL,
+	lesson_type lessons_type NOT NULL DEFAULT('video'),
+	is_preview BOOLEAN DEFAULT(FALSE),
+	is_published BOOLEAN DEFAULT(FALSE),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(section_id) REFERENCES sections_course(id) ON DELETE CASCADE,
+	UNIQUE(section_id, lesson_order)
+
+);
+
+-- Tabla de recursos adicionales para lecciones
+CREATE TABLE resources_lesson(
+	id SERIAL PRIMARY KEY,
+	lesson_id INT,
+	title_resource VARCHAR(255) NOT NULL,
+	file_url VARCHAR(255) NOT NULL,
+	file_type VARCHAR(100),
+	file_size INT, -- tamaño en KB
+	downloadable BOOLEAN DEFAULT(TRUE),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(lesson_id) REFERENCES lessons_course(id) ON DELETE CASCADE
 );
 
 -- Tabla de relación entre instructores y cursos

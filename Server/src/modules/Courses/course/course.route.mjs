@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import { ControllerCourses } from './course.controller.mjs';
 import { ModelCourses } from './course.model.mjs';
-import { uploadmiddlewareCourses } from '../../api/middlewares/multer.middleware.mjs';
+import { uploadmiddlewareCourses } from '../../../api/middlewares/multer.middleware.mjs';
 const router = Router();
 const controllerCourses = new ControllerCourses({ModelCourses: ModelCourses});
 
