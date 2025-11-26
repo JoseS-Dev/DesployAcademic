@@ -35,14 +35,16 @@ export function configureMulter(directory){
 const uploadCourses = path.resolve('uploads/courses');
 const uploadInstructorProfiles = path.resolve('uploads/instructor');
 const uploadUsers = path.resolve('uploads/users');
+const uploadResources = path.resolve('uploads/resources');
 
 const multerCourses = configureMulter(uploadCourses);
 const multerInstructorProfiles = configureMulter(uploadInstructorProfiles);
 const multerUsers = configureMulter(uploadUsers);
-
+const multerResources = configureMulter(uploadResources);
 export const uploadmiddlewareCourses = multerCourses.fields([
     {name: 'thumbnail_course', maxCount: 1},
     {name: 'preview_video', maxCount: 1}
 ]);
 export const uploadMiddlewareInstructor = multerInstructorProfiles.single('profile_picture');
 export const uploadMiddlewareUsers = multerUsers.single('avatar_imagen');
+export const uploadMiddlewareResources = multerResources.single('file_url');
