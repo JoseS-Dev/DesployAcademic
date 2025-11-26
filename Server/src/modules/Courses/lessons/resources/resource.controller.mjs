@@ -44,6 +44,7 @@ export class ResourceController {
         if(!req.file) return res.status(400).json({error: "El archivo del recurso es requerido"});
         const resourceData = {
             ...req.body,
+            lesson_id: parseInt(req.body.lesson_id),
             file_url: req.file.path,
             file_size: parseInt(req.file.size)
         }

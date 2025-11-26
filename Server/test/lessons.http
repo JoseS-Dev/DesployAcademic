@@ -1,61 +1,81 @@
-### obtener todas las lecciones
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdiNGYwN2E0LTA0MmYtNDI5MS1iNTk4LTcwMjgxZDExMzM1MyIsImVtYWlsIjoiam9zZS5zYW50YW5hQGV4YW1wbGUuY29tIiwidXNlcm5hbWUiOiJqb3Nlc2FudGFuYSIsImlhdCI6MTc2MTk0NDMxMywiZXhwIjoxNzYxOTQ3OTEzfQ.abIiiturQP_jOtbG40h4K3TGNUVaEHBJgt88OCXVGnA
+### Método para crear una lección
+POST http://localhost:4300/api/v1/courses/lessons/create
+Content-Type: multipart/form-data; boundary=--CustomBoundary
 
-### Obtener todas las lecciones por sección
-GET http://localhost:4300/api/v1/lessons/section/4dc4ff61-e9f4-4b91-965a-4cda33ae8b60
-Authorization: Bearer {{token}}
-Content-Type: application/json
+----CustomBoundary
+Content-Disposition: form-data; name="title_lesson"
 
-### Obtener una lección por ID
-GET http://localhost:4300/api/v1/lessons/4dc4ff61-e9f4-4b91-965a-4cda33ae8b60
-Authorization: Bearer {{token}}
-Content-Type: application/json
+Lección de prueba
+----CustomBoundary
+Content-Disposition: form-data; name="description_lesson"
 
-### Crear lección con archivos
-POST http://localhost:4300/api/v1/lessons/create
-Authorization: Bearer {{token}}
-Content-Type: multipart/form-data; boundary=WebKitFormBoundary
-
---WebKitFormBoundary
-Content-Disposition: form-data; name="section_id"
-
-0a21a508-0fc9-4ec9-95f8-cb7469649180
---WebKitFormBoundary
-Content-Disposition: form-data; name="title"
-
-Introducción a los despliegues web
---WebKitFormBoundary
-Content-Disposition: form-data; name="description"
-
-En esta lección conocerás los conceptos básicos sobre cómo desplegar un proyecto web.
---WebKitFormBoundary
-Content-Disposition: form-data; name="video_duration"
-
-420
---WebKitFormBoundary
-Content-Disposition: form-data; name="lesson_order"
-
-5
---WebKitFormBoundary
+Esta es una lección de prueba.
+----CustomBoundary
 Content-Disposition: form-data; name="lesson_type"
 
 video
---WebKitFormBoundary
-Content-Disposition: form-data; name="is_preview"
+----CustomBoundary
+Content-Disposition: form-data; name="section_id"
 
-true
---WebKitFormBoundary
-Content-Disposition: form-data; name="is_published"
-
-true
---WebKitFormBoundary
-Content-Disposition: form-data; name="thumbnail"; filename="thumbnail.jpg"
-Content-Type: image/jpeg
-
-< ../uploads/lessons/GxqFj8XO6vd1auheyelGExmOEsk1DHPUEZHutKHG.jpg
---WebKitFormBoundary
-Content-Disposition: form-data; name="video"; filename="intro-despliegues.mp4"
+1
+----CustomBoundary
+Content-Disposition: form-data; name="video_url"; filename="sample_video.mp4"
 Content-Type: video/mp4
 
-< ../uploads\lessons\Estrategias-de-Sincronizacion-de-EntradaSalida-ES.pdf - Google Chrome 2025-03-27 15-00-22.mp4
---WebKitFormBoundary--
+./uploads/sample_video.mp4
+----CustomBoundary
+Content-Disposition: form-data; name="thumbail_url"; filename="thumbnail_image.jpg"
+Content-Type: image/jpeg
+
+./uploads/thumbnail_image.jpg
+----CustomBoundary
+Content-Disposition: form-data; name="lesson_order"
+
+1
+----CustomBoundary----
+
+### Método para obtener todas las lecciones de una seccióne specifica
+GET http://localhost:4300/api/v1/courses/lessons/section/1
+
+### Método para obtener una lección por su ID
+GET http://localhost:4300/api/v1/courses/lessons/lesson/1
+
+### Método para obtener todas las lecciones gratuitas de una sección
+GET http://localhost:4300/api/v1/courses/lessons/section/1/free-lessons
+
+### Método para cambiar el estado de vista de una lección
+PATCH http://localhost:4300/api/v1/courses/lessons/lesson/1/change-free-access
+Content-Type: application/json
+
+{
+    "newStatus": true
+}
+
+### Método para cambiar el estado de publicación de una lección
+PATCH http://localhost:4300/api/v1/courses/lessons/lesson/1/change-status
+Content-Type: application/json
+
+{
+    "newStatus": true
+}
+
+### Método para obtener lecciones por tipo
+GET http://localhost:4300/api/v1/courses/lessons/section/1/lessons-by-type/video
+
+### Método para actualizar una lección
+PATCH http://localhost:4300/api/v1/courses/lessons/lesson/1/update
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+----CustomBoundary
+Content-Disposition: form-data; name="title_lesson"
+
+Lección de prueba actualizada
+----CustomBoundary
+Content-Disposition: form-data; name="thumbail_url"; filename="thumbnail_image_updated.jpg"
+Content-Type: image/jpeg
+
+./uploads/thumbnail_image_updated.jpg
+----CustomBoundary----
+
+### Método para eliminar una lección
+DELETE http://localhost:4300/api/v1/courses/lessons/lesson/1/delete

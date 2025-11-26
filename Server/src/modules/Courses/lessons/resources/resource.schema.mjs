@@ -4,7 +4,7 @@ import {z} from "zod";
 const ResourceSchema = z.object({
     lesson_id: z.number().int().positive(),
     title_resource: z.string().min(1).max(255),
-    file_url: z.string().url(),
+    file_url: z.string().url().optional(),
     file_type: z.enum(['video', 'document', 'audio', 'other']),
     file_size: z.number().int().positive().optional()
 });

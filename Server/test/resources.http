@@ -1,0 +1,47 @@
+### Método para crear un nuevo recurso de una lección
+POST http://localhost:4300/api/v1/courses/lessons/resources/create
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+----CustomBoundary
+Content-Disposition: form-data; name="lesson_id"
+
+2
+----CustomBoundary
+Content-Disposition: form-data; name="title_resource"
+
+Recurso de prueba
+----CustomBoundary
+Content-Disposition: form-data; name="file_url"; filename="recurso.pdf"
+Content-Type: application/pdf
+
+./test/resources/sample.pdf
+----CustomBoundary
+Content-Disposition: form-data; name="file_type"
+
+document
+----CustomBoundary--
+
+### Método para actualizar un recurso de una lección
+PATCH http://localhost:4300/api/v1/courses/lessons/resources/resource/1/update
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+----CustomBoundary
+Content-Disposition: form-data; name="title_resource"
+
+Recurso actualizado de prueba
+----CustomBoundary
+Content-Disposition: form-data; name="file_url"; filename="recurso_actualizado.pdf"
+Content-Type: application/pdf
+
+./test/resources/sample_updated.pdf
+----CustomBoundary----
+
+### Método para obtener todos los recursos de una lección
+GET http://localhost:4300/api/v1/courses/lessons/resources/lesson/2/all
+
+### Método para obtener un recurso de una lección por su ID
+GET http://localhost:4300/api/v1/courses/lessons/resources/resource/1
+
+### Método para eliminar un recurso de una lección por su ID
+DELETE http://localhost:4300/api/v1/courses/lessons/resources/resource/1/delete
+

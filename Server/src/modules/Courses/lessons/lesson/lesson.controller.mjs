@@ -25,7 +25,7 @@ export class ControllerLessonCourse {
     getLessonById = async (req, res) => {
         const {lessonId} = req.params;
         try{
-            const result = await this.ModelLessonCourse.getLessonByID(lessonId);
+            const result = await this.ModelLessonCourse.getLessonById(lessonId);
             if(result.error) return res.status(404).json({error: result.error});
             return res.status(200).json({
                 message: result.message,
@@ -33,6 +33,7 @@ export class ControllerLessonCourse {
             });
         }
         catch(error){
+            console.error(error);
             return res.status(500).json({error: "Error interno del servidor"});
         }
     }
@@ -106,6 +107,7 @@ export class ControllerLessonCourse {
         if(!req.files) return res.status(400).json({error: "Los archivos de la lección son requeridos"});
         const lessonData = {
             ...req.body,
+            section_id: parseInt(req.body.section_id),
             lesson_order: parseInt(req.body.lesson_order),
             video_url: req.files['video_url'] ? req.files['video_url'][0].path : null,
             thumbail_url: req.files['thumbail_url'] ? req.files['thumbail_url'][0].path : null
@@ -135,8 +137,8 @@ export class ControllerLessonCourse {
         if(!req.files) return res.status(400).json({error: "Los archivos de la lección son requeridos"});
         const LessonData = {
             ...req.body,
-            video_url: req.files['video_url'] ? req.files['video_url'][0].path : null,
-            thumbail_url: req.files['thumbail_url'] ? req.files['thumbail_url'][0].path : null
+            video_url: req.files['video_url'] ? req.files['video_url'][0].path : undefined,
+            thumbail_url: req.files['thumbail_url'] ? req.files['thumbail_url'][0].path : undefined
         }
         const {lessonId} = req.params;
         const validation = validateLessonCourseUpdateData(LessonData);

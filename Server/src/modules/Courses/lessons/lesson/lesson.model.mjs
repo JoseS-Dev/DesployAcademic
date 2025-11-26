@@ -25,7 +25,7 @@ export class ModelLessonCourse {
     });
 
     // Método para obtener una lección por su ID
-    getLessonById = WithDBConnection(async (lessonId) => {
+    static getLessonById = WithDBConnection(async (lessonId) => {
         if(!lessonId) return {error: "El ID de la lección es requerido"};
         // Se verifica que exista la lección
         const existingLesson = await db.query(

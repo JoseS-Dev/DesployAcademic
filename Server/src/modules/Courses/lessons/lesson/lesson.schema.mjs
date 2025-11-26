@@ -5,8 +5,8 @@ const SchemaLessonCourse = z.object({
     section_id: z.number().int().positive(),
     title_lesson: z.string().min(3).max(100),
     description_lesson: z.string().min(10).max(500),
-    video_url: z.string().url(),
-    thumbail_url: z.string().url(),
+    video_url: z.string().url().optional(),
+    thumbail_url: z.string().url().optional(),
     lesson_order: z.number().int().min(1),
     lesson_type: z.enum(['video', 'quiz', 'article']),
 });

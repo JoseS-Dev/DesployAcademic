@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import { ControllerLessonCourse } from './lesson.controller.mjs';
 import { ModelLessonCourse } from './lesson.model.mjs';
+import { uploadMiddlewareLessons } from '../../../../api/middlewares/multer.middleware.mjs';
 
 const router = Router();
 const controllerLessonCourse = new ControllerLessonCourse({ModelLessonCourse: ModelLessonCourse});
@@ -19,9 +20,9 @@ router.patch('/lesson/:lessonId/change-free-access', controllerLessonCourse.togg
 // Ruta para obtener las lecciones según su tipo
 router.get('/section/:sectionId/lessons-by-type/:type', controllerLessonCourse.getLessonsByType);
 // Ruta para crear una nueva lección en una sección
-router.post('/create', controllerLessonCourse.createLessonCourse);
+router.post('/create',uploadMiddlewareLessons, controllerLessonCourse.createLessonCourse);
 // Ruta para actualizar una lección
-router.patch('/lesson/:lessonId/update', controllerLessonCourse.updateLessonCourse);
+router.patch('/lesson/:lessonId/update', uploadMiddlewareLessons, controllerLessonCourse.updateLessonCourse);
 // Ruta para eliminar una lección
 router.delete('/lesson/:lessonId/delete', controllerLessonCourse.deleteLessonCourse);
 
