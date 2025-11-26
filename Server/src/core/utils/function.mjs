@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { verifyDBConnection } from "../../../database/db.mjs"
+import { verifyDBConnection, db } from "../../../database/db.mjs"
 // Functión para la validación si se conecto a la base de datos
 export const WithDBConnection = (fn) => {
     return async (...args) => {
@@ -30,4 +30,15 @@ export function registerRoutes(app, routes) {
             });
         }
     });
+}
+
+// Función para los seed para cargar los mocks dependiendo de la tabla
+export async function getSeedFunctionByTable(tableName, mock){
+    for(const item of mock){
+        const columns = Object.keys(item).join(', ');
+        const values = Object.values(item);
+        const placeholders = values.map((_, index) => `$${index + 1}`).join(', ');
+        const query = `INSERT INTO ${tableName} (${columns}) VALUES (${placeholders})`;
+        await db.query(query, values);
+    }
 }
