@@ -17,8 +17,10 @@ export class ModelCourses {
         if(instructor.rowCount === 0) return {error: "No se encontró un instructor con ese ID"};
         // Si existe, se obtienen sus cursos
         const courses = await db.query(
-            `SELECT C.*, CI.instructor_id FROM courses C
+            `SELECT C.*,CA.name_categorie, CI.instructor_id FROM courses C
             JOIN instructor_courses CI ON C.id = CI.course_id
+            JOIN categorie_courses CC ON C.id = CC.course_id
+            JOIN categories CA ON CC.categorie_id = CA.id
             WHERE CI.instructor_id = $1`,
             [instructorId]
         );
@@ -84,7 +86,7 @@ export class ModelCourses {
     // Método para crear un nuevo curso
     static createCourse = WithDBConnection(async (courseData) => {
         if(!courseData) return {error: "No se proporcionaron datos para el curso"};
-        const {instructor_id, ...courseFields} = courseData;
+        const {instructor_id, categorie_id, ...courseFields} = courseData;
         // Se verifica si el instructor existe
         const instructor = await db.query(
             `SELECT * FROM instructor_profiles WHERE id = $1`,
@@ -110,6 +112,12 @@ export class ModelCourses {
             [instructor_id, newCourse.rows[0].id]
         );
         if(relation.rowCount === 0) return {error: "No se pudo relacionar el curso con el instructor"};
+        // Una vez creado se relaciona con la categoria
+        const relationCategorie = await db.query(
+            `INSERT INTO categorie_courses (categorie_id, course_id) VALUES ($1, $2)`,
+            [categorie_id, newCourse.rows[0].id]
+        );
+        if(relationCategorie.rowCount === 0) return {error: "No se pudo relacionar el curso con la categoria"};
         return {
             course: newCourse.rows[0],
             message: "Curso creado exitosamente"

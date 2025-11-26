@@ -132,3 +132,39 @@ CREATE TABLE instructor_courses(
 	FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,
 	UNIQUE(instructor_id, course_id)
 );
+
+-- Tabla de reseñas de cursos
+CREATE TABLE reviews_course(
+	id SERIAL PRIMARY KEY,
+	course_id INT,
+	user_id INT,
+	rating INT CHECK(rating >= 1 AND rating <= 5),
+	title_review VARCHAR(100) NOT NULL,
+	comment_review TEXT NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,
+	FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+	UNIQUE(course_id, user_id)
+);
+
+-- Tabla de categorias de cursos
+CREATE TABLE categories_course(
+	id SERIAL PRIMARY KEY,
+	name_category VARCHAR(100) NOT NULL,
+	slug_category VARCHAR(100) UNIQUE NOT NULL,
+	description_category TEXT,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla de relación entre cursos y categorias
+CREATE TABLE course_categories(
+	id SERIAL PRIMARY KEY,
+	course_id INT,
+	category_id INT,
+	assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,
+	FOREIGN KEY(category_id) REFERENCES categories_course(id) ON DELETE CASCADE,
+	UNIQUE(course_id, category_id)
+);

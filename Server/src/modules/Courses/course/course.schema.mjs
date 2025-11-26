@@ -3,6 +3,7 @@ import {z} from "zod";
 // Defino el esquema de validación para un curso
 const SchemaCourse = z.object({
     instructor_id: z.number().int().positive(),
+    categorie_id: z.number().int().positive(),
     title_course: z.string().min(3).max(100),
     slug_course: z.string().min(3).max(100),
     description_course: z.string().min(10).max(500),
