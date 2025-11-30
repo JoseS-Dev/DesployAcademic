@@ -8,7 +8,7 @@ import { lessonRoute } from '../../modules/Courses/lessons/lesson/lesson.route.m
 import { resourceRoute } from '../../modules/Courses/lessons/resources/resource.route.mjs';
 import { reviewRoute } from '../../modules/Reviews/review.route.mjs';
 import { categorieRoute } from '../../modules/Categories/categories/categorie.route.mjs';
-
+import { enrollmentRouter } from '../../modules/Enrollment/enrollment.route.mjs';
 
 const router = Router();
 
@@ -26,5 +26,8 @@ export const RoutesModules = {
     },
     categories: {
         categorie: router.use(`${CONFIG_SERVER.basePath}/categories`, categorieRoute)
+    },
+    enrollment: {
+        enrollment: router.use(`${CONFIG_SERVER.basePath}/enrollments`, enrollmentRouter)
     }
 }

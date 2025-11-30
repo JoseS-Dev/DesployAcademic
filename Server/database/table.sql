@@ -168,3 +168,17 @@ CREATE TABLE course_categories(
 	FOREIGN KEY(category_id) REFERENCES categories_course(id) ON DELETE CASCADE,
 	UNIQUE(course_id, category_id)
 );
+
+-- Tabla de relación para el desarrollo de un usuario en un curso
+CREATE TABLE user_course_enrollment(
+	id SERIAL PRIMARY KEY,
+	user_id INT,
+	course_id INT,
+	enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	progress_percentage DECIMAL(5,2) DEFAULT 0.00,
+	is_completed BOOLEAN DEFAULT(FALSE),
+	completed_at TIMESTAMP,
+	FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,
+	UNIQUE(user_id, course_id)
+);
