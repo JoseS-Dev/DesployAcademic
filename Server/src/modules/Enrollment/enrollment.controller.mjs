@@ -1,4 +1,4 @@
-import { validateEnrollment, validateEnrollmentUpdate } from "./enrollment.schema.mjs";
+import { validateEnrollment } from "./enrollment.schema.mjs";
 
 // Controlador para manejar las inscripciones de estudiantes en cursos
 export class EnrollmentController{
@@ -26,7 +26,7 @@ export class EnrollmentController{
     getEnrollmentByUser = async (req, res) => {
         const {userId} = req.params;
         try{
-            const result = await this.EnrollmentModel.getEnrollmentByUser(Number(userId));
+            const result = await this.EnrollmentModel.getEnrollmentsByUser(Number(userId));
             if(result.error) return res.status(404).json({error: result.error});
             return res.status(200).json({
                 enrollments: result.enrollments,
@@ -93,29 +93,6 @@ export class EnrollmentController{
         }
     }
 
-    // Métod para actualizar los datos de inscripción de un estudiante en un curso
-    updateEnrollment = async (req, res) => {
-        const {userId, courseId} = req.params;
-        const validation = validateEnrollmentUpdate(req.body);
-        try{
-            if(!validation.success){
-                return res.status(400).json({
-                    error: "Datos de actualización inválidos",
-                    details: validation.error
-                });
-            }
-            const result = await this.EnrollmentModel.updateEnrollment(
-                validation.data, Number(userId), Number(courseId)
-            );
-            if(result.error) return res.status(400).json({error: result.error});
-            return res.status(200).json({
-                message: result.message
-            });
-        }
-        catch(error){
-            return res.status(500).json({error: "Error interno del servidor"});
-        }
-    }
 
     // Método para desinscribir a un estudiante de un curso
     deleteEnrollment = async (req, res) => {

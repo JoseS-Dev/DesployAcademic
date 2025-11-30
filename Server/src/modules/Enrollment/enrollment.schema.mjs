@@ -16,9 +16,3 @@ export function validateEnrollment(data){
     if(!data) throw new Error("No data provided for enrollment validation");
     return EnrollmentSchema.safeParse(data);
 }
-
-// Defino la función que valida los datos de incripción a la hora de actualizar el progreso
-export function validateEnrollmentUpdate(data){
-    if(!data) throw new Error("No data provided for enrollment update validation");
-    return EnrollmentSchema.partial().safeParse(data);
-}

@@ -138,46 +138,7 @@ export class EnrollmentModel{
         }
     });
 
-    // Método para actualizar la inscripción de un estudiante en un curso
-    static updateEnrollment = WithDBConnection(async(userId, courseId, dataUpdate) => {
-        if(!dataUpdate) return {error: "No se proporcionaron datos para la actualización de la inscripción"};
-        const allowedFields = ['progress_percentage', 'completed_at'];
-        const fieldsToUpdate = {};
-        for(const field of allowedFields){
-            if(dataUpdate[field] !== undefined){
-                fieldsToUpdate[field] = dataUpdate[field];
-            }
-        }
-        // Se verifica que el usuario este inscrito en el curso
-        const existingenrollment = await db.query(
-            `SELECT * FROM user_course_enrollment WHERE user_id = $1 AND course_id = $2`,
-            [dataUpdate.user_id, dataUpdate.course_id]
-        );
-        if(existingenrollment.rowCount === 0) return {
-            error: "El estudiante no está inscrito en este curso"
-        }
-        // Si existe, se actualizan los campos proporcionados
-        const fields = [];
-        const values = [];
 
-        Object.entries(fieldsToUpdate).forEach(([key, value], index) => {
-            fields.push(`${key} = $${index + 1}`);
-            values.push(value);
-        });
-        values.push(dataUpdate.user_id);
-        values.push(dataUpdate.course_id);
-        const updatedEnrollment = await db.query(
-            `UPDATE user_course_enrollment SET ${fields.join(', ')}
-            WHERE user_id = $${values.length - 1} AND course_id = $${values.length}`,
-            values
-        );
-        if(updatedEnrollment.rowCount === 0) return {
-            error: "No se pudo actualizar la inscripción del estudiante en el curso"
-        };
-        return {
-            message: "Inscripción del estudiante actualizada exitosamente"
-        }
-    });
 
     // Método para eliminar la inscripción de un estudiante en un curso
     static deleteEnrollment = WithDBConnection(async(userId, courseId) => {

@@ -7,17 +7,15 @@ const enrollmentController = new EnrollmentController({EnrollmentModel});
 
 // Rutas para manejar las inscripciones de estudiantes en cursos
 // Ruta para obtener todos los estudiantes inscritos en un curso especifico
-router.get('/course/:courseId', enrollmentController.getEnrollmentsByCourse);
+router.get('/course/:courseId/students', enrollmentController.getEnrollmentsByCourse);
 // Ruta para obtener todos los cursos en los que un estudiante está inscrito
-router.get('/user/:userId', enrollmentController.getEnrollmentByUser);
+router.get('/user/:userId/courses', enrollmentController.getEnrollmentByUser);
 // Ruta para obtener el progreso de un estudiante en especifico
 router.get('/user/:userId/course/:courseId/enrollment', enrollmentController.getEnrollmentById);
 // Ruta para actualizar el progreso de un estudiante en un curso
 router.patch('/user/:userId/course/:courseId/progress', enrollmentController.updateEnrollmentProgress);
 // Ruta para inscribir a un estudiante en un curso
 router.post('/enroll/create', enrollmentController.enrollStudentInCourse);
-// Ruta para actualizar la inscripción de un estudiante en un curso
-router.patch('/user/:userId/course/:courseId/update', enrollmentController.updateEnrollment);
 // Ruta para eliminar la inscripción de un estudiante en un curso
 router.delete('/user/:userId/course/:courseId/delete', enrollmentController.deleteEnrollment);
 
