@@ -2,34 +2,37 @@
 GET http://localhost:4300/api/v1/auth/verify-token
 
 ### Registrar usuario
-POST http://localhost:4300/api/v1/auth/register
+POST http://localhost:4300/api/v1/users/register
 Content-Type: application/json
 
 {
     "name_user": "Jose S. Santana",
-    "email_user": "profesor@example.com",
-    "password_hash": "securePassword123",
-    "username": "ProfesorJSantana",
-    "rol_user": "instructor"
+    "email_user": "joseasantana05@gmail.com",
+    "password_user": "JSa06...",
+    "username": "JoseS-Dev",
+    "role_user": "student"
 }
 
 ### Login usuario
-POST http://localhost:4300/api/v1/auth/login
+POST http://localhost:4300/api/v1/users/login
 Content-Type: application/json
 
 {
-    "email_user": "jose.santana@example.com",
-    "password_hash": "securePassword123"
+    "email_user": "joseasantana05@gmail.com",
+    "password_user": "JSa06..."
 }
 
 ### Cerrar sesión
-POST http://localhost:4300/api/v1/auth/logout
+POST http://localhost:4300/api/v1/users/logout/2
+
+### Eliminar usuario
+DELETE http://localhost:4300/api/v1/users/delete/1
 
 ### Obtener información del usuario
-GET http://localhost:4300/api/v1/auth/me
+GET http://localhost:4300/api/v1/users/2
 
 ### Actualizar información del usuario
-PATCH http://localhost:4300/api/v1/auth/update
+PATCH http://localhost:4300/api/v1/users/update/2
 Content-Type: multipart/form-data; boundary=--CustomBoundary
 
 
@@ -38,18 +41,18 @@ Content-Disposition: form-data; name="name_user"
 
 Jose S. Santana
 ----CustomBoundary
-Content-Disposition: form-data; name="avatar_url"; filename="profile.jpg"
+Content-Disposition: form-data; name="avatar_imagen"; filename="profile.jpg"
 Content-Type: image/jpeg
 
 ./uploads/profile.jpg
 ----CustomBoundary
-Content-Disposition: form-data; name="bio"
-
-Aspiring developer with a passion for learning and creating innovative solutions.
-----CustomBoundary
 Content-Disposition: form-data; name="username"
 
 josesantana_dev
+----CustomBoundary
+Content-Disposition: form-data; name="phone_user"
+
+123-456-7890
 ----CustomBoundary----
 
 

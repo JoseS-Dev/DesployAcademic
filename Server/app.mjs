@@ -2,12 +2,8 @@ import express, { json } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { CONFIG_SERVER } from './config/config.mjs';
-import { RouteAuth } from './api/RouteAuth.mjs';
-import { RouteCourses } from './api/RouteCourses.mjs';
-import { RouteCategory } from './api/RouteCategory.mjs';
-import { RouteInstructors } from './api/RouteInstructors.mjs';
-import { RouteLessons } from './api/RouteLessons.mjs';
-import { RouteCourseSections } from './api/RouteCourseSections.mjs';
+import { RoutesModules} from './src/api/Route/route.modules.mjs';
+import { registerRoutes } from './src/core/utils/function.mjs';
 
 
 // Inicio servidor
@@ -18,17 +14,13 @@ app.use(cors());
 app.use(morgan('dev'));
 
 // Rutas estaticas para imagenes y videos
-app.use('/uploads/images', express.static('uploads/images'));
-app.use('/uploads/videos', express.static('uploads/videos'));
-app.use('/uploads/lessons', express.static('uploads/lessons'));
+app.use('/uploads/courses', express.static('uploads/courses'));
+app.use('/uploads/instructors', express.static('uploads/instructors'));
+app.use('/uploads/users', express.static('uploads/users'));
 
 // Rutas
-app.use(`${CONFIG_SERVER.basePath}/auth`, RouteAuth);
-app.use(`${CONFIG_SERVER.basePath}/courses`, RouteCourses);
-app.use(`${CONFIG_SERVER.basePath}/categories`, RouteCategory);
-app.use(`${CONFIG_SERVER.basePath}/instructors`, RouteInstructors);
-app.use(`${CONFIG_SERVER.basePath}/lessons`, RouteLessons);
-app.use(`${CONFIG_SERVER.basePath}/sections`, RouteCourseSections);
+registerRoutes(app, RoutesModules);
+
 
 // Escucho Servidor
 if (CONFIG_SERVER.node !== 'test' || CONFIG_SERVER.node !== 'production') {

@@ -1,0 +1,28 @@
+### Método para inscribir a un usuario en un curso
+POST http://localhost:4300/api/v1/enrollments/enroll/create
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "course_id": 2
+}
+
+### Método para obtener todos los estudiantes inscritos en un curso
+GET http://localhost:4300/api/v1/enrollments/course/2/students
+
+### Método para obtener todos los cursos en los que un usuario está inscrito
+GET http://localhost:4300/api/v1/enrollments/user/1/courses
+
+### Método para obtener el estado de inscripción de un usuario en un curso
+GET http://localhost:4300/api/v1/enrollments/user/1/course/2/enrollment
+
+### Método para cambiar el progreso de un usuario en un curso
+PATCH http://localhost:4300/api/v1/enrollments/user/1/course/2/progress
+Content-Type: application/json
+
+{
+    "progressPercentage": 100
+}
+
+### Método para desinscribir a un usuario de un curso
+DELETE http://localhost:4300/api/v1/enrollments/user/1/course/2/delete

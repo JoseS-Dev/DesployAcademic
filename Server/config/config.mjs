@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config();
 // Configuraciones Globales del servidor
 export const CONFIG_SERVER = {

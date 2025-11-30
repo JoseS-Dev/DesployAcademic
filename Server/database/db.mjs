@@ -10,6 +10,7 @@ export const db = new Pool({
     user: CONFIG_DB.user,
     password: CONFIG_DB.password,
     database: CONFIG_DB.database,
+    decimalNumbers: true
 })
 
 // Functión que verifica si se conecto a la db

@@ -1,0 +1,50 @@
+export const mockCourses = [
+  {
+    id: 1,
+    title_course: "Intro to JavaScript",
+    slug_course: "intro-to-javascript",
+    description_course: "Aprende los fundamentos de JavaScript.",
+    short_description: "JavaScript básico para principiantes.",
+    price_course: 0.00,
+    level_course: "beginner",
+    type_course: "free",
+    duration_course: 180,
+    thumbnail_course: "https://example.com/thumbs/js.jpg",
+    preview_video: "https://example.com/previews/js.mp4",
+    is_published: true,
+    created_at: "2023-02-02T10:00:00Z",
+    updated_at: "2023-02-15T10:00:00Z"
+  },
+  {
+    id: 2,
+    title_course: "Advanced Node.js",
+    slug_course: "advanced-nodejs",
+    description_course: "Profundiza en Node.js y desarrollo backend.",
+    short_description: "Node.js avanzado y prácticas profesionales.",
+    price_course: 49.99,
+    level_course: "advanced",
+    type_course: "premium",
+    duration_course: 420,
+    thumbnail_course: "https://example.com/thumbs/node.jpg",
+    preview_video: "https://example.com/previews/node.mp4",
+    is_published: false,
+    created_at: "2024-01-10T09:00:00Z",
+    updated_at: "2024-06-01T12:00:00Z"
+  },
+  {
+    id: 3,
+    title_course: "UI/UX Basics",
+    slug_course: "ui-ux-basics",
+    description_course: "Fundamentos de diseño de interfaces.",
+    short_description: "Diseño centrado en el usuario.",
+    price_course: 19.99,
+    level_course: "intermediate",
+    type_course: "premium",
+    duration_course: 240,
+    thumbnail_course: "https://example.com/thumbs/uiux.jpg",
+    preview_video: "",
+    is_published: true,
+    created_at: "2023-05-05T08:30:00Z",
+    updated_at: "2023-08-20T10:00:00Z"
+  }
+]
