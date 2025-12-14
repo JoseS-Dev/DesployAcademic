@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Suscripcion() {
   const { usuarioActual, checkSubscription } = useAuth();
   const [planActual, setPlanActual] = useState(usuarioActual?.plan || 'gratuito');
   const [subscriptionStatus, setSubscriptionStatus] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const verifySubscription = async () => {
@@ -66,14 +68,14 @@ export default function Suscripcion() {
     }
   ];
 
-  const handleSeleccionarPlan = async (planId) => {
-    // Aquí iría la lógica para procesar el pago
-    console.log('Seleccionado plan:', planId);
-    // Simulación de éxito después de 1.5 segundos
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setPlanActual(planId);
-    // Recargar la página para actualizar el estado de autenticación
-    window.location.reload();
+  const handleSeleccionarPlan = (planId) => {
+    if (planId === 'gratuito') {
+      setPlanActual('gratuito');
+      // lógica para activar plan gratuito
+    } else {
+      // Redirigir a la pasarela de pago
+      navigate('/checkout');
+    }
   };
 
   if (loading) {
