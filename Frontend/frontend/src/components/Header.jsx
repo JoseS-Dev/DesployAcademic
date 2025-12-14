@@ -96,6 +96,12 @@ const Header = () => {
               >
                 Suscripción
               </button>
+              <button
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 transition"
+                onClick={() => navigate('/instructor')}
+              >
+                Panel Instructor
+              </button>
             </div>
           )}
         </div>

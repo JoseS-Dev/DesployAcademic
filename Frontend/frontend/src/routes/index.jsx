@@ -9,6 +9,7 @@ import CursoDetalle from '../pages/CursoDetalle';
 import ErrorPage from '../pages/ErrorPage';
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
+import InstructorPanel from '../pages/InstructorPanel';
 
 // Componente para rutas protegidas
 const ProtectedRoute = ({ children, requireSubscription = false }) => {
@@ -123,11 +124,10 @@ export const router = createBrowserRouter([
 
       },
       { path: 'curso/:id', element: <CursoDetalle /> },
-      
+      { path: 'instructor', element: <InstructorPanel /> },
       // Ruta comodín para manejar rutas no encontradas
       {
         path: '*', element: <Navigate to="/" replace />
-        
       }
     ]
   }

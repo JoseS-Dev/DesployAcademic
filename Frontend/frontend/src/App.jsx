@@ -27,7 +27,7 @@ function App() {
 
   const isAuthenticated = !!usuarioActual;
   const isAuthPage = ['/login', '/registro'].includes(location.pathname);
-  const isProtectedRoute = ['/dashboard', '/cursos', '/perfil', '/suscripcion', '/curso/'].some(
+  const isProtectedRoute = ['/dashboard', '/cursos', '/perfil', '/suscripcion', '/curso/', '/instructor'].some(
     route => location.pathname.startsWith(route)
   );
 
