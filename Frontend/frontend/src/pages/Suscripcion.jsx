@@ -51,16 +51,16 @@ export default function Suscripcion() {
       ],
       limitaciones: [
         'Solo 2 cursos disponibles',
-        'Sin acceso a contenido premium',
+        'Sin acceso a contenido profesional',
         'Sin certificados de finalización'
       ],
       destacado: false
     },
     {
-      id: 'premium',
-      nombre: 'Premium',
+      id: 'profesional',
+      nombre: 'Profesional',
       precio: '6',
-      precioBS: precioBS || '219.00',
+      precioBS: precioBS || '364.63',
       periodo: 'pago único',
       caracteristicas: [
         'Acceso ilimitado a todos los cursos',
@@ -70,7 +70,7 @@ export default function Suscripcion() {
         'Acceso a proyectos prácticos',
         'Nuevos cursos cada mes',
         'Acceso anticipado a contenido exclusivo',
-        'Comunidad premium de estudiantes'
+        'Comunidad profesional de estudiantes'
       ],
       destacado: true
     }
@@ -83,7 +83,7 @@ export default function Suscripcion() {
       alert('Plan gratuito activado');
     } else {
       // Redirigir a la pasarela de pago
-      navigate('/checkout', { state: { plan: 'premium', precio: 6, precioBS: precioBS } });
+      navigate('/checkout', { state: { plan: 'profesional', precio: 6, precioBS: precioBS } });
     }
   };
 
@@ -107,7 +107,7 @@ export default function Suscripcion() {
           </p>
           {tasaBCV && (
             <p className="mt-2 text-sm text-gray-600">
-              Tasa BCV: {tasaBCV} Bs/USD | Precio Premium: ${planes[1].precio} USD ({planes[1].precioBS} Bs)
+              Tasa BCV: {tasaBCV} Bs/USD | Precio Profesional: ${planes[1].precio} USD ({planes[1].precioBS} Bs)
             </p>
           )}
         </div>
@@ -128,7 +128,7 @@ export default function Suscripcion() {
               <div className="p-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.nombre}</h3>
                 <div className="mt-4 flex items-baseline">
-                  {plan.id === 'premium' ? (
+                  {plan.id === 'profesional' ? (
                     <>
                       <span className="text-4xl font-extrabold text-gray-900">
                         ${plan.precio}
@@ -147,7 +147,7 @@ export default function Suscripcion() {
                     </span>
                   )}
                 </div>
-                {plan.id === 'premium' && (
+                {plan.id === 'profesional' && (
                   <p className="text-sm text-gray-600 mt-2">
                     Pago único - Acceso de por vida
                   </p>
@@ -218,7 +218,7 @@ export default function Suscripcion() {
               {[
                 {
                   pregunta: '¿El pago es mensual o único?',
-                  respuesta: 'El plan Premium es un pago único de $6 USD. Una vez pagado, tendrás acceso de por vida a todos los cursos y contenido premium.'
+                  respuesta: 'El plan Profesional es un pago único de $6 USD. Una vez pagado, tendrás acceso de por vida a todos los cursos y contenido profesional.'
                 },
                 {
                   pregunta: '¿Ofrecen reembolsos?',

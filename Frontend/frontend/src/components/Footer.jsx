@@ -7,18 +7,18 @@ const Footer = () => {
             <h4 className="text-base font-bold mb-4 text-gray-400">Sobre DesployAcademic</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition text-sm">
+                <a href="/#vision" className="text-gray-400 hover:text-blue-400 transition text-sm">
                   Acerca de
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition text-sm">
+                <a href="/#blog" className="text-gray-400 hover:text-blue-400 transition text-sm">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition text-sm">
-                  Carreras
+                <a href="mailto:info@desployacademic.com" className="text-gray-400 hover:text-blue-400 transition text-sm">
+                  Contacto
                 </a>
               </li>
             </ul>
@@ -27,18 +27,18 @@ const Footer = () => {
             <h4 className="text-base font-bold mb-4 text-gray-400">Producto</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition text-sm">
+                <a href="/#courses" className="text-gray-400 hover:text-blue-400 transition text-sm">
                   Cursos
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition text-sm">
+                <a href="/#pricing" className="text-gray-400 hover:text-blue-400 transition text-sm">
                   Precios
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-blue-400 transition text-sm">
-                  Certificados
+                <a href="/suscripcion" className="text-gray-400 hover:text-blue-400 transition text-sm">
+                  Suscripción
                 </a>
               </li>
             </ul>

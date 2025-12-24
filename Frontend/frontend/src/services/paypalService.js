@@ -39,7 +39,7 @@ export const paypalService = {
    * @param {string} description - Descripción del pago
    * @returns {Promise<Object>} - Respuesta de la API de PayPal
    */
-  createOrder: async (amount, description = 'Suscripción Premium') => {
+  createOrder: async (amount, description = 'Suscripción Profesional') => {
     try {
       const token = localStorage.getItem('token') || JSON.parse(localStorage.getItem('user') || '{}').token;
       

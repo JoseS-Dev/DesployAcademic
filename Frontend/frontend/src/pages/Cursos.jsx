@@ -221,7 +221,7 @@ export default function Cursos() {
                         to="/suscripcion"
                         className="px-3 py-2 text-xs font-medium text-green-600 hover:text-green-800 border border-green-600 rounded-md hover:bg-green-50 transition"
                       >
-                        Premium
+                        Profesional
                       </Link>
                     )}
                   </div>

@@ -12,9 +12,9 @@ export default function Checkout() {
   const { usuarioActual } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const plan = location.state?.plan || 'premium';
+  const plan = location.state?.plan || 'profesional';
   const precioUSD = location.state?.precio || 6;
-  const precioBS = location.state?.precioBS || '219.00';
+  const precioBS = location.state?.precioBS || '364.63';
 
   const [metodoPago, setMetodoPago] = useState('');
   const [tasaBCV, setTasaBCV] = useState(null);
@@ -197,7 +197,7 @@ export default function Checkout() {
         // Crear orden en Binance
         const binanceOrder = await binanceService.createOrder(
           precioUSD,
-          'Suscripción Premium',
+          'Suscripción Profesional',
           datosPago.walletBinance
         );
         
@@ -304,18 +304,29 @@ export default function Checkout() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <button
-            onClick={() => navigate('/suscripcion')}
-            className="text-blue-600 hover:text-blue-800 mb-4 flex items-center"
-          >
-            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Volver a planes
-          </button>
+          <div className="flex gap-4 mb-4">
+            <button
+              onClick={() => navigate('/suscripcion')}
+              className="text-blue-600 hover:text-blue-800 flex items-center"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Volver a planes
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="text-blue-600 hover:text-blue-800 flex items-center"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Volver al inicio
+            </button>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900">Pasarela de Pago</h1>
           <p className="mt-2 text-gray-600">
-            Plan Premium - ${precioUSD} USD (Pago único - Acceso de por vida)
+            Plan Profesional - ${precioUSD} USD (Pago único - Acceso de por vida)
             {tasaBCV && ` - ${(precioUSD * tasaBCV).toFixed(2)} Bs (Tasa BCV: ${tasaBCV})`}
             {!tasaBCV && ` - ${precioBS} Bs (Tasa BCV)`}
           </p>
@@ -327,7 +338,7 @@ export default function Checkout() {
             <div className="bg-gray-50 p-4 rounded-lg">
               <h3 className="font-semibold text-gray-900 mb-3">Resumen del pedido</h3>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Plan Premium (Pago único)</span>
+                <span className="text-gray-600">Plan Profesional (Pago único)</span>
                 <span className="font-semibold">${precioUSD} USD</span>
               </div>
               {tasaBCV && (
@@ -456,7 +467,7 @@ export default function Checkout() {
                                 value: precioUSD.toString(),
                                 currency_code: 'USD'
                               },
-                              description: 'Suscripción Premium - DesployAcademic'
+                              description: 'Suscripción Profesional - DesployAcademic'
                             }]
                           });
                         }}
@@ -492,9 +503,15 @@ export default function Checkout() {
                           <p className="text-xs text-yellow-800 font-mono break-all">{binanceWallet}</p>
                           <button
                             type="button"
-                            onClick={() => navigator.clipboard.writeText(binanceWallet)}
-                            className="mt-2 text-xs text-yellow-700 hover:text-yellow-900 underline"
+                            onClick={() => {
+                              navigator.clipboard.writeText(binanceWallet);
+                              alert('Billetera copiada');
+                            }}
+                            className="mt-2 text-xs flex items-center text-yellow-700 hover:text-yellow-900 underline"
                           >
+                            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
                             Copiar dirección
                           </button>
                         </div>
@@ -538,16 +555,42 @@ export default function Checkout() {
                       </p>
                       {zelleInfo ? (
                         <>
-                          <p className="text-sm text-green-800 mt-2">
-                            <strong>Email Zelle:</strong> {zelleInfo.email}
+                          <p className="text-sm text-green-800 mt-2 flex items-center">
+                            <strong>Email Zelle:</strong> 
+                            <span className="ml-1 font-mono">{zelleInfo.email}</span>
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(zelleInfo.email);
+                                alert('Email copiado');
+                              }}
+                              className="ml-2 text-green-600 hover:text-green-800"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                              </svg>
+                            </button>
                           </p>
                           <p className="text-sm text-green-800">
                             <strong>Nombre:</strong> {zelleInfo.nombre}
                           </p>
                         </>
                       ) : (
-                        <p className="text-sm text-green-800 mt-2">
-                          <strong>Email Zelle:</strong> pagos@desployacademic.com
+                        <p className="text-sm text-green-800 mt-2 flex items-center">
+                          <strong>Email Zelle:</strong> 
+                          <span className="ml-1 font-mono">pagos@desployacademic.com</span>
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              navigator.clipboard.writeText('pagos@desployacademic.com');
+                              alert('Email copiado');
+                            }}
+                            className="ml-2 text-green-600 hover:text-green-800"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                          </button>
                         </p>
                       )}
                     </div>

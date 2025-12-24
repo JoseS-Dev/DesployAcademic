@@ -151,7 +151,7 @@ const SignupModal = ({ isOpen, onClose, redirectTo = '/', onSwitchToLogin }) => 
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-md relative">
+      <div className="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-md relative max-h-[90vh] overflow-y-auto">
         <button
           className="absolute top-6 right-6 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center"
           onClick={onClose}
@@ -263,13 +263,13 @@ const SignupModal = ({ isOpen, onClose, redirectTo = '/', onSwitchToLogin }) => 
               disabled={isSubmitting}
             >
               <option value="gratuito">Gratuito - Gratis</option>
-              <option value="profesional">Profesional - $9.99/mes</option>
-              <option value="empresarial">Empresarial - $29.99/mes</option>
+              <option value="profesional">Profesional - $6 (pago único)</option>
+
             </select>
             <p className="text-xs text-gray-400 mt-1">
               {formData.plan === 'gratuito' && 'Acceso a contenido básico'}
               {formData.plan === 'profesional' && 'Acceso a todo el contenido y soporte prioritario'}
-              {formData.plan === 'empresarial' && 'Acceso completo para equipos y soporte 24/7'}
+
             </p>
           </div>
           

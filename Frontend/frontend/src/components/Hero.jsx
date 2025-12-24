@@ -18,7 +18,14 @@ const Hero = ({ onSignupClick }) => {
           >
             Comenzar Gratis
           </button>
-          <button className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-bold hover:border-blue-600 hover:text-blue-600 transition">
+          <button 
+            className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-bold hover:border-blue-600 hover:text-blue-600 transition"
+            onClick={() => {
+              const el = document.getElementById('courses');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+              else window.location.hash = 'courses';
+            }}
+          >
             Explorar Cursos
           </button>
         </div>

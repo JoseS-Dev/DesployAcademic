@@ -35,7 +35,8 @@ export const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "Aprende JavaScript moderno desde cero",
-    imagen: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
   },
   {
     id: 2,
@@ -47,7 +48,8 @@ export const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "Hooks, Context y patrones avanzados",
-    imagen: "https://images.unsplash.com/photo-1633356122544-f134324ef6cb?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1633356122544-f134324ef6cb?w=500&h=300&fit=crop",
   },
   {
     id: 3,
@@ -59,7 +61,8 @@ export const cursos = [
     calificacion: 4.8,
     precio: "Incluido",
     descripcion: "Bases de datos relacionales avanzadas",
-    imagen: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
   },
   {
     id: 4,
@@ -71,7 +74,8 @@ export const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "APIs escalables y aplicaciones grandes",
-    imagen: "https://images.unsplash.com/photo-1627873649417-af36141a4016?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1627873649417-af36141a4016?w=500&h=300&fit=crop",
   },
   {
     id: 5,
@@ -83,7 +87,8 @@ export const cursos = [
     calificacion: 4.8,
     precio: "Incluido",
     descripcion: "Framework progresivo completo",
-    imagen: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop",
   },
   {
     id: 6,
@@ -95,7 +100,8 @@ export const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "Containerización y deployes en producción",
-    imagen: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
   },
 ];
 
@@ -143,7 +149,8 @@ export const articulos = [
     fecha: "18 Nov 2024",
     vista: "5 min",
     vistas: "2.3k",
-    excerpt: "Mejora significativamente el rendimiento de tus aplicaciones React con estas prácticas recomendadas...",
+    excerpt:
+      "Mejora significativamente el rendimiento de tus aplicaciones React con estas prácticas recomendadas...",
   },
   {
     id: 2,
@@ -153,7 +160,8 @@ export const articulos = [
     fecha: "16 Nov 2024",
     vista: "8 min",
     vistas: "3.1k",
-    excerpt: "Aprende a containerizar tus aplicaciones y desplegar de forma segura con Docker en producción...",
+    excerpt:
+      "Aprende a containerizar tus aplicaciones y desplegar de forma segura con Docker en producción...",
   },
   {
     id: 3,
@@ -163,7 +171,8 @@ export const articulos = [
     fecha: "14 Nov 2024",
     vista: "7 min",
     vistas: "1.8k",
-    excerpt: "Estrategias y patrones para crear esquemas de bases de datos que crezcan con tu negocio...",
+    excerpt:
+      "Estrategias y patrones para crear esquemas de bases de datos que crezcan con tu negocio...",
   },
 ];
 
@@ -173,12 +182,17 @@ export const planes = [
     precio: "Gratis",
     periodo: "",
     descripcion: "Para explorar y aprender",
-    features: ["5 cursos básicos", "Comunidad de estudiantes", "Certificados básicos", "Acceso limitado"],
+    features: [
+      "5 cursos básicos",
+      "Comunidad de estudiantes",
+      "Certificados básicos",
+      "Acceso limitado",
+    ],
     highlighted: false,
   },
   {
     nombre: "Profesional",
-    precio: "$9.99",
+    precio: "$6",
     periodo: "/mes",
     descripcion: "Para desarrolladores en crecimiento",
     features: [
@@ -193,21 +207,4 @@ export const planes = [
     highlighted: true,
     badge: "Más Popular",
   },
-  {
-    nombre: "Empresarial",
-    precio: "$29.99",
-    periodo: "/mes",
-    descripcion: "Para equipos de desarrollo",
-    features: [
-      "Todo en Profesional",
-      "Cursos exclusivos",
-      "Mentorías 1-on-1",
-      "Sesiones en vivo",
-      "Certificación empresarial",
-      "Soporte 24/7 prioritario",
-      "Acceso API completo",
-    ],
-    highlighted: false,
-  },
 ];
-

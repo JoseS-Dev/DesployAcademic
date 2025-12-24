@@ -471,7 +471,7 @@ export default function CursoDetalle() {
                     onClick={() => navigate('/suscripcion')}
                     className="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
                   >
-                    Ver planes Premium
+                    Ver planes Profesionales
                   </button>
                 </div>
               )}
@@ -480,7 +480,7 @@ export default function CursoDetalle() {
                   onClick={() => navigate('/suscripcion')}
                   className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:from-green-600 hover:to-teal-600"
                 >
-                  Mejorar a Premium
+                  Mejorar a Profesional
                 </button>
               )}
             </div>

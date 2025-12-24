@@ -13,8 +13,8 @@ const Pricing = ({ onSignupClick }) => {
         // Activar plan gratuito
         navigate('/suscripcion');
       } else {
-        // Ir a checkout para plan premium
-        navigate('/checkout', { state: { plan: 'premium', precio: 6 } });
+        // Ir a checkout para plan profesional
+        navigate('/checkout', { state: { plan: 'profesional', precio: 6 } });
       }
     }
   };
@@ -36,8 +36,8 @@ const Pricing = ({ onSignupClick }) => {
       highlighted: false,
     },
     {
-      id: 'premium',
-      nombre: 'Premium',
+      id: 'profesional',
+      nombre: 'Profesional',
       precio: '$6',
       periodo: ' (pago único)',
       descripcion: 'Acceso completo a todos los cursos',

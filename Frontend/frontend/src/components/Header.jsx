@@ -24,7 +24,7 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-12 z-40 bg-white shadow-sm border-b border-gray-200 py-3 px-5 animate-slide-in">
+    <header className="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200 py-3 px-5 animate-slide-in">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-5 flex-wrap">
         {/* Logo */}
         <div className="flex items-center gap-3 flex-shrink-0">
@@ -51,10 +51,10 @@ const Header = () => {
 
         {/* Navegación */}
         <nav className="hidden lg:flex gap-8 text-gray-600 text-sm">
-          <a href="#courses" className="hover:text-blue-600 transition font-medium">Cursos</a>
-          <a href="#teachers" className="hover:text-blue-600 transition font-medium">Profesores</a>
-          <a href="#blog" className="hover:text-blue-600 transition font-medium">Blog</a>
-          <a href="#pricing" className="hover:text-blue-600 transition font-medium">Precios</a>
+          <a href="/#courses" className="hover:text-blue-600 transition font-medium">Cursos</a>
+          <a href="/#teachers" className="hover:text-blue-600 transition font-medium">Profesores</a>
+          <a href="/#blog" className="hover:text-blue-600 transition font-medium">Blog</a>
+          <a href="/#pricing" className="hover:text-blue-600 transition font-medium">Precios</a>
         </nav>
 
         {/* Botones de autenticación */}

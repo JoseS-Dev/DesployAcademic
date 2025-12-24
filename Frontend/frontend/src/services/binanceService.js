@@ -11,7 +11,7 @@ export const binanceService = {
    * @param {string} walletAddress - Dirección de wallet del usuario (opcional)
    * @returns {Promise<Object>} - Respuesta de Binance Pay
    */
-  createOrder: async (amount, description = 'Suscripción Premium', walletAddress = null) => {
+  createOrder: async (amount, description = 'Suscripción Profesional', walletAddress = null) => {
     try {
       const token = localStorage.getItem('token') || JSON.parse(localStorage.getItem('user') || '{}').token;
       
