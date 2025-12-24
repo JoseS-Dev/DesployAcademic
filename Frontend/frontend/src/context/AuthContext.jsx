@@ -210,7 +210,9 @@ export const AuthProvider = ({ children }) => {
     loading,
     error,
     isAuthenticated: !!usuarioActual,
-    isSubscribed: usuarioActual?.plan && usuarioActual.plan !== 'gratis'
+    isSubscribed: usuarioActual?.plan && usuarioActual.plan !== 'gratuito' && usuarioActual.plan !== 'gratis',
+    isInstructor: usuarioActual?.rol === 'instructor' || usuarioActual?.rol === 'admin',
+    isEstudiante: usuarioActual?.rol === 'estudiante' || usuarioActual?.rol === 'cliente' || !usuarioActual?.rol
   };
 
   return (

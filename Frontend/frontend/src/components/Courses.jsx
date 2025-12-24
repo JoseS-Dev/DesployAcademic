@@ -1,14 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { cursos } from '../data';
 
 const Courses = ({ onSignupClick }) => {
   const { usuarioActual } = useAuth();
+  const navigate = useNavigate();
 
   const accionCurso = (id) => {
     if (!usuarioActual) {
       onSignupClick();
     } else {
-      alert(`Accediendo al curso ${id}...`);
+      navigate(`/curso/${id}`);
     }
   };
 
@@ -57,17 +59,27 @@ const Courses = ({ onSignupClick }) => {
                   <span className="text-yellow-500">⭐ {curso.calificacion}</span>
                   <span className="text-blue-600 font-semibold">{curso.precio}</span>
                 </div>
-                <button
-                  className={`w-full py-3 rounded-lg font-semibold transition ${
-                    usuarioActual
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:scale-105'
-                      : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                  }`}
-                  onClick={() => accionCurso(curso.id)}
-                  disabled={!usuarioActual}
-                >
-                  {usuarioActual ? 'Ver curso' : 'Suscríbete para ver'}
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    className={`flex-1 py-3 rounded-lg font-semibold transition ${
+                      usuarioActual
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:scale-105'
+                        : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                    }`}
+                    onClick={() => accionCurso(curso.id)}
+                    disabled={!usuarioActual}
+                  >
+                    {usuarioActual ? 'Ver curso' : 'Inicia sesión'}
+                  </button>
+                  {usuarioActual?.plan === 'gratuito' && (
+                    <button
+                      onClick={() => navigate('/suscripcion')}
+                      className="px-3 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:from-green-600 hover:to-teal-600 text-xs font-semibold"
+                    >
+                      Premium
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -78,4 +90,3 @@ const Courses = ({ onSignupClick }) => {
 };
 
 export default Courses;
-

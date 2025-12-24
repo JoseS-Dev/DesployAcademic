@@ -1,9 +1,60 @@
-import { planes } from '../data';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Pricing = ({ onSignupClick }) => {
-  const elegirPlan = (plan) => {
-    onSignupClick();
+  const { usuarioActual } = useAuth();
+  const navigate = useNavigate();
+
+  const elegirPlan = (planId) => {
+    if (!usuarioActual) {
+      onSignupClick();
+    } else {
+      if (planId === 'gratuito') {
+        // Activar plan gratuito
+        navigate('/suscripcion');
+      } else {
+        // Ir a checkout para plan premium
+        navigate('/checkout', { state: { plan: 'premium', precio: 6 } });
+      }
+    }
   };
+
+  const planes = [
+    {
+      id: 'gratuito',
+      nombre: 'Gratuito',
+      precio: 'Gratis',
+      periodo: '',
+      descripcion: 'Para explorar y aprender',
+      features: [
+        'Acceso limitado a 2 cursos básicos',
+        'Sin certificados',
+        'Sin descarga de materiales',
+        'Soporte por correo (respuesta en 48h)',
+        'Sin acceso a proyectos prácticos'
+      ],
+      highlighted: false,
+    },
+    {
+      id: 'premium',
+      nombre: 'Premium',
+      precio: '$6',
+      periodo: ' (pago único)',
+      descripcion: 'Acceso completo a todos los cursos',
+      features: [
+        'Acceso ilimitado a todos los cursos',
+        'Certificados de finalización',
+        'Descarga de materiales y recursos',
+        'Soporte prioritario 24/7',
+        'Acceso a proyectos prácticos',
+        'Nuevos cursos cada mes',
+        'Acceso anticipado a contenido exclusivo',
+        'Comunidad premium de estudiantes'
+      ],
+      highlighted: true,
+      badge: 'Más Popular',
+    }
+  ];
 
   return (
     <section id="pricing" className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20 px-5 animate-fade-in-up">
@@ -12,10 +63,10 @@ const Pricing = ({ onSignupClick }) => {
           <span className="text-blue-600 text-xs font-bold uppercase tracking-wider">Planes</span>
           <h2 className="text-5xl font-black mt-4 mb-4 text-gray-900">Elige tu Plan Perfecto</h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Acceso ilimitado a todos los cursos con suscripción mensual
+            Acceso ilimitado a todos los cursos con un pago único de por vida
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           {planes.map((plan, idx) => (
             <div
               key={idx}
@@ -26,7 +77,7 @@ const Pricing = ({ onSignupClick }) => {
               } shadow-md animate-fade-in-up`}
             >
               {plan.highlighted && plan.badge && (
-                <div className="absolute -top-3 right-6 bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-4 py-1 rounded-full text-xs font-bold">
+                <div className="absolute -top-3 right-6 bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-1 rounded-full text-xs font-bold">
                   ✨ {plan.badge}
                 </div>
               )}
@@ -40,12 +91,12 @@ const Pricing = ({ onSignupClick }) => {
                 <button
                   className={`w-full py-3 rounded-lg font-semibold mb-6 transition ${
                     plan.highlighted
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:scale-105'
+                      ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white hover:shadow-lg hover:scale-105'
                       : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:scale-105'
                   }`}
-                  onClick={() => elegirPlan(plan.nombre)}
+                  onClick={() => elegirPlan(plan.id)}
                 >
-                  {plan.nombre === 'Empresarial' ? 'Contactar Ventas' : 'Comenzar Ahora'}
+                  {plan.id === 'gratuito' ? 'Comenzar Gratis' : 'Comprar Ahora'}
                 </button>
                 <div className="text-left space-y-3">
                   {plan.features.map((feature, i) => (
@@ -67,4 +118,3 @@ const Pricing = ({ onSignupClick }) => {
 };
 
 export default Pricing;
-

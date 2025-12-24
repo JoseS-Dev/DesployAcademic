@@ -1,80 +1,89 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { bcvAPI } from '../services/bcvAPI';
 
 export default function Suscripcion() {
-  const { usuarioActual, checkSubscription } = useAuth();
+  const { usuarioActual } = useAuth();
   const [planActual, setPlanActual] = useState(usuarioActual?.plan || 'gratuito');
-  const [subscriptionStatus, setSubscriptionStatus] = useState(null);
+  const [tasaBCV, setTasaBCV] = useState(null);
+  const [precioBS, setPrecioBS] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const verifySubscription = async () => {
-      try {
-        const status = await checkSubscription();
-        setSubscriptionStatus(status);
-      } catch (error) {
-        console.error('Error verificando suscripción:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Obtener tasa del BCV (en producción esto vendría de una API)
+    obtenerTasaBCV();
+  }, []);
 
-    verifySubscription();
-  }, [checkSubscription]);
+  const obtenerTasaBCV = async () => {
+    try {
+      setLoading(true);
+      // Usar la API real del BCV
+      const tasaData = await bcvAPI.obtenerTasaBCV();
+      setTasaBCV(tasaData.tasa);
+      const precioEnBs = await bcvAPI.convertirUSDaVES(6);
+      setPrecioBS(precioEnBs);
+    } catch (error) {
+      console.error('Error al obtener tasa BCV:', error);
+      // Tasa por defecto en caso de error
+      setTasaBCV(36.5);
+      setPrecioBS((6 * 36.5).toFixed(2));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const planes = [
     {
       id: 'gratuito',
       nombre: 'Gratuito',
       precio: '0',
+      precioBS: '0',
       periodo: 'por siempre',
       caracteristicas: [
-        'Acceso a cursos básicos',
-        'Contenido de introducción',
-        'Soporte por correo electrónico',
-        'Acceso limitado a recursos'
+        'Acceso limitado a 2 cursos básicos',
+        'Sin certificados',
+        'Sin descarga de materiales',
+        'Soporte por correo (respuesta en 48h)',
+        'Sin acceso a proyectos prácticos',
+        'Contenido de introducción únicamente'
+      ],
+      limitaciones: [
+        'Solo 2 cursos disponibles',
+        'Sin acceso a contenido premium',
+        'Sin certificados de finalización'
       ],
       destacado: false
     },
     {
-      id: 'profesional',
-      nombre: 'Profesional',
-      precio: '9.99',
-      periodo: 'por mes',
+      id: 'premium',
+      nombre: 'Premium',
+      precio: '6',
+      precioBS: precioBS || '219.00',
+      periodo: 'pago único',
       caracteristicas: [
-        'Acceso a todos los cursos',
+        'Acceso ilimitado a todos los cursos',
         'Certificados de finalización',
-        'Soporte prioritario',
+        'Descarga de materiales y recursos',
+        'Soporte prioritario 24/7',
         'Acceso a proyectos prácticos',
-        'Recursos descargables'
+        'Nuevos cursos cada mes',
+        'Acceso anticipado a contenido exclusivo',
+        'Comunidad premium de estudiantes'
       ],
       destacado: true
-    },
-    {
-      id: 'empresarial',
-      nombre: 'Empresarial',
-      precio: '29.99',
-      periodo: 'por mes',
-      caracteristicas: [
-        'Todas las características del plan Profesional',
-        'Acceso para equipos (hasta 5 usuarios)',
-        'Soporte 24/7',
-        'Sesiones de mentoría',
-        'Acceso anticipado a nuevos cursos'
-      ],
-      destacado: false
     }
   ];
 
   const handleSeleccionarPlan = (planId) => {
     if (planId === 'gratuito') {
+      // Lógica para activar plan gratuito
       setPlanActual('gratuito');
-      // lógica para activar plan gratuito
+      alert('Plan gratuito activado');
     } else {
       // Redirigir a la pasarela de pago
-      navigate('/checkout');
+      navigate('/checkout', { state: { plan: 'premium', precio: 6, precioBS: precioBS } });
     }
   };
 
@@ -91,83 +100,107 @@ export default function Suscripcion() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Elige el mejor plan para ti
+            Elige tu Plan
           </h1>
           <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500">
-            Desbloquea todo el potencial de nuestra plataforma con una suscripción.
+            Desbloquea todo el potencial de nuestra plataforma con un pago único.
           </p>
+          {tasaBCV && (
+            <p className="mt-2 text-sm text-gray-600">
+              Tasa BCV: {tasaBCV} Bs/USD | Precio Premium: ${planes[1].precio} USD ({planes[1].precioBS} Bs)
+            </p>
+          )}
         </div>
 
-        {subscriptionStatus && !subscriptionStatus.isActive && (
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-yellow-700">
-                  Tu suscripción actual ha caducado o no está activa. Por favor, actualiza tu plan para continuar disfrutando de todos los beneficios.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-4xl mx-auto">
           {planes.map((plan) => (
             <div 
               key={plan.id}
-              className={`bg-white rounded-lg shadow-md overflow-hidden ${
+              className={`bg-white rounded-lg shadow-lg overflow-hidden relative ${
                 plan.destacado ? 'ring-2 ring-blue-500 transform scale-105' : ''
               }`}
             >
               {plan.destacado && (
-                <div className="bg-blue-600 text-white text-center py-1 text-sm font-medium">
+                <div className="absolute top-0 right-0 bg-gradient-to-r from-green-500 to-teal-500 text-white px-4 py-1 text-xs font-bold rounded-bl-lg">
                   MÁS POPULAR
                 </div>
               )}
               <div className="p-6">
-                <h3 className="text-lg font-medium text-gray-900">{plan.nombre}</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.nombre}</h3>
                 <div className="mt-4 flex items-baseline">
-                  <span className="text-4xl font-extrabold text-gray-900">
-                    ${plan.precio}
-                  </span>
-                  <span className="ml-1 text-lg font-medium text-gray-500">
-                    /{plan.periodo}
-                  </span>
+                  {plan.id === 'premium' ? (
+                    <>
+                      <span className="text-4xl font-extrabold text-gray-900">
+                        ${plan.precio}
+                      </span>
+                      <span className="ml-2 text-lg font-medium text-gray-500">
+                        USD
+                      </span>
+                      <div className="ml-4 text-sm text-gray-600">
+                        <div className="font-semibold">{plan.precioBS} Bs</div>
+                        <div className="text-xs">(Tasa BCV)</div>
+                      </div>
+                    </>
+                  ) : (
+                    <span className="text-4xl font-extrabold text-gray-900">
+                      Gratis
+                    </span>
+                  )}
                 </div>
+                {plan.id === 'premium' && (
+                  <p className="text-sm text-gray-600 mt-2">
+                    Pago único - Acceso de por vida
+                  </p>
+                )}
                 
-                <ul className="mt-6 space-y-4">
-                  {plan.caracteristicas.map((caracteristica, index) => (
-                    <li key={index} className="flex items-start">
-                      <svg className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="ml-3 text-gray-700">{caracteristica}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-6">
+                  <h4 className="text-sm font-semibold text-gray-900 mb-3">Incluye:</h4>
+                  <ul className="space-y-2">
+                    {plan.caracteristicas.map((caracteristica, index) => (
+                      <li key={index} className="flex items-start">
+                        <svg className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-sm text-gray-700">{caracteristica}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {plan.limitaciones && plan.limitaciones.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h4 className="text-sm font-semibold text-red-600 mb-2">Limitaciones:</h4>
+                    <ul className="space-y-1">
+                      {plan.limitaciones.map((limitacion, index) => (
+                        <li key={index} className="flex items-start">
+                          <svg className="h-4 w-4 text-red-500 mr-2 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                          <span className="text-xs text-gray-600">{limitacion}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
                 <div className="mt-8">
                   {planActual === plan.id ? (
                     <button
                       disabled
-                      className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 cursor-not-allowed"
+                      className="w-full flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 cursor-not-allowed"
                     >
                       Plan Actual
                     </button>
                   ) : (
                     <button
                       onClick={() => handleSeleccionarPlan(plan.id)}
-                      className={`w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                      className={`w-full flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition ${
                         plan.id === 'gratuito' 
                           ? 'bg-gray-600 hover:bg-gray-700' 
-                          : 'bg-blue-600 hover:bg-blue-700'
+                          : 'bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600'
                       }`}
                     >
-                      {plan.id === 'gratuito' ? 'Seleccionar' : 'Suscribirse'}
+                      {plan.id === 'gratuito' ? 'Seleccionar Plan Gratuito' : 'Suscribirse Ahora'}
                     </button>
                   )}
                 </div>
@@ -176,7 +209,7 @@ export default function Suscripcion() {
           ))}
         </div>
 
-        <div className="mt-12 bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="mt-12 bg-white shadow overflow-hidden sm:rounded-lg max-w-4xl mx-auto">
           <div className="px-4 py-5 sm:px-6">
             <h3 className="text-lg leading-6 font-medium text-gray-900">Preguntas frecuentes</h3>
           </div>
@@ -184,16 +217,20 @@ export default function Suscripcion() {
             <dl className="sm:divide-y sm:divide-gray-200">
               {[
                 {
-                  pregunta: '¿Puedo cambiar de plan más tarde?',
-                  respuesta: 'Sí, puedes cambiar de plan en cualquier momento. El cambio se reflejará en tu próxima factura.'
+                  pregunta: '¿El pago es mensual o único?',
+                  respuesta: 'El plan Premium es un pago único de $6 USD. Una vez pagado, tendrás acceso de por vida a todos los cursos y contenido premium.'
                 },
                 {
                   pregunta: '¿Ofrecen reembolsos?',
-                  respuesta: 'Sí, ofrecemos un reembolso completo si cancelas dentro de los primeros 30 días.'
+                  respuesta: 'Sí, ofrecemos un reembolso completo si cancelas dentro de los primeros 7 días.'
                 },
                 {
-                  pregunta: '¿Puedo cancelar en cualquier momento?',
-                  respuesta: 'Sí, puedes cancelar tu suscripción en cualquier momento sin cargos adicionales.'
+                  pregunta: '¿Qué incluye el pago único?',
+                  respuesta: 'El pago único de $6 USD te da acceso de por vida a todos los cursos, certificados, materiales descargables, soporte prioritario y futuros contenidos que agreguemos a la plataforma.'
+                },
+                {
+                  pregunta: '¿Cómo funciona el pago en Venezuela?',
+                  respuesta: 'Aceptamos múltiples métodos de pago: Pagomovil (a tasa BCV), PayPal, Binance y Zelle. El precio se calcula según la tasa oficial del BCV.'
                 }
               ].map((faq, index) => (
                 <div key={index} className="py-4 sm:py-5 sm:grid sm:grid-cols-12 sm:gap-4 sm:px-6">

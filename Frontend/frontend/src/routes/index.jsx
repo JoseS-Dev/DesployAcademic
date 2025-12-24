@@ -13,8 +13,8 @@ import InstructorPanel from '../pages/InstructorPanel';
 import Checkout from '../pages/Checkout';
 
 // Componente para rutas protegidas
-const ProtectedRoute = ({ children, requireSubscription = false }) => {
-  const { usuarioActual, loading } = useAuth();
+const ProtectedRoute = ({ children, requireSubscription = false, requireInstructor = false }) => {
+  const { usuarioActual, loading, isInstructor } = useAuth();
   const location = useLocation();
 
 
@@ -29,6 +29,11 @@ const ProtectedRoute = ({ children, requireSubscription = false }) => {
   if (!usuarioActual) {
     // Redirigir al login, guardando la ubicación actual
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (requireInstructor && !isInstructor) {
+    // Si requiere ser instructor y no lo es, redirigir al dashboard
+    return <Navigate to="/dashboard" replace />;
   }
 
   if (requireSubscription && usuarioActual.plan === 'gratuito') {
@@ -125,7 +130,14 @@ export const router = createBrowserRouter([
 
       },
       { path: 'curso/:id', element: <CursoDetalle /> },
-      { path: 'instructor', element: <InstructorPanel /> },
+      { 
+        path: 'instructor', 
+        element: (
+          <ProtectedRoute requireInstructor={true}>
+            <InstructorPanel />
+          </ProtectedRoute>
+        )
+      },
       { path: 'checkout', element: <Checkout /> },
       // Ruta comodín para manejar rutas no encontradas
       {
