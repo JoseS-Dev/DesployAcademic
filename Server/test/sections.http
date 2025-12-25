@@ -1,0 +1,31 @@
+### Crear un sección para un curso
+POST http://localhost:4300/api/v1/courses/sections/create
+Content-Type: application/json
+
+{
+    "title_section": "Proyecto Final",
+    "description_section": "En esta sección se desarrollará el proyecto final del curso.",
+    "course_id": 2,
+    "section_order": 4
+}
+
+### Obtener todas las secciones de un curso
+GET http://localhost:4300/api/v1/courses/sections/course/2/all
+
+### Obtener una sección por su ID
+GET http://localhost:4300/api/v1/courses/sections/section/1
+
+### Actualizar una sección por su ID
+PATCH http://localhost:4300/api/v1/courses/sections/section/1/update
+Content-Type: application/json
+
+{
+    "title_section": "Introducción Actualizada",
+    "description_section": "Esta es la sección de introducción actualizada del curso."
+}
+
+### Eliminar una sección por su ID
+DELETE http://localhost:4300/api/v1/courses/sections/section/2/delete
+
+
+

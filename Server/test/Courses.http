@@ -1,0 +1,122 @@
+### Método para crear un curso con archivos subidos
+POST http://localhost:4300/api/v1/courses/create
+Content-Type: multipart/form-data; boundary=--BoundaryCustom
+
+----BoundaryCustom
+Content-Disposition: form-data; name="title_course"
+
+Curso de Prueba 2
+----BoundaryCustom
+Content-Disposition: form-data; name="description_course"
+
+Este es un curso de prueba para demostrar la subida de archivos.
+----BoundaryCustom
+Content-Disposition: form-data; name="price_course"
+
+49.99
+----BoundaryCustom
+Content-Disposition: form-data; name="duration_course"
+
+10
+----BoundaryCustom
+Content-Disposition: form-data; name="thumbnail_course"; filename="thumbnail.jpg"
+Content-Type: image/jpeg
+
+./uploads/sample_thumbnail.jpg
+----BoundaryCustom
+Content-Disposition: form-data; name="preview_video"; filename="preview.mp4"
+Content-Type: video/mp4
+
+./uploads/sample_preview.mp4
+----BoundaryCustom
+Content-Disposition: form-data; name="short_description"
+
+Este curso cubre los conceptos básicos de la programación.
+----BoundaryCustom
+Content-Disposition: form-data; name="level_course"
+
+intermediate
+----BoundaryCustom
+Content-Disposition: form-data; name="type_course"
+
+premium
+----BoundaryCustom
+Content-Disposition: form-data; name="instructor_id"
+
+2
+----BoundaryCustom
+Content-Disposition: form-data; name="slug_course"
+
+curso-de-prueba-2
+----BoundaryCustom----
+
+### Método para para obtener todos los cursos de un instructor
+GET http://localhost:4300/api/v1/courses/instructor/2
+
+### Método para obtener un curso por su slug
+GET http://localhost:4300/api/v1/courses/slug/curso-de-prueba-2
+
+### Método para obtener un curso por su nivel
+GET http://localhost:4300/api/v1/courses/level/intermediate
+
+### Método para obtener un curso por su tipo
+GET http://localhost:4300/api/v1/courses/type/free
+
+### Método para actualizar un curso con archivos subidos
+PATCH http://localhost:4300/api/v1/courses/course/1/update
+Content-Type: multipart/form-data; boundary=--BoundaryUpdate
+
+----BoundaryUpdate
+Content-Disposition: form-data; name="title_course"
+
+Curso de Prueba Actualizado
+----BoundaryUpdate
+Content-Disposition: form-data; name="description_course"
+
+Este es un curso de prueba actualizado para demostrar la subida de archivos.
+----BoundaryUpdate
+Content-Disposition: form-data; name="price_course"
+
+59.99
+----BoundaryUpdate
+Content-Disposition: form-data; name="duration_course"
+
+12
+----BoundaryUpdate
+Content-Disposition: form-data; name="thumbnail_course"; filename="updated_thumbnail.jpg"
+Content-Type: image/jpeg
+
+./uploads/updated_sample_thumbnail.jpg
+----BoundaryUpdate
+Content-Disposition: form-data; name="preview_video"; filename="updated_preview.mp4"
+Content-Type: video/mp4
+
+./uploads/updated_sample_preview.mp4
+----BoundaryUpdate
+Content-Disposition: form-data; name="short_description"
+
+Este curso cubre conceptos avanzados de la programación.
+----BoundaryUpdate
+Content-Disposition: form-data; name="level_course"
+
+advanced
+----BoundaryUpdate
+Content-Disposition: form-data; name="type_course"
+
+premium
+----BoundaryUpdate
+Content-Disposition: form-data; name="slug_course"
+
+curso-de-prueba-actualizado
+----BoundaryUpdate----
+
+### Método para cambiar el estado de un curso
+PATCH http://localhost:4300/api/v1/courses/course/2/change-status
+Content-Type: application/json
+
+{
+  "newStatus": true
+}
+
+### Método para eliminar un curso
+DELETE http://localhost:4300/api/v1/courses/course/1/delete

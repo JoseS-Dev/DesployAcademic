@@ -1,0 +1,76 @@
+### Obtener a todos los instructores
+GET http://localhost:4300/api/v1/instructors/all
+
+### Obtener un instructor por ID
+GET http://localhost:4300/api/v1/instructors/instructor/1
+
+
+### Registrar un nuevo instructor
+POST http://localhost:4300/api/v1/instructors/create-profile
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+----CustomBoundary
+Content-Disposition: form-data; name="user_id"
+
+2
+----CustomBoundary
+Content-Disposition: form-data; name="profile_picture"; filename="instructor.jpg"
+Content-Type: image/jpeg
+
+./uploads/instructor.jpg
+----CustomBoundary
+Content-Disposition: form-data; name="description_instructor"
+
+Experienced instructor specializing in web development and programming.
+----CustomBoundary
+Content-Disposition: form-data; name="website"
+
+https://instructor-website.com
+----CustomBoundary
+Content-Disposition: form-data; name="category_instructor"
+
+Web Development
+----CustomBoundary
+Content-Disposition: form-data; name="social_links"
+
+[
+    {
+        "platform": "Twitter",
+        "url": "https://twitter.com/instructor"
+    },
+    {
+        "platform": "LinkedIn",
+        "url": "https://linkedin.com/in/instructor"
+    }
+]
+----CustomBoundary----
+
+### Ruta para seguir a un instructor
+POST http://localhost:4300/api/v1/instructors/follow/instructor/1/user/3
+
+### Actualizar el perfil de un instructor
+PATCH http://localhost:4300/api/v1/instructors/update-profile/1
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+
+----CustomBoundary
+Content-Disposition: form-data; name="profile_picture"; filename="instructor.jpg"
+Content-Type: image/jpeg
+
+./uploads/instructor.jpg
+----CustomBoundary
+Content-Disposition: form-data; name="description_instructor"
+
+Experienced instructor specializing in web development and programming.
+----CustomBoundary
+Content-Disposition: form-data; name="website"
+
+https://instructor-website.com
+----CustomBoundary
+Content-Disposition: form-data; name="category_instructor"
+
+DevOps
+----CustomBoundary----
+
+### Eliminar el perfil de un instructor
+DELETE http://localhost:4300/api/v1/instructors/delete-profile/1

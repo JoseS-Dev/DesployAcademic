@@ -1,0 +1,81 @@
+### Método para crear una lección
+POST http://localhost:4300/api/v1/courses/lessons/create
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+----CustomBoundary
+Content-Disposition: form-data; name="title_lesson"
+
+Lección de prueba
+----CustomBoundary
+Content-Disposition: form-data; name="description_lesson"
+
+Esta es una lección de prueba.
+----CustomBoundary
+Content-Disposition: form-data; name="lesson_type"
+
+video
+----CustomBoundary
+Content-Disposition: form-data; name="section_id"
+
+1
+----CustomBoundary
+Content-Disposition: form-data; name="video_url"; filename="sample_video.mp4"
+Content-Type: video/mp4
+
+./uploads/sample_video.mp4
+----CustomBoundary
+Content-Disposition: form-data; name="thumbail_url"; filename="thumbnail_image.jpg"
+Content-Type: image/jpeg
+
+./uploads/thumbnail_image.jpg
+----CustomBoundary
+Content-Disposition: form-data; name="lesson_order"
+
+1
+----CustomBoundary----
+
+### Método para obtener todas las lecciones de una seccióne specifica
+GET http://localhost:4300/api/v1/courses/lessons/section/1
+
+### Método para obtener una lección por su ID
+GET http://localhost:4300/api/v1/courses/lessons/lesson/1
+
+### Método para obtener todas las lecciones gratuitas de una sección
+GET http://localhost:4300/api/v1/courses/lessons/section/1/free-lessons
+
+### Método para cambiar el estado de vista de una lección
+PATCH http://localhost:4300/api/v1/courses/lessons/lesson/1/change-free-access
+Content-Type: application/json
+
+{
+    "newStatus": true
+}
+
+### Método para cambiar el estado de publicación de una lección
+PATCH http://localhost:4300/api/v1/courses/lessons/lesson/1/change-status
+Content-Type: application/json
+
+{
+    "newStatus": true
+}
+
+### Método para obtener lecciones por tipo
+GET http://localhost:4300/api/v1/courses/lessons/section/1/lessons-by-type/video
+
+### Método para actualizar una lección
+PATCH http://localhost:4300/api/v1/courses/lessons/lesson/1/update
+Content-Type: multipart/form-data; boundary=--CustomBoundary
+
+----CustomBoundary
+Content-Disposition: form-data; name="title_lesson"
+
+Lección de prueba actualizada
+----CustomBoundary
+Content-Disposition: form-data; name="thumbail_url"; filename="thumbnail_image_updated.jpg"
+Content-Type: image/jpeg
+
+./uploads/thumbnail_image_updated.jpg
+----CustomBoundary----
+
+### Método para eliminar una lección
+DELETE http://localhost:4300/api/v1/courses/lessons/lesson/1/delete
