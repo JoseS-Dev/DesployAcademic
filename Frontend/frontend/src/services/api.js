@@ -34,22 +34,22 @@ const request = async (endpoint, options = {}) => {
 
 // ==================== AUTH ====================
 export const authAPI = {
-  register: (data) => request('/auth/register', {
+  register: (data) => request('/users/register', {
     method: 'POST',
     body: JSON.stringify(data),
   }),
   
-  login: (email, password) => request('/auth/login', {
+  login: (email, password) => request('/users/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   }),
   
-  logout: () => request('/auth/logout', { method: 'POST' }),
+  logout: (id) => request(`/users/logout/${id}`, { method: 'POST' }),
   
-  getCurrentUser: () => request('/auth/me'),
+  getCurrentUser: (id) => request(`/users/${id}`),
   
   updateProfile: (data) => request('/users/profile', {
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(data),
   }),
 };
@@ -71,7 +71,7 @@ export const cursosAPI = {
   }),
   
   update: (id, data) => request(`/cursos/${id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(data),
   }),
   
@@ -114,9 +114,9 @@ export const seccionesAPI = {
     method: 'POST',
     body: JSON.stringify(data),
   }),
-  
+
   update: (cursoId, seccionId, data) => request(`/cursos/${cursoId}/secciones/${seccionId}`, {
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(data),
   }),
   
@@ -137,7 +137,7 @@ export const leccionesAPI = {
   }),
   
   update: (cursoId, seccionId, leccionId, data) => request(`/cursos/${cursoId}/secciones/${seccionId}/lecciones/${leccionId}`, {
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(data),
   }),
   
@@ -170,7 +170,7 @@ export const reseñasAPI = {
   }),
   
   update: (cursoId, reseñaId, data) => request(`/cursos/${cursoId}/reseñas/${reseñaId}`, {
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(data),
   }),
   
@@ -193,7 +193,7 @@ export const instructoresAPI = {
   }),
   
   update: (id, data) => request(`/instructores/${id}`, {
-    method: 'PUT',
+    method: 'PATCH',
     body: JSON.stringify(data),
   }),
 };

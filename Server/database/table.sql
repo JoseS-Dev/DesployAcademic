@@ -10,6 +10,7 @@ CREATE TABLE users(
 	password_user VARCHAR(100) NOT NULL,
 	phone_user VARCHAR(100),
 	username VARCHAR(120) NOT NULL UNIQUE,
+	plan_user VARCHAR(50) DEFAULT 'free',
 	date_joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	avatar_imagen VARCHAR(255)
 );

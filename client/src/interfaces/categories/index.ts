@@ -1,0 +1,1 @@
+export * from './categorie/categories.interface';
