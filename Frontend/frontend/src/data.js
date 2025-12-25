@@ -1,0 +1,210 @@
+// Datos del proyecto migrados desde script.js
+
+export const videos = [
+  {
+    id: 1,
+    titulo: "Fundamentos de JavaScript",
+    videoUrl: "https://www.youtube.com/embed/as9N6_b732I",
+    descripcion: "Aprende los conceptos básicos de JavaScript moderno",
+    duracion: "8 min",
+  },
+  {
+    id: 3,
+    titulo: "SQL para Profesionales",
+    videoUrl: "https://www.youtube.com/embed/MNXuG23HH_w",
+    descripcion: "Optimización y consultas avanzadas en bases de datos",
+    duracion: "15 min",
+  },
+  {
+    id: 4,
+    titulo: "Vue.js Framework Completo",
+    videoUrl: "https://www.youtube.com/embed/YK4aXQeKjNs",
+    descripcion: "Desarrollo frontend progresivo con Vue.js 3",
+    duracion: "10 min",
+  },
+];
+
+export const cursos = [
+  {
+    id: 1,
+    titulo: "JavaScript Fundamentos",
+    categoria: "Frontend",
+    nivel: "Básico",
+    estudiantes: 8420,
+    duracion: "32h",
+    calificacion: 4.9,
+    precio: "Incluido",
+    descripcion: "Aprende JavaScript moderno desde cero",
+    imagen:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
+  },
+  {
+    id: 2,
+    titulo: "React Intermedio",
+    categoria: "Frontend",
+    nivel: "Intermedio",
+    estudiantes: 6210,
+    duracion: "48h",
+    calificacion: 4.9,
+    precio: "Incluido",
+    descripcion: "Hooks, Context y patrones avanzados",
+    imagen:
+      "https://images.unsplash.com/photo-1633356122544-f134324ef6cb?w=500&h=300&fit=crop",
+  },
+  {
+    id: 3,
+    titulo: "SQL Profesional",
+    categoria: "Backend",
+    nivel: "Intermedio",
+    estudiantes: 5890,
+    duracion: "40h",
+    calificacion: 4.8,
+    precio: "Incluido",
+    descripcion: "Bases de datos relacionales avanzadas",
+    imagen:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
+  },
+  {
+    id: 4,
+    titulo: "Node.js Full Stack",
+    categoria: "Backend",
+    nivel: "Avanzado",
+    estudiantes: 4950,
+    duracion: "56h",
+    calificacion: 4.9,
+    precio: "Incluido",
+    descripcion: "APIs escalables y aplicaciones grandes",
+    imagen:
+      "https://images.unsplash.com/photo-1627873649417-af36141a4016?w=500&h=300&fit=crop",
+  },
+  {
+    id: 5,
+    titulo: "Vue.js Profesional",
+    categoria: "Frontend",
+    nivel: "Intermedio",
+    estudiantes: 3620,
+    duracion: "44h",
+    calificacion: 4.8,
+    precio: "Incluido",
+    descripcion: "Framework progresivo completo",
+    imagen:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop",
+  },
+  {
+    id: 6,
+    titulo: "Docker & Deployment",
+    categoria: "DevOps",
+    nivel: "Avanzado",
+    estudiantes: 3240,
+    duracion: "28h",
+    calificacion: 4.9,
+    precio: "Incluido",
+    descripcion: "Containerización y deployes en producción",
+    imagen:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
+  },
+];
+
+export const profesores = [
+  {
+    id: 1,
+    nombre: "Carlos García",
+    rol: "Fullstack Developer",
+    bio: "10+ años en desarrollo web, experto en React y Node.js. Ha liderado equipos en startups y empresas Fortune 500.",
+    estudiantes: "8.5k+",
+    skills: ["React", "Node.js", "JavaScript"],
+  },
+  {
+    id: 2,
+    nombre: "María López",
+    rol: "Senior Database Engineer",
+    bio: "Diseñadora de bases de datos con especialidad en optimización. Experta en arquitecturas empresariales.",
+    estudiantes: "6.2k+",
+    skills: ["SQL", "PostgreSQL", "MongoDB"],
+  },
+  {
+    id: 3,
+    nombre: "Juan Rodríguez",
+    rol: "DevOps & Cloud Architect",
+    bio: "Especialista en deploy, containerización y CI/CD. Certificado en AWS y Kubernetes.",
+    estudiantes: "5.1k+",
+    skills: ["Docker", "Kubernetes", "AWS"],
+  },
+  {
+    id: 4,
+    nombre: "Ana Martínez",
+    rol: "Frontend Architect",
+    bio: "Lideresa en arquitectura frontend y UX/UI. Mentora de desarrolladores junior y senior.",
+    estudiantes: "4.8k+",
+    skills: ["Vue.js", "TypeScript", "Tailwind"],
+  },
+];
+
+export const articulos = [
+  {
+    id: 1,
+    titulo: "10 Consejos para Optimizar tu Código React",
+    categoria: "React",
+    autor: "Carlos García",
+    fecha: "18 Nov 2024",
+    vista: "5 min",
+    vistas: "2.3k",
+    excerpt:
+      "Mejora significativamente el rendimiento de tus aplicaciones React con estas prácticas recomendadas...",
+  },
+  {
+    id: 2,
+    titulo: "Docker para Principiantes: Guía Completa",
+    categoria: "DevOps",
+    autor: "Juan Rodríguez",
+    fecha: "16 Nov 2024",
+    vista: "8 min",
+    vistas: "3.1k",
+    excerpt:
+      "Aprende a containerizar tus aplicaciones y desplegar de forma segura con Docker en producción...",
+  },
+  {
+    id: 3,
+    titulo: "Diseño de Bases de Datos Escalables",
+    categoria: "Backend",
+    autor: "María López",
+    fecha: "14 Nov 2024",
+    vista: "7 min",
+    vistas: "1.8k",
+    excerpt:
+      "Estrategias y patrones para crear esquemas de bases de datos que crezcan con tu negocio...",
+  },
+];
+
+export const planes = [
+  {
+    nombre: "Gratuito",
+    precio: "Gratis",
+    periodo: "",
+    descripcion: "Para explorar y aprender",
+    features: [
+      "5 cursos básicos",
+      "Comunidad de estudiantes",
+      "Certificados básicos",
+      "Acceso limitado",
+    ],
+    highlighted: false,
+  },
+  {
+    nombre: "Profesional",
+    precio: "$6",
+    periodo: "/mes",
+    descripcion: "Para desarrolladores en crecimiento",
+    features: [
+      "50+ cursos completos",
+      "Certificados profesionales",
+      "Acceso de por vida",
+      "Descargas de materiales",
+      "Soporte por email",
+      "Comunidad premium",
+      "Proyectos prácticos",
+    ],
+    highlighted: true,
+    badge: "Más Popular",
+  },
+];
