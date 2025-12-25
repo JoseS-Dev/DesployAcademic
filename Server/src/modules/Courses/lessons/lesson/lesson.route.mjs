@@ -8,7 +8,7 @@ const controllerLessonCourse = new ControllerLessonCourse({ModelLessonCourse: Mo
 
 // Rutas para las lecciones de las secciones de los cursos
 // Ruta para obtener todas las lecciones de una sección de un curso
-router.get('/section/:sectionId', controllerLessonCourse.getLessonsBySectionId);
+router.get('/section/:sectionId/all', controllerLessonCourse.getLessonsBySectionId);
 // Ruta para obtener una lección por su ID
 router.get('/lesson/:lessonId', controllerLessonCourse.getLessonById);
 // Ruta para obtener las lecciones gratuitas de una sección

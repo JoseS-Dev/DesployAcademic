@@ -58,6 +58,7 @@ export class ControllerUsers {
             if(result.error) return res.status(404).json({error: result.error});
             return res.status(200).json({
                 message: result.message,
+                user: result.user,
                 token: authMiddleware(result.user)
             });
         }

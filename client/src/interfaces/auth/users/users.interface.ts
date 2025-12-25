@@ -17,6 +17,7 @@ export interface RegisterUser {
     email_user: string;
     password_user: string;
     username: string;
+    rol_user: string;
 }
 
 // Defino la interfaz para el inicio de sesión de usuarios
@@ -41,6 +42,4 @@ export interface UpdateUserCourseProgress {
     user_id: number;
     course_id: number;
     progress_percentage: number;
-    is_completed: boolean;
-    completed_at?: string;
 }

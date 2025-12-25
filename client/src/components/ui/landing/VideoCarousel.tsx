@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { videos } from '../data';
+import { videos } from '../../../utils/mocks/videos.mock';
 
 const VideoCarousel = () => {
   const [indiceVideoActual, setIndiceVideoActual] = useState(0);
@@ -7,7 +7,7 @@ const VideoCarousel = () => {
 
   const video = videos[indiceVideoActual];
 
-  const cambiarVideo = (indice) => {
+  const cambiarVideo = (indice: number) => {
     setIndiceVideoActual(indice);
     setVideoReproduciendo(false);
   };
@@ -27,7 +27,7 @@ const VideoCarousel = () => {
   };
 
   return (
-    <section className="bg-white py-20 px-5 shadow-sm animate-fade-in-up">
+    <section className="w-full bg-white py-20 px-5 shadow-sm animate-fade-in-up">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <span className="text-blue-600 text-xs font-bold uppercase tracking-wider">Contenido Exclusivo</span>

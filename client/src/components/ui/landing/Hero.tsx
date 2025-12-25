@@ -1,6 +1,6 @@
-const Hero = ({ onSignupClick }) => {
+const Hero = ({ onSignupClick }: { onSignupClick: () => void }) => {
   return (
-    <section className="bg-gradient-to-br from-blue-50 to-white py-32 px-5 flex items-center justify-center animate-fade-in-up">
+    <section className="w-full bg-gradient-to-br from-blue-50 to-white py-32 px-5 flex items-center justify-center animate-fade-in-up">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight text-gray-900">
           La escuela de tecnología<br />
