@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function useAuth() {
   const usuarioActual = '';
@@ -12,25 +13,7 @@ function useAuth() {
 const Header = () => {
   const { usuarioActual, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   
-  const handleLoginClick = () => {
-    navigate('/login', { 
-      state: { from: location.pathname } 
-    });
-  };
-  
-  const handleSignupClick = () => {
-    navigate('/registro', { 
-      state: { from: location.pathname } 
-    });
-  };
-  
-  const handleLogout = async () => {
-    await logout();
-    navigate('/', { replace: true });
-  };
-
   return (
     <header className="sticky w-full top-0 z-40 bg-white shadow-sm border-b border-gray-200 py-3 px-5 animate-slide-in">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-5 flex-wrap">
@@ -69,18 +52,14 @@ const Header = () => {
         <div className="flex gap-3 items-center flex-shrink-0">
           {!usuarioActual ? (
             <div className="flex gap-2">
-              <button
-                className="border-2 border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-blue-600 hover:text-blue-600 transition"
-                onClick={handleLoginClick}
-              >
+              <Link to="/login" className="border-2 border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-blue-600 hover:text-blue-600 transition">
                 Iniciar sesión
-              </button>
-              <button
+              </Link>
+              <Link to='/register'
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition"
-                onClick={handleSignupClick}
               >
                 Regístrate
-              </button>
+              </Link>
             </div>
           ) : (
             <div className="flex items-center gap-4">

@@ -43,3 +43,9 @@ export interface UpdateUserCourseProgress {
     course_id: number;
     progress_percentage: number;
 }
+
+// Defino la interfaz para el contexto de los usuarios
+export interface UserContextInterface {
+    user: UserData;
+    handleLogoutClick: (e: React.FormEvent) => Promise<void>;
+}
