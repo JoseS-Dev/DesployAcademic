@@ -18,6 +18,8 @@ router.get('/level/:level', controllerCourses.getCoursesByLevel);
 router.get('/type/:type', controllerCourses.getCoursesByType);
 // Ruta para crear un nuevo curso
 router.post('/create', uploadmiddlewareCourses, controllerCourses.createCourse);
+// Ruta para que un usuario se inscriba en un curso
+router.post('/enroll', controllerCourses.enrollInCourse);
 // Ruta para actualizar un curso
 router.patch('/course/:courseId/update',uploadmiddlewareCourses, controllerCourses.updateCourse);
 // Ruta para cambiar el estado de un curso (publicado o no publicado)

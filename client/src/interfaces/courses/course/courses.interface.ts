@@ -5,12 +5,14 @@ export interface CourseData {
     slug_course: string;
     description_course: string;
     short_description: string;
+    name_category: string;
     price_course: number;
     level_course: string;
     type_course: string;
     duration_course: string;
     thumbnail_course: string;
     preview_video: string;
+    total_enrollments: number;
     is_published: boolean;
 }
 

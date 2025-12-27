@@ -53,6 +53,10 @@ curso-de-prueba-2
 ### Método para para obtener todos los cursos de un instructor
 GET http://localhost:4300/api/v1/courses/instructor/2
 
+### Método para obtener todos los cursos
+GET http://localhost:4300/api/v1/courses/all
+
+
 ### Método para obtener un curso por su slug
 GET http://localhost:4300/api/v1/courses/slug/curso-de-prueba-2
 
@@ -116,6 +120,15 @@ Content-Type: application/json
 
 {
   "newStatus": true
+}
+
+### Método para inscribir un usuario en un curso
+POST http://localhost:4300/api/v1/courses/enroll
+Content-Type: application/json
+
+{
+  "user_id": 12,
+  "course_id": 2
 }
 
 ### Método para eliminar un curso

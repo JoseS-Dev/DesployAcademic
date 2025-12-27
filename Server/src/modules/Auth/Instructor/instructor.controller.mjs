@@ -99,11 +99,12 @@ export class InstructorController {
         const {instructorId} = req.params;
         const InstructorData = {
             ...req.body,
-            profile_picture: req.body.profile_picture ? req.file.path : undefined,
-            social_links: req.body.social_links ? 
-            JSON.parse(req.body.social_links.trim()) : undefined
+            profile_picture: req.file.path,
+            social_links: req.body.social_links ? JSON.parse(req.body.social_links.trim()) : undefined
         }
+        console.log(InstructorData);
         const validation = validateDataUpdateInstructor(InstructorData);
+        console.log(validation);
         try{
             if(!validation.success){
                 return res.status(400).json({
@@ -113,9 +114,10 @@ export class InstructorController {
             }
             const result = await this.InstructorModel.updateInstructorProfile(instructorId, InstructorData);
             if(result.error) return res.status(404).json({error: result.error});
-            return res.status(200).json({message: result.message})
+            return res.status(200).json({message: result.message, instructor: result.instructor});
         }
         catch(error){
+            console.error(error);
             return res.status(500).json({error: 'Error del servidor al actualizar el perfil de instructor'});
         }
     }

@@ -1,5 +1,5 @@
 import {createContext, useState, useEffect, useContext} from 'react';
-import type { UserData, UserContextInterface } from '../interfaces';
+import type { UserData, UserContextInterface, InstructorData } from '../interfaces';
 import { LogoutUser } from '../services';
 
 
@@ -9,11 +9,11 @@ export const UserContext = createContext<UserContextInterface | undefined>(undef
 // Defino el proveedor del contexto del usuario
 export const UserProvider = ({children}: {children: React.ReactNode}) => {
     const [user, setUser] = useState<UserData | undefined>();
-
     // Cargo los datos del usuario al montar el componente
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
-        if (storedUser) setUser(JSON.parse(storedUser));
+        const storedToken = localStorage.getItem('token');
+        if (storedUser && storedToken) setUser(JSON.parse(storedUser));
     }, []);
 
     // Manejo del cierre de sesión del usuario

@@ -72,9 +72,20 @@ CREATE TABLE courses(
 	duration_course INT NOT NULL, -- duración en minutos
 	thumbnail_course VARCHAR(255),
 	preview_video VARCHAR(255),
+	total_enrollments INT DEFAULT 0,
 	is_published BOOLEAN DEFAULT(FALSE),
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla intermedia entre usuarios y cursos (inscripción)
+CREATE TABLE user_courses(
+	id SERIAL PRIMARY KEY,
+	user_id INT,
+	course_id INT,
+	enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY(course_id) REFERENCES courses(id) ON DELETE CASCADE,
 );
 
 --Tabla de secciones del curso

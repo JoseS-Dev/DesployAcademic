@@ -2,7 +2,7 @@ import zod from "zod";
 
 // Defino el esquema de validación de loscampos que contiene social_links
 const SchemaSocialLink = zod.object({
-    platform: zod.string().min(2).max(50),
+    plataform: zod.string().min(2).max(50),
     url: zod.string().url()
 })
 

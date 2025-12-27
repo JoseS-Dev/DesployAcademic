@@ -2,8 +2,8 @@ import express, { json } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { CONFIG_SERVER } from './config/config.mjs';
-import { RoutesModules} from './src/api/Route/route.modules.mjs';
-import { registerRoutes } from './src/core/utils/function.mjs';
+import { RoutesModules } from './src/api/Route/route.modules.mjs';
+
 
 
 // Inicio servidor
@@ -18,11 +18,11 @@ app.use(morgan('dev'));
 
 // Rutas estaticas para imagenes y videos
 app.use('/uploads/courses', express.static('uploads/courses'));
-app.use('/uploads/instructors', express.static('uploads/instructors'));
+app.use('/uploads/instructor', express.static('uploads/instructor'));
 app.use('/uploads/users', express.static('uploads/users'));
 
 // Rutas
-registerRoutes(app, RoutesModules);
+app.use(RoutesModules);
 
 
 // Escucho Servidor

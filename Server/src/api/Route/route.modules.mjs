@@ -12,22 +12,16 @@ import { enrollmentRouter } from '../../modules/Enrollment/enrollment.route.mjs'
 
 const router = Router();
 
-export const RoutesModules = {
-    users: {
-        user: router.use(`${CONFIG_SERVER.basePath}/users`, userRoute),
-        instructor: router.use(`${CONFIG_SERVER.basePath}/instructors`, instructorRoute)
-    },
-    courses: {
-        course: router.use(`${CONFIG_SERVER.basePath}/courses`, courseRoute),
-        section: router.use(`${CONFIG_SERVER.basePath}/courses/sections`, sectionRoute),
-        lesson: router.use(`${CONFIG_SERVER.basePath}/courses/lessons`, lessonRoute),
-        resource: router.use(`${CONFIG_SERVER.basePath}/courses/lessons/resources`, resourceRoute),
-        review: router.use(`${CONFIG_SERVER.basePath}/courses/reviews`, reviewRoute)
-    },
-    categories: {
-        categorie: router.use(`${CONFIG_SERVER.basePath}/categories`, categorieRoute)
-    },
-    enrollment: {
-        enrollment: router.use(`${CONFIG_SERVER.basePath}/enrollments`, enrollmentRouter)
-    }
-}
+// Monta todas las rutas en el router principal
+router.use(`${CONFIG_SERVER.basePath}/users`, userRoute);
+router.use(`${CONFIG_SERVER.basePath}/instructors`, instructorRoute);
+router.use(`${CONFIG_SERVER.basePath}/courses`, courseRoute);
+router.use(`${CONFIG_SERVER.basePath}/courses/sections`, sectionRoute);
+router.use(`${CONFIG_SERVER.basePath}/courses/lessons`, lessonRoute);
+router.use(`${CONFIG_SERVER.basePath}/courses/lessons/resources`, resourceRoute);
+router.use(`${CONFIG_SERVER.basePath}/courses/reviews`, reviewRoute);
+router.use(`${CONFIG_SERVER.basePath}/categories`, categorieRoute);
+router.use(`${CONFIG_SERVER.basePath}/enrollments`, enrollmentRouter);
+
+// Exporta solo el router principal
+export const RoutesModules = router;

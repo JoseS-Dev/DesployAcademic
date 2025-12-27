@@ -122,9 +122,7 @@ export const router = createBrowserRouter([
       { 
         path: 'instructor', 
         element: (
-          <ProtectedRoute requireInstructor={true}>
             <InstructorPanel />
-          </ProtectedRoute>
         )
       },
       { 

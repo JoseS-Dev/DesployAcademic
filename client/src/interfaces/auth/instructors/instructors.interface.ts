@@ -24,3 +24,8 @@ export interface CreateInstructor {
     website: string;
     social_links: SocialLinks[];
 }
+
+// Defino la interfaz para el contexto de los instructores
+export interface InstructorContextInterface {
+    instructor: InstructorData;
+}

@@ -23,8 +23,7 @@ export class InstructorModel {
         if(!instructorId) return {error: "El ID del instructor no fue proporcionado"};
         // Se verifica si el instructor existe
         const instructor = await db.query(
-            `SELECT U.*, IP.* FROM instructor_profiles IP
-            JOIN users U ON IP.user_id = U.id WHERE IP.id = $1`,
+            `SELECT * FROM instructor_profiles WHERE user_id = $1`,
             [instructorId]
         );
         if(instructor.rowCount === 0) return {error: "No se encontró un instructor con ese ID"};
@@ -69,7 +68,7 @@ export class InstructorModel {
         )
         if(newProfile.rowCount === 0) return {error: "No se pudo crear el perfil de instructor"};
         return {message: "Perfil de instructor creado exitosamente",
-        instructorProfile: newProfile.rows[0]};
+        instructor: newProfile.rows[0]};
     })
 
     // Método para que un usuario siga a un instructor
@@ -152,13 +151,25 @@ export class InstructorModel {
             values.push(value);
         });
         values.push(instructorId); // Agrego el ID del instructor al final de los valores
+
+        // Hacemos un condicional si viene los social_links para convertirlo en string
+        if(fieldsToUpdate.social_links){
+            const index = fields.findIndex(field => field.startsWith('social_links ='));
+            if(index !== -1){
+                fields[index] = `social_links = $${index + 1}`;
+                values[index] = JSON.stringify(fieldsToUpdate.social_links);
+            }
+        }
         
         const updatedInstructor = await db.query(
             `UPDATE instructor_profiles SET ${fields.join(", ")} WHERE id = $${values.length}`,
             values
         );
         if(updatedInstructor.rowCount === 0) return {error: "No se pudo actualizar el perfil del instructor"};
-        return {message: "Perfil de instructor actualizado exitosamente"};
+        return {
+            message: "Perfil de instructor actualizado exitosamente",
+            instructor: updatedInstructor.rows[0]
+        };
     });
 
     // Método para eliminar el perfil de un instructor

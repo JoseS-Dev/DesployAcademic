@@ -32,6 +32,7 @@ export class ControllerCourses {
             });
         }
         catch(error){
+            console.log(error);
             return res.status(500).json({error: "Error interno del servidor"});
         }
     }
@@ -170,6 +171,22 @@ export class ControllerCourses {
         try{
             const result = await this.ModelCourses.deleteCourse(courseId);
             if(result.error) return res.status(404).json({error: result.error});
+            return res.status(200).json({
+                message: result.message
+            });
+        }
+        catch(error){
+            console.error(error);
+            return res.status(500).json({error: "Error interno del servidor"});
+        }
+    }
+
+    // Método para que usuario se inscriba en un curso
+    enrollInCourse = async (req, res) => {
+        const {course_id, user_id} = req.body;
+        try{
+            const result = await this.ModelCourses.incrementEnrollments(course_id, user_id);
+            if(result.error) return res.status(400).json({error: result.error});
             return res.status(200).json({
                 message: result.message
             });

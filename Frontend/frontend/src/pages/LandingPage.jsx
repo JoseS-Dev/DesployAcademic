@@ -1,6 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Hero from '../components/Hero';
-import VideoCarousel from '../components/VideoCarousel';
 import MissionVision from '../components/MissionVision';
 import Courses from '../components/Courses';
 import Teachers from '../components/Teachers';
@@ -16,8 +14,6 @@ const LandingPage = () => {
 
   return (
     <>
-      <Hero onGetStarted={handleSignupClick} />
-      <VideoCarousel />
       <MissionVision />
       <Courses />
       <Teachers />

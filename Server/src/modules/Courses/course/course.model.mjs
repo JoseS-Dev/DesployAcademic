@@ -17,10 +17,10 @@ export class ModelCourses {
         if(instructor.rowCount === 0) return {error: "No se encontró un instructor con ese ID"};
         // Si existe, se obtienen sus cursos
         const courses = await db.query(
-            `SELECT C.*,CA.name_categorie, CI.instructor_id FROM courses C
+            `SELECT C.*,CA.name_category, CI.instructor_id FROM courses C
             JOIN instructor_courses CI ON C.id = CI.course_id
-            JOIN categorie_courses CC ON C.id = CC.course_id
-            JOIN categories CA ON CC.categorie_id = CA.id
+            JOIN course_categories CC ON C.id = CC.course_id
+            JOIN categories_course CA ON CC.category_id = CA.id
             WHERE CI.instructor_id = $1`,
             [instructorId]
         );
@@ -33,7 +33,12 @@ export class ModelCourses {
 
     // Método para obtener todos los cursos registrados en el sistema
     static getAllCourses = WithDBConnection(async () => {
-        const courses = await db.query( `SELECT * FROM courses`);
+        const courses = await db.query( 
+            `SELECT c.*, CA.name_category FROM courses C
+            JOIN course_categories CC ON C.id = CC.course_id
+            JOIN categories_course CA ON CC.category_id = CA.id
+            ORDER BY C.created_at DESC`
+        );
         if(courses.rowCount === 0) return {error: "No hay cursos registrados en el sistema"};
         return {
             courses: courses.rows,
@@ -201,6 +206,37 @@ export class ModelCourses {
         if(deletedCourse.rowCount === 0) return {error: "No se pudo eliminar el curso"};
         return {
             message: "Curso eliminado exitosamente"
+        }
+    });
+
+    // Método para incrementar el conteo de inscripciones de un curso
+    static incrementEnrollments = WithDBConnection(async (courseId, userId) => {
+        if(!courseId || !userId) return {error: "El ID del curso no fue proporcionado"};
+        // Se verifica si existe el curso y el usuario
+        const existingCourse = await db.query(
+            `SELECT * FROM courses WHERE id = $1`,
+            [courseId]
+        );
+        const existingUser = await db.query(
+            `SELECT * FROM users WHERE id = $1`,
+            [userId]
+        );
+        if(existingCourse.rowCount === 0 || existingUser.rowCount === 0){
+            return {error: "No se encontró un curso o usuario con ese ID"};
+        }
+        // Si existen, se establece la relación y se aumenta el conteo
+        const relation = await db.query(
+            `INSERT INTO user_courses (user_id, course_id) VALUES ($1, $2)`,
+            [userId, courseId]
+        );
+        if(relation.rowCount === 0) return {error: "No se pudo inscribir al usuario en el curso"};
+        const updatedCourse = await db.query(
+            `UPDATE courses SET total_enrollments = total_enrollments + 1 WHERE id = $1`,
+            [courseId]
+        );
+        if(updatedCourse.rowCount === 0) return {error: "No se pudo actualizar el conteo de inscripciones"};
+        return {
+            message: "Inscripción realizada exitosamente"
         }
     })
 }

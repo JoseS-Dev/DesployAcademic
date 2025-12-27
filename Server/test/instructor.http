@@ -2,7 +2,7 @@
 GET http://localhost:4300/api/v1/instructors/all
 
 ### Obtener un instructor por ID
-GET http://localhost:4300/api/v1/instructors/instructor/1
+GET http://localhost:4300/api/v1/instructors/instructor/13
 
 
 ### Registrar un nuevo instructor

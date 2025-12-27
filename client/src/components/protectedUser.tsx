@@ -1,38 +1,40 @@
-import {Outlet} from 'react-router-dom';
-import { LIST_CONSTANTS } from '../utils/constants/constant.utils';
+import {Outlet, useNavigate} from 'react-router-dom';
 import { NotFound } from './notFound';
 import { useState, useEffect } from 'react';
+import { verifyAuth } from '../services';
+import { useUserContext } from '../context/userContext';
+
 
 export function ProtectedUser(){
     const[loading, setLoading] = useState(true);
     const[isAuth, setIsAuth] = useState(false);
-    const serviceUser = LIST_CONSTANTS.SERVICES.users;
-
+    const { user } = useUserContext();
+    const navigate = useNavigate();
     useEffect(() => {
-        async function checkAuth(){
+        const checkAuth = async () =>{
             try{
-                const auth = await serviceUser.verifyAuth();
-                if(auth.isAuthenticated){
-                    setIsAuth(true);
-                    setLoading(false);
-                }
-                else{
-                    setIsAuth(false);
-                    setLoading(false);
-                }
+                await verifyAuth();
+                setIsAuth(true);
+                
             }
             catch(error){
-                console.error('Error verifying authentication:', error);
                 setIsAuth(false);
+                navigate('/login');
             }
-
+            finally{
+                setLoading(false);
+            }
         }
         checkAuth();
     }, []);
 
     return (
         <>
-            {!loading && isAuth ? <Outlet/> : <NotFound/>}
+            {isAuth && !loading && user.role_user === 'instructor' ? (
+                <Outlet/>
+            ) : (
+                <NotFound/>
+            )}
         </>
     )
 }

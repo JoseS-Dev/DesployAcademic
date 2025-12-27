@@ -69,19 +69,19 @@ const Header = () => {
               >
                 Cerrar sesión
               </button>
-              <button
-                className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition cursor-pointer"
-                onClick={() => navigate('/suscripcion')}
+              <Link to='/suscripcion'
+                className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold 
+                hover:bg-green-700 transition cursor-pointer flex items-center justify-center"
               >
                 Suscripción
-              </button>
+              </Link>
               {(user.role_user === 'instructor' || user.role_user === 'admin') && (
-                <button
-                  className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 transition"
-                  onClick={() => navigate('/instructor')}
+                <Link to='/dashboard/instructor'
+                  className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold 
+                  hover:bg-purple-700 transition cursor-pointer flex items-center justify-center"
                 >
                   Panel Instructor
-                </button>
+                </Link>
               )}
             </div>
           )}
