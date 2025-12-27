@@ -19,10 +19,10 @@ export function Landing(){
     return (
         <main className='w-full h-screen flex flex-col items-center'>
             <Header/>
-            <Hero onSignupClick={handleSignupClick} />
+            <Hero/>
             <VideoCarousel />
             <MissionVision />
-            <Courses onSignupClick={handleSignupClick} usuarioActual={''}/>
+            <Courses/>
             <Teachers />
             <Blog />
             <Pricing onSignupClick={handleSignupClick} usuarioActual={''}/>

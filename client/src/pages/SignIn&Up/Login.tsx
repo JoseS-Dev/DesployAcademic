@@ -1,12 +1,11 @@
 import {useState} from 'react';
-import { LIST_CONSTANTS } from '../../utils/constants/constant.utils';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { LoginUsers } from '../../services';
 
 export function Login(){
     const[emailUser, setEmailUser] = useState<string>('');
     const[passwordUser, setPasswordUser] = useState<string>('');
-    const serviceUser = LIST_CONSTANTS.SERVICES.users;
     const navigate = useNavigate();
 
     // Handle para el inicio de sesión de un usuario
@@ -17,12 +16,13 @@ export function Login(){
             password_user: passwordUser
         }
         try {
-            const result = await serviceUser.LoginUser(dataUser);
-            if(result.success){
+            const result = await LoginUsers(dataUser);
+            if(result.message){
                 alert('Inicio de sesión exitoso');
-                localStorage.setItem('token', result.data?.token);
-                localStorage.setItem('user', JSON.stringify(result.data?.user));
+                localStorage.setItem('token', result.token);
+                localStorage.setItem('user', JSON.stringify(result.user));
                 navigate('/');
+                window.location.reload();
             }else{
                 alert(`Error: ${result.error}`);
             }
@@ -64,8 +64,8 @@ export function Login(){
                     <Link to={'/register'} className="text-sm text-blue-600 hover:underline">
                         ¿No tienes una cuenta? Regístrate
                     </Link>
-                    <button className="bg-blue-600 text-white w-3/5 h-14
-                    py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                    <button className="bg-blue-600 text-white w-3/5 h-14 cursor-pointer
+                    py-3 rounded-lg font-semibold hover:bg-blue-700 hover:scale-95 transition">
                         Iniciar Sesión
                     </button>
                 </div>

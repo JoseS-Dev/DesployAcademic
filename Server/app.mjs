@@ -10,7 +10,10 @@ import { registerRoutes } from './src/core/utils/function.mjs';
 const app = express();
 
 app.use(json());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    credentials: true
+}));
 app.use(morgan('dev'));
 
 // Rutas estaticas para imagenes y videos

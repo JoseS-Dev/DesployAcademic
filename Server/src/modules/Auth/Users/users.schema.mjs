@@ -7,6 +7,7 @@ const SchemaUser = zod.object({
     password_user: zod.string().min(6).max(100),
     phone_user: zod.string().min(10).max(15).optional(),
     username: zod.string().min(3).max(30),
+    plan_user: zod.enum(['free', 'premium']).optional(),
     role_user: zod.enum(['student', 'instructor']).optional(),
     avatar_imagen: zod.string().url().optional()
 });

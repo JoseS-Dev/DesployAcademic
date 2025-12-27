@@ -4,6 +4,7 @@ export interface UserData {
     name_user: string;
     email_user: string;
     password_user: string;
+    role_user: string;
     username: string;
     plan_user: string;
     phone_user?: string;
@@ -17,7 +18,8 @@ export interface RegisterUser {
     email_user: string;
     password_user: string;
     username: string;
-    rol_user: string;
+    plan_user: string;
+    role_user: string;
 }
 
 // Defino la interfaz para el inicio de sesión de usuarios

@@ -10,7 +10,7 @@ export class ModelUsers {
         if(!userData) return {error: "Los datos del usuario no fueron proporcionados"};
         const { 
             name_user, email_user, 
-            password_user, username, role_user
+            password_user, username, role_user, plan_user
         } = userData;
         // Se verifica si ya existe un usuario con ese email o username
         const existingUser = await db.query(
@@ -22,9 +22,9 @@ export class ModelUsers {
         const hashedPassword = await hashPassword(password_user);
         // Se inserta el nuevo usuario en la base de datos
         const newUser = await db.query(
-            `INSERT INTO users (name_user, email_user, password_user, username)
-            VALUES($1, $2, $3, $4) RETURNING *`,
-            [name_user, email_user, hashedPassword, username]
+            `INSERT INTO users (name_user, email_user, password_user, username, plan_user)
+            VALUES($1, $2, $3, $4, $5) RETURNING *`,
+            [name_user, email_user, hashedPassword, username, plan_user]
         );
         if(newUser.rowCount === 0) return {error: "No se pudo registrar el usuario"};
         // A su vez asignamos el rol al usuario que por defecto es estudiante

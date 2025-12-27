@@ -1,15 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { cursos } from '../../../utils/mocks/course.mock';
+import { useUserContext } from '../../../context/userContext';
 
-const Courses = ({ onSignupClick, usuarioActual }: { onSignupClick: () => void, usuarioActual: any }) => {
+const Courses = () => {
   const navigate = useNavigate();
-  const accionCurso = (id: number) => {
-    if (!usuarioActual) {
-      onSignupClick();
-    } else {
-      navigate(`/curso/${id}`);
-    }
-  };
+  const {user} = useUserContext();
   return (
     <section id="courses" className="bg-white py-20 px-5 animate-fade-in-up">
       <div className="max-w-6xl mx-auto">
@@ -56,12 +51,20 @@ const Courses = ({ onSignupClick, usuarioActual }: { onSignupClick: () => void, 
                   <span className="text-blue-600 font-semibold">{curso.precio}</span>
                 </div>
                 <div className="flex gap-2">
-                  <button
-                    className={`flex-1 py-3 rounded-lg font-semibold transition bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:scale-105`}
-                    onClick={() => accionCurso(curso.id)}
+                  <Link to={`/curso/${curso.id}`}
+                    className={`flex-1 py-3 rounded-lg font-semibold flex flex-col items-center justify-center 
+                    transition bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg 
+                    hover:scale-105`}
                   >
-                    Ver curso
-                  </button>
+                    {user ? 'Ver curso' : 'Ver detalles'}
+                  </Link>
+                  {user?.plan_user === 'free' && (
+                    <Link to='/suscripcion'
+                      className="px-3 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:from-green-600 hover:to-teal-600 text-xs font-semibold"
+                    >
+                      Profesional
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

@@ -1,17 +1,9 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
-function useAuth() {
-  const usuarioActual = '';
-  const logout = async () => {
-    // Implement logout functionality here
-  };
-
-  return { usuarioActual, logout };
-}
+import { useUserContext } from '../../../context/userContext';
 
 const Header = () => {
-  const { usuarioActual, logout } = useAuth();
+  const {user, handleLogoutClick} = useUserContext();
   const navigate = useNavigate();
   
   return (
@@ -50,7 +42,7 @@ const Header = () => {
 
         {/* Botones de autenticación */}
         <div className="flex gap-3 items-center flex-shrink-0">
-          {!usuarioActual ? (
+          {!user ? (
             <div className="flex gap-2">
               <Link to="/login" className="border-2 border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold hover:border-blue-600 hover:text-blue-600 transition">
                 Iniciar sesión
@@ -68,22 +60,22 @@ const Header = () => {
                 onClick={() => navigate('/perfil')}
               >
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
-                  {usuarioActual.nombre ? usuarioActual.nombre.charAt(0).toUpperCase() : 'U'}
+                  {user.name_user ? user.name_user.charAt(0).toUpperCase() : 'U'}
                 </div>
               </button>
               <button
-                className="text-gray-700 hover:text-red-600 transition text-sm font-medium"
-                onClick={handleLogout}
+                className="text-gray-700 hover:text-red-600 transition text-sm font-medium cursor-pointer"
+                onClick={handleLogoutClick}
               >
                 Cerrar sesión
               </button>
               <button
-                className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition"
+                className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition cursor-pointer"
                 onClick={() => navigate('/suscripcion')}
               >
                 Suscripción
               </button>
-              {(usuarioActual.rol === 'instructor' || usuarioActual.rol === 'admin') && (
+              {(user.role_user === 'instructor' || user.role_user === 'admin') && (
                 <button
                   className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 transition"
                   onClick={() => navigate('/instructor')}

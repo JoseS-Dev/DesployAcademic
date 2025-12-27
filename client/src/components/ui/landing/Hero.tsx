@@ -1,4 +1,5 @@
-const Hero = ({ onSignupClick }: { onSignupClick: () => void }) => {
+import {Link} from 'react-router-dom';
+const Hero = () => {
   return (
     <section className="w-full bg-gradient-to-br from-blue-50 to-white py-32 px-5 flex items-center justify-center animate-fade-in-up">
       <div className="max-w-4xl mx-auto text-center">
@@ -12,12 +13,13 @@ const Hero = ({ onSignupClick }: { onSignupClick: () => void }) => {
           Más de 50,000 estudiantes aprenden programación, bases de datos y frameworks modernos en DesployAcademic
         </p>
         <div className="flex gap-5 justify-center flex-wrap mb-16">
-          <button
-            className="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg hover:shadow-xl"
-            onClick={onSignupClick}
+          <Link
+            to="/register"
+            className="bg-blue-600 text-white px-8 py-4 rounded-lg font-bold 
+            hover:bg-blue-700 transition shadow-lg hover:shadow-xl"
           >
             Comenzar Gratis
-          </button>
+          </Link>
           <button 
             className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-lg font-bold hover:border-blue-600 hover:text-blue-600 transition"
             onClick={() => {

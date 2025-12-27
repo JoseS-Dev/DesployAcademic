@@ -1,8 +1,7 @@
-import {createContext, useState, useEffect} from 'react';
+import {createContext, useState, useEffect, useContext} from 'react';
 import type { UserData, UserContextInterface } from '../interfaces';
-import { LIST_CONSTANTS } from '../utils/constants/constant.utils';
+import { LogoutUser } from '../services';
 
-const servicesUser = LIST_CONSTANTS.SERVICES.users
 
 // Creo el contexto del usuario
 export const UserContext = createContext<UserContextInterface | undefined>(undefined);
@@ -21,8 +20,8 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
     const handleLogoutClick = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const result = await servicesUser.LogoutUser(user?.id!);
-            if(result.success){
+            const result = await LogoutUser(user?.id!);
+            if(result.message){
                 alert('Cierre de sesión exitoso');
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
@@ -38,5 +37,12 @@ export const UserProvider = ({children}: {children: React.ReactNode}) => {
             {children}
         </UserContext.Provider>
     )
+}
+
+// Exporto para consumir el contexto del usuario
+export function useUserContext() {
+    const context = useContext(UserContext);
+    if(!context) throw new Error('useUserContext must be used within a UserProvider');
+    return context;
 }
 
