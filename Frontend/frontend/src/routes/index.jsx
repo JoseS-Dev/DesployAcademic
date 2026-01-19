@@ -12,6 +12,7 @@ import SignupModal from '../components/SignupModal';
 import InstructorPanel from '../pages/InstructorPanel';
 import Checkout from '../pages/Checkout';
 import LandingPage from '../pages/LandingPage';
+import CourseDetails from '../pages/CourseDetails';
 
 // Componente para rutas protegidas
 const ProtectedRoute = ({ children, requireSubscription = false, requireInstructor = false }) => {
@@ -45,11 +46,11 @@ const ProtectedRoute = ({ children, requireSubscription = false, requireInstruct
 const LoginPage = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
-  
+
   return (
     <div className="fixed inset-0 z-50">
-      <LoginModal 
-        isOpen={true} 
+      <LoginModal
+        isOpen={true}
         onClose={() => window.history.back()}
         redirectTo={from}
       />
@@ -61,11 +62,11 @@ const LoginPage = () => {
 const SignupPage = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
-  
+
   return (
     <div className="fixed inset-0 z-50">
-      <SignupModal 
-        isOpen={true} 
+      <SignupModal
+        isOpen={true}
         onClose={() => window.history.back()}
         redirectTo={from}
       />
@@ -79,20 +80,20 @@ export const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      { 
-        index: true, 
-        element: <LandingPage /> 
+      {
+        index: true,
+        element: <LandingPage />
       },
       {
-        path: 'login', 
+        path: 'login',
         element: <LoginPage />
       },
       {
-        path: 'registro', 
+        path: 'registro',
         element: <SignupPage />
       },
       {
-        path: 'dashboard', 
+        path: 'dashboard',
         element: (
           <ProtectedRoute>
             <Dashboard />
@@ -100,35 +101,39 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: 'cursos', 
+        path: 'cursos',
         element: <Cursos />
       },
       {
-        path: 'perfil', 
+        path: 'course-details/:id',
+        element: <CourseDetails />
+      },
+      {
+        path: 'perfil',
         element: (
           <ProtectedRoute>
             <Perfil />
           </ProtectedRoute>
         )
       },
-      { 
-        path: 'suscripcion', 
+      {
+        path: 'suscripcion',
         element: <Suscripcion />
       },
-      { 
-        path: 'curso/:id', 
+      {
+        path: 'curso/:id',
         element: <CursoDetalle />
       },
-      { 
-        path: 'instructor', 
+      {
+        path: 'instructor',
         element: (
           <ProtectedRoute requireInstructor={true}>
             <InstructorPanel />
           </ProtectedRoute>
         )
       },
-      { 
-        path: 'checkout', 
+      {
+        path: 'checkout',
         element: (
           <ProtectedRoute>
             <Checkout />
@@ -136,7 +141,7 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: '*', 
+        path: '*',
         element: <Navigate to="/" replace />
       }
     ]
