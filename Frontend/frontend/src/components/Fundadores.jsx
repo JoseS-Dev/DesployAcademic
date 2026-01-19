@@ -1,11 +1,20 @@
 import React from 'react';
 
+// Importar imágenes desde assets
+import Founder1 from '../assets/Founder-1.jpeg';
+import Founder2 from '../assets/Founder-2.jpeg';
+import Founder3 from '../assets/Founder-3.jpeg';
+import Founder4 from '../assets/Founder-4.jpeg';
+// Nota: el archivo 5 está con tipografía "Foudner-5.jpeg" en assets
+import Founder5 from '../assets/Foudner-5.jpeg';
+
+// Mapear imágenes a los fundadores (orden asumido 1→5)
 const founders = [
-  { name: 'José Santana', role: 'CEO', img: '/founder-jose-santana.png' },
-  { name: 'Juan Ruiz', role: 'Vicepresidente', img: '/founder-juan-ruiz.png' },
-  { name: 'Cristian Guevara', role: 'Director Comercial', img: '/founder-cristian-guevara.png' },
-  { name: 'Edlizabeth Ponce', role: 'Marketing', img: '/founder-edlizabeth-ponce.png' },
-  { name: 'Emilio Uzcategui', role: 'Tecnología', img: '/founder-emilio-uzcategui.png' },
+  { name: 'José Santana', role: 'CEO', img: Founder3 },
+  { name: 'Juan Ruiz', role: 'Vicepresidente', img: Founder4 },
+  { name: 'Cristian Guevara', role: 'Director Comercial', img: Founder2 },
+  { name: 'Edlizabeth Ponce', role: 'Marketing', img: Founder1 },
+  { name: 'Emilio Uzcategui', role: 'Tecnología', img: Founder5 },
 ];
 
 const Fundadores = () => {
@@ -23,7 +32,7 @@ const Fundadores = () => {
               <img
                 src={f.img}
                 alt={f.name}
-                className="founder-img"
+                className="founder-img w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover object-center border border-gray-200 shadow"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
                   e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
