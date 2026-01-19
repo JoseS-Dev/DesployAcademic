@@ -37,10 +37,7 @@ const Courses = ({ onSignupClick }) => {
     return null;
   };
 
-  const accionCurso = (id) => {
-    // Usuarios autenticados van al detalle completo
-    navigate(`/curso/${id}`);
-  };
+  // Navegación al detalle se elimina: siempre mostramos enlace a YouTube
 
   return (
     <section id="courses" className="bg-white py-20 px-5 animate-fade-in-up">
@@ -90,23 +87,14 @@ const Courses = ({ onSignupClick }) => {
                     <span className="text-blue-600 font-semibold">{curso.precio}</span>
                   </div>
                   <div className="flex gap-2">
-                    {usuarioActual ? (
-                      <button
-                        className={`flex-1 py-3 rounded-lg font-semibold transition bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:scale-105`}
-                        onClick={() => accionCurso(curso.id)}
-                      >
-                        Ver curso
-                      </button>
-                    ) : (
-                      <a
-                        href={getVideoLink(curso.titulo, curso.categoria)}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className={`flex-1 py-3 rounded-lg font-semibold transition bg-gradient-to-r from-red-600 to-pink-600 text-white hover:shadow-lg hover:scale-105 text-center`}
-                      >
-                        Ver en YouTube
-                      </a>
-                    )}
+                    <a
+                      href={getVideoLink(curso.titulo, curso.categoria)}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className={`flex-1 py-3 rounded-lg font-semibold transition bg-gradient-to-r from-red-600 to-pink-600 text-white hover:shadow-lg hover:scale-105 text-center`}
+                    >
+                      Ver en YouTube
+                    </a>
                     {usuarioActual?.plan === 'gratuito' && (
                       <button
                         onClick={() => navigate('/suscripcion')}
