@@ -9,7 +9,7 @@ const Hero = ({ onSignupClick }) => {
           </span>
         </h1>
         <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
-          Más de 50,000 estudiantes aprenden programación, bases de datos y frameworks modernos en DesployAcademic
+          Aprenden programación, bases de datos y frameworks modernos en DesployAcademic
         </p>
         <div className="flex gap-5 justify-center flex-wrap mb-16">
           <button
