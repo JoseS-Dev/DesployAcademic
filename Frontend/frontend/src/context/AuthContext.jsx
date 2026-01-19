@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+import { authAPI } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -18,33 +17,38 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Verificar si hay un usuario en localStorage al cargar la aplicación
+  // Verificar si hay un usuario en localStorage o desde el adaptador al cargar la aplicación
   useEffect(() => {
-    try {
-      const userData = localStorage.getItem('user');
-      console.log('Datos de usuario en localStorage:', userData);
-      
-      if (userData) {
-        const user = JSON.parse(userData);
-        // Verificar si el token ha expirado (simulación)
-        if (user.expiresAt && new Date(user.expiresAt) > new Date()) {
-          console.log('Usuario autenticado encontrado:', user);
-          setUsuarioActual(user);
+    (async () => {
+      try {
+        // intentar obtener usuario desde el adaptador (localStorage o API)
+        const current = await authAPI.getCurrentUser();
+        console.log('Usuario obtenido desde authAPI:', current);
+        if (current && current.expiresAt && new Date(current.expiresAt) > new Date()) {
+          setUsuarioActual(current);
+        } else if (current && !current.expiresAt) {
+          setUsuarioActual(current);
         } else {
-          console.log('Sesión expirada, cerrando sesión...');
-          // Si el token expiró, cerrar sesión
           localStorage.removeItem('user');
         }
-      } else {
-        console.log('No se encontró usuario en localStorage');
+      } catch (err) {
+        console.debug('No hay usuario desde authAPI, revisando localStorage', err);
+        try {
+          const userData = localStorage.getItem('user');
+          if (userData) {
+            const user = JSON.parse(userData);
+            if (user.expiresAt && new Date(user.expiresAt) > new Date()) setUsuarioActual(user);
+            else localStorage.removeItem('user');
+          }
+        } catch (e) {
+          console.error('Error al cargar el usuario desde localStorage:', e);
+          localStorage.removeItem('user');
+        }
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error al cargar el usuario desde localStorage:', error);
-      localStorage.removeItem('user');
-    } finally {
-      setLoading(false);
-    }
-    
+    })();
+
     // Agregar listener para cambios en el almacenamiento entre pestañas
     const handleStorageChange = (e) => {
       if (e.key === 'user') {
@@ -56,7 +60,7 @@ export const AuthProvider = ({ children }) => {
         }
       }
     };
-    
+
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
@@ -74,49 +78,27 @@ export const AuthProvider = ({ children }) => {
       }
       
       console.log('Buscando usuario con email:', email);
-      
-      // Obtener usuarios registrados (o array vacío si no hay ninguno)
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      console.log('Usuarios registrados:', users);
-      
-      // Buscar usuario por email y contraseña
-      const user = users.find(u => u.email === email && u.password === password);
-      
-      if (!user) {
-        const errorMsg = 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.';
-        console.error(errorMsg);
-        throw new Error(errorMsg);
-      }
-      
-      // Crear datos de sesión
+      // Delegar verificación al authAPI (localAdapter o remoto)
+      const user = await authAPI.login(email, password);
+      if (!user) throw new Error('Credenciales incorrectas');
+
+      // Crear datos de sesión (token + expiración)
       const token = uuidv4();
       const expiresAt = new Date();
-      expiresAt.setDate(expiresAt.getDate() + 7); // Expira en 7 días
-      
+      expiresAt.setDate(expiresAt.getDate() + 7);
+
       const userData = {
         ...user,
         token,
         expiresAt: expiresAt.toISOString(),
         lastLogin: new Date().toISOString()
       };
-      
-      console.log('Datos de usuario para guardar:', userData);
-      
-      // Guardar en localStorage
+
       localStorage.setItem('user', JSON.stringify(userData));
-      
-      // Forzar la actualización del estado
-      setUsuarioActual({...userData});
-      
-      // Disparar evento personalizado para notificar a otros componentes
+      setUsuarioActual({ ...userData });
       window.dispatchEvent(new Event('userLoggedIn'));
-      
-      console.log('Inicio de sesión exitoso, usuario guardado en localStorage');
-      
-      return { 
-        success: true,
-        user: userData
-      };
+
+      return { success: true, user: userData };
       
     } catch (err) {
       console.error('Error en login:', err);
@@ -135,35 +117,15 @@ export const AuthProvider = ({ children }) => {
       
       // Simular tiempo de respuesta del servidor
       await delay(500);
-      
+
       // Validaciones básicas
       if (!nombre || !email || !password) {
         throw new Error('Por favor completa todos los campos');
       }
-      
-      // Verificar si el usuario ya existe
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const userExists = users.some(u => u.email === email);
-      
-      if (userExists) {
-        throw new Error('Ya existe un usuario con este correo electrónico');
-      }
-      
-      // Crear nuevo usuario
-      const newUser = {
-        id: uuidv4(),
-        nombre,
-        email,
-        password, // En una aplicación real, la contraseña debería estar hasheada
-        plan,
-        createdAt: new Date().toISOString()
-      };
-      
-      // Guardar usuario
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      
-      // Iniciar sesión automáticamente
+
+      // Usar authAPI para registrar (localAdapter lo guarda)
+      await authAPI.register({ nombre, email, password, plan });
+      // Luego iniciar sesión
       return await login(email, password);
       
     } catch (err) {
@@ -185,18 +147,10 @@ export const AuthProvider = ({ children }) => {
 
   const checkSubscription = async () => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) return { isValid: false };
-
-      const response = await fetch(`${API_URL}/subscription/status`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al verificar la suscripción');
-      }
-
-      return await response.json();
+      // En modo local, validar según el plan del usuario
+      const current = usuarioActual || JSON.parse(localStorage.getItem('user') || 'null');
+      if (!current) return { isValid: false };
+      return { isValid: current.plan && current.plan !== 'gratuito' && current.plan !== 'gratis' };
     } catch (err) {
       console.error('Error checking subscription:', err);
       return { isValid: false };

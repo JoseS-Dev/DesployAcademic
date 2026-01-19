@@ -21,7 +21,7 @@ const videos = [
     descripcion: "Desarrollo frontend progresivo con Vue.js 3",
     duracion: "10 min",
   },
-]
+];
 
 const cursos = [
   {
@@ -34,7 +34,8 @@ const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "Aprende JavaScript moderno desde cero",
-    imagen: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
   },
   {
     id: 2,
@@ -46,7 +47,8 @@ const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "Hooks, Context y patrones avanzados",
-    imagen: "https://images.unsplash.com/photo-1633356122544-f134324ef6cb?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1633356122544-f134324ef6cb?w=500&h=300&fit=crop",
   },
   {
     id: 3,
@@ -58,7 +60,8 @@ const cursos = [
     calificacion: 4.8,
     precio: "Incluido",
     descripcion: "Bases de datos relacionales avanzadas",
-    imagen: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
   },
   {
     id: 4,
@@ -70,7 +73,8 @@ const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "APIs escalables y aplicaciones grandes",
-    imagen: "https://images.unsplash.com/photo-1627873649417-af36141a4016?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1627873649417-af36141a4016?w=500&h=300&fit=crop",
   },
   {
     id: 5,
@@ -82,7 +86,8 @@ const cursos = [
     calificacion: 4.8,
     precio: "Incluido",
     descripcion: "Framework progresivo completo",
-    imagen: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop",
   },
   {
     id: 6,
@@ -94,9 +99,10 @@ const cursos = [
     calificacion: 4.9,
     precio: "Incluido",
     descripcion: "Containerización y deployes en producción",
-    imagen: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
+    imagen:
+      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop",
   },
-]
+];
 
 const profesores = [
   {
@@ -131,7 +137,7 @@ const profesores = [
     estudiantes: "4.8k+",
     skills: ["Vue.js", "TypeScript", "Tailwind"],
   },
-]
+];
 
 const articulos = [
   {
@@ -142,7 +148,8 @@ const articulos = [
     fecha: "18 Nov 2024",
     vista: "5 min",
     vistas: "2.3k",
-    excerpt: "Mejora significativamente el rendimiento de tus aplicaciones React con estas prácticas recomendadas...",
+    excerpt:
+      "Mejora significativamente el rendimiento de tus aplicaciones React con estas prácticas recomendadas...",
   },
   {
     id: 2,
@@ -152,7 +159,8 @@ const articulos = [
     fecha: "16 Nov 2024",
     vista: "8 min",
     vistas: "3.1k",
-    excerpt: "Aprende a containerizar tus aplicaciones y desplegar de forma segura con Docker en producción...",
+    excerpt:
+      "Aprende a containerizar tus aplicaciones y desplegar de forma segura con Docker en producción...",
   },
   {
     id: 3,
@@ -162,9 +170,10 @@ const articulos = [
     fecha: "14 Nov 2024",
     vista: "7 min",
     vistas: "1.8k",
-    excerpt: "Estrategias y patrones para crear esquemas de bases de datos que crezcan con tu negocio...",
+    excerpt:
+      "Estrategias y patrones para crear esquemas de bases de datos que crezcan con tu negocio...",
   },
-]
+];
 
 const planes = [
   {
@@ -172,7 +181,12 @@ const planes = [
     precio: "Gratis",
     periodo: "",
     descripcion: "Para explorar y aprender",
-    features: ["5 cursos básicos", "Comunidad de estudiantes", "Certificados básicos", "Acceso limitado"],
+    features: [
+      "5 cursos básicos",
+      "Comunidad de estudiantes",
+      "Certificados básicos",
+      "Acceso limitado",
+    ],
     highlighted: false,
   },
   {
@@ -208,51 +222,51 @@ const planes = [
     ],
     highlighted: false,
   },
-]
+];
 
 // Estado de autenticación
-let usuarioActual = null
+let usuarioActual = null;
 
 /* ===== FUNCIONES DE CARRUSEL ===== */
-let indiceVideoActual = 0
+let indiceVideoActual = 0;
 
 function cambiarVideo(indice) {
-  indiceVideoActual = indice
-  actualizarCarrusel()
+  indiceVideoActual = indice;
+  actualizarCarrusel();
 }
 
 function videoAnterior() {
-  indiceVideoActual = (indiceVideoActual - 1 + videos.length) % videos.length
-  actualizarCarrusel()
+  indiceVideoActual = (indiceVideoActual - 1 + videos.length) % videos.length;
+  actualizarCarrusel();
 }
 
 function videoSiguiente() {
-  indiceVideoActual = (indiceVideoActual + 1) % videos.length
-  actualizarCarrusel()
+  indiceVideoActual = (indiceVideoActual + 1) % videos.length;
+  actualizarCarrusel();
 }
 
 function actualizarCarrusel() {
-  const video = videos[indiceVideoActual]
+  const video = videos[indiceVideoActual];
 
   // Actualizar información del video
-  document.getElementById("videoTitle").textContent = video.titulo
-  document.getElementById("videoDescription").textContent = video.descripcion
-  document.getElementById("videoDuration").textContent = video.duracion
-  document.getElementById("videoCounter").textContent = indiceVideoActual + 1
-  document.getElementById("videoTotal").textContent = videos.length
+  document.getElementById("videoTitle").textContent = video.titulo;
+  document.getElementById("videoDescription").textContent = video.descripcion;
+  document.getElementById("videoDuration").textContent = video.duracion;
+  document.getElementById("videoCounter").textContent = indiceVideoActual + 1;
+  document.getElementById("videoTotal").textContent = videos.length;
 
   // Actualizar puntos indicadores
   document.querySelectorAll(".dot").forEach((dot, i) => {
-    dot.classList.toggle("active", i === indiceVideoActual)
-  })
+    dot.classList.toggle("active", i === indiceVideoActual);
+  });
 
   // Actualizar botones de video
   document.querySelectorAll(".video-item").forEach((btn, i) => {
-    btn.classList.toggle("active", i === indiceVideoActual)
-  })
+    btn.classList.toggle("active", i === indiceVideoActual);
+  });
 
   // Limpiar frame anterior si existe
-  const videoFrame = document.getElementById("videoFrame")
+  const videoFrame = document.getElementById("videoFrame");
   videoFrame.innerHTML = `
         <div class="video-placeholder" onclick="reproducirVideo()">
             <svg width="60" height="60" viewBox="0 0 24 24" fill="#0066ff">
@@ -260,12 +274,12 @@ function actualizarCarrusel() {
             </svg>
             <span class="video-duration">${video.duracion}</span>
         </div>
-    `
+    `;
 }
 
 function reproducirVideo() {
-  const video = videos[indiceVideoActual]
-  const videoFrame = document.getElementById("videoFrame")
+  const video = videos[indiceVideoActual];
+  const videoFrame = document.getElementById("videoFrame");
   videoFrame.innerHTML = `
         <iframe
             class="w-full aspect-video bg-black"
@@ -277,12 +291,12 @@ function reproducirVideo() {
             loading="lazy"
             style="width: 100%; height: 100%; border: none;">
         </iframe>
-    `
+    `;
 }
 
 /* ===== RENDERIZAR CONTENIDO ===== */
 function renderizarCursos() {
-  const grid = document.getElementById("coursesGrid")
+  const grid = document.getElementById("coursesGrid");
   grid.innerHTML = cursos
     .map(
       (curso) => `
@@ -316,11 +330,11 @@ function renderizarCursos() {
         </div>
     `,
     )
-    .join("")
+    .join("");
 }
 
 function renderizarProfesores() {
-  const grid = document.getElementById("teachersGrid")
+  const grid = document.getElementById("teachersGrid");
   grid.innerHTML = profesores
     .map(
       (profesor) => `
@@ -357,11 +371,11 @@ function renderizarProfesores() {
         </div>
     `,
     )
-    .join("")
+    .join("");
 }
 
 function renderizarBlog() {
-  const grid = document.getElementById("blogGrid")
+  const grid = document.getElementById("blogGrid");
   grid.innerHTML = articulos
     .map(
       (articulo) => `
@@ -385,11 +399,11 @@ function renderizarBlog() {
         </div>
     `,
     )
-    .join("")
+    .join("");
 }
 
 function renderizarPlanosprecio() {
-  const grid = document.getElementById("pricingGrid")
+  const grid = document.getElementById("pricingGrid");
   grid.innerHTML = planes
     .map(
       (plan, idx) => `
@@ -421,131 +435,158 @@ function renderizarPlanosprecio() {
         </div>
     `,
     )
-    .join("")
+    .join("");
 }
 
 /* ===== FUNCIONES DE MODALES ===== */
 function mostrarModal(tipo) {
-  const modal = tipo === "login" ? document.getElementById("loginModal") : document.getElementById("signupModal")
-  modal.classList.add("active")
+  const modal =
+    tipo === "login"
+      ? document.getElementById("loginModal")
+      : document.getElementById("signupModal");
+  modal.classList.add("active");
 }
 
 function cerrarModal(tipo) {
-  const modal = tipo === "login" ? document.getElementById("loginModal") : document.getElementById("signupModal")
-  modal.classList.remove("active")
+  const modal =
+    tipo === "login"
+      ? document.getElementById("loginModal")
+      : document.getElementById("signupModal");
+  modal.classList.remove("active");
 }
 
 function handleLogin(event) {
-  event.preventDefault()
-  const email = document.getElementById("loginEmail").value
-  const nombre = email.split("@")[0]
+  event.preventDefault();
+  const email = document.getElementById("loginEmail").value;
+  const nombre = email.split("@")[0];
 
-  usuarioActual = { email, nombre, plan: "profesional" }
-  actualizarUI()
-  cerrarModal("login")
+  usuarioActual = { email, nombre, plan: "profesional" };
+  actualizarUI();
+  cerrarModal("login");
 
   // Limpiar formulario
-  document.getElementById("loginForm").reset()
+  document.getElementById("loginForm").reset();
 
-  alert(`¡Bienvenido ${nombre}! Sesión iniciada correctamente.`)
+  alert(`¡Bienvenido ${nombre}! Sesión iniciada correctamente.`);
 }
 
 function handleSignup(event) {
-  event.preventDefault()
-  const nombre = document.getElementById("signupName").value
-  const email = document.getElementById("signupEmail").value
-  const plan = document.getElementById("signupPlan").value
+  event.preventDefault();
+  const nombre = document.getElementById("signupName").value;
+  const email = document.getElementById("signupEmail").value;
+  const plan = document.getElementById("signupPlan").value;
 
-  usuarioActual = { email, nombre, plan }
-  actualizarUI()
-  cerrarModal("signup")
+  usuarioActual = { email, nombre, plan };
+  actualizarUI();
+  cerrarModal("signup");
 
   // Limpiar formulario
-  document.getElementById("signupForm").reset()
+  document.getElementById("signupForm").reset();
 
-  alert(`¡Registrado exitosamente! Bienvenido a DesployAcademic, ${nombre}.`)
+  alert(`¡Registrado exitosamente! Bienvenido a DesployAcademic, ${nombre}.`);
 }
 
 function cerrarSesion() {
-  usuarioActual = null
-  actualizarUI()
-  alert("Has cerrado sesión exitosamente.")
+  usuarioActual = null;
+  actualizarUI();
+  alert("Has cerrado sesión exitosamente.");
 }
 
 function actualizarUI() {
-  const authButtons = document.getElementById("authButtons")
-  const userProfile = document.getElementById("userProfile")
+  const authButtons = document.getElementById("authButtons");
+  const userProfile = document.getElementById("userProfile");
 
   if (usuarioActual) {
-    authButtons.style.display = "none"
-    userProfile.style.display = "flex"
-    document.getElementById("userName").textContent = usuarioActual.nombre
+    authButtons.style.display = "none";
+    userProfile.style.display = "flex";
+    document.getElementById("userName").textContent = usuarioActual.nombre;
   } else {
-    authButtons.style.display = "flex"
-    userProfile.style.display = "none"
+    authButtons.style.display = "flex";
+    userProfile.style.display = "none";
   }
 
   // Actualizar botones de cursos
-  renderizarCursos()
+  renderizarCursos();
 }
 
 /* ===== FUNCIONES DE ACCIONES ===== */
 function accionCurso(id) {
   if (!usuarioActual) {
-    mostrarModal("signup")
+    mostrarModal("signup");
   } else {
-    alert(`Accediendo al curso ${id}...`)
+    alert(`Accediendo al curso ${id}...`);
   }
 }
 
 function leerBlog(id) {
-  alert(`Leyendo artículo ${id}...`)
+  alert(`Leyendo artículo ${id}...`);
 }
 
 function elegirPlan(plan) {
-  mostrarModal("signup")
+  mostrarModal("signup");
 }
 
 function toggleMenuMobile() {
-  const menu = document.getElementById("menuMobile")
+  const menu = document.getElementById("menuMobile");
   // Aquí iría la lógica del menú móvil
 }
 
 /* ===== INICIALIZACIÓN ===== */
 document.addEventListener("DOMContentLoaded", () => {
   // Crear puntos indicadores del carrusel
-  const container = document.querySelector(".carousel-dots")
+  const container = document.querySelector(".carousel-dots");
   videos.forEach((_, i) => {
-    const dot = document.createElement("button")
-    dot.classList.add("dot")
-    if (i === 0) dot.classList.add("active")
-    dot.onclick = () => cambiarVideo(i)
-    container.appendChild(dot)
-  })
+    const dot = document.createElement("button");
+    dot.classList.add("dot");
+    if (i === 0) dot.classList.add("active");
+    dot.onclick = () => cambiarVideo(i);
+    container.appendChild(dot);
+  });
 
   // Renderizar contenido
-  actualizarCarrusel()
-  renderizarCursos()
-  renderizarProfesores()
-  renderizarBlog()
-  renderizarPlanosprecio()
+  actualizarCarrusel();
+  renderizarCursos();
+  renderizarProfesores();
+  renderizarBlog();
+  renderizarPlanosprecio();
 
   // Cerrar modales al hacer clic afuera
   document.getElementById("loginModal").addEventListener("click", (e) => {
-    if (e.target.id === "loginModal") cerrarModal("login")
-  })
+    if (e.target.id === "loginModal") cerrarModal("login");
+  });
 
   document.getElementById("signupModal").addEventListener("click", (e) => {
-    if (e.target.id === "signupModal") cerrarModal("signup")
-  })
+    if (e.target.id === "signupModal") cerrarModal("signup");
+  });
 
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
-      e.preventDefault()
-      const target = document.querySelector(this.getAttribute("href"))
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute("href"));
       if (target) {
-        target.scrollIntoView({ behavior: "smooth" })
+        target.scrollIntoView({ behavior: "smooth" });
       }
-    })
-  })
-})
+    });
+  });
+
+  // Observador para animaciones de scroll (Fundadores y Misión/Visión)
+  const observerOptions = {
+    threshold: 0.2,
+  };
+
+  const animationObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        console.log('Animando elemento:', entry.target);
+        entry.target.classList.add("visible");
+      }
+    });
+  }, observerOptions);
+
+  // Observar elementos con clase founder-card y mission-vision-card
+  document
+    .querySelectorAll(".founder-card, .mission-vision-card")
+    .forEach((el) => {
+      animationObserver.observe(el);
+    });
+});
